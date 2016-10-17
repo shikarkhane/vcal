@@ -2,7 +2,7 @@ from flask import Flask, render_template
 import logging
 
 # Log everything, and send it to stderr.
-logging.basicConfig(filename="error.log",level=logging.ERROR,format='%(asctime)s %(message)s')
+logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 app = Flask(__name__)
 
@@ -29,11 +29,12 @@ def group(groupname):
 def groups():
     # return all groups user belongs to along with is_admin info
     return render_template('register.html')
-@app.route("/group/<groupname>/term/<termname/", methods=['GET','POST','DEL'])
+@app.route("/term/<termname>/", methods=['GET','POST','DEL'])
 def term(termname):
-    # term name, start, end, is_open
+    # groupname, term name, start, end, is_open
+    # check if group has members not signed up yet, notify admin
     return render_template('register.html')
-@app.route("/terms/", methods=['GET','POST','DEL'])
+@app.route("/terms/")
 def terms():
     # return all terms for a <group>
     return render_template('register.html')
@@ -49,6 +50,9 @@ def members():
 @app.route("/summon/")
 def summon():
     # In <group>, summon X number of people on D date for <half day> with <time notes>
+    # Inform stand-in via sms
+    # More than stand-in needed, inform all admins in group with list of probable people
+    # they can call to.
     return render_template('register.html')
 @app.route("/showups/", methods=['GET','POST'])
 def showups():
