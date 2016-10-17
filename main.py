@@ -31,7 +31,7 @@ def groups():
     return render_template('register.html')
 @app.route("/term/<termname>/", methods=['GET','POST','DEL'])
 def term(termname):
-    # groupname, term name, start, end, is_open
+    # groupname, term name, start, end, expected_kids_count, is_open
     # check if group has members not signed up yet, notify admin
     return render_template('register.html')
 @app.route("/terms/")
