@@ -33,6 +33,8 @@ def groups():
 def term(termname):
     # groupname, term name, start, end, expected_kids_count, is_open
     # check if group has members not signed up yet, notify admin
+    # notify that term is open and force to confirm kid count on login
+    # dont let anyone sign-up for dates untill everyone has done kid count as expected kid count
     return render_template('register.html')
 @app.route("/terms/")
 def terms():
@@ -73,6 +75,8 @@ def working_day():
     return render_template('register.html')
 @app.route("/choose_day/", methods=['GET','POST'])
 def choose_day():
+    # dont let anyone sign-up for dates untill everyone has done kid count as expected kid count
+    # Show visual overlay on sign-up button, explaining the reason for wait
     # groupname, username, date
     return render_template('register.html')
 @app.route("/next_available_day/<count>/workday/<is_workday>/")

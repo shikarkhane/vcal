@@ -8,6 +8,9 @@ def remind_invitee_to_register():
 def notify_admin_missing_invitee():
     # notify when missing invitees after X days of invite send out
     logging.info('notify_admin_missing_invitee')
+def notify_admin_all_invitees_aboard():
+    # notify when all invitees have registered
+    logging.info('notify_admin_all_invitees_aboard')
 def remind_parent_children_count_per_term():
     # on new term, make parent fill up child count
     logging.info('remind_parent_children_count_per_term')
