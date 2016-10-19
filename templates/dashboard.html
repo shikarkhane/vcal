@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+
+{% block content %}
+
+		<div class="groups">
+            <button class="ui-btn ui-shadow">Create group!</button>
+        </div>
+        <div class="status">
+            <p>Status for admin or a regular user will be shown here.
+            It has to be actionable items</p>
+        </div>
+        <div class="actions">
+
+            <button class="ui-btn ui-shadow">Summon</button>
+            <button class="ui-btn ui-shadow">Invite</button>
+            <button class="ui-btn ui-shadow">Members</button>
+            <button class="ui-btn ui-shadow">Working days</button>
+            <button class="ui-btn ui-shadow">Term</button>
+            <button class="ui-btn ui-shadow">Show-ups</button>
+            <button class="ui-btn ui-shadow">children</button>
+            <button class="ui-btn ui-shadow">Sign-up</button>
+            <button class="ui-btn ui-shadow">children</button>
+            <button class="ui-btn ui-shadow">Sign-up</button>
+
+        </div>
+
+
+
+{% endblock %}

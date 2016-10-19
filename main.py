@@ -7,12 +7,21 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
+def landing():
     try:
         return render_template('landing.html')
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+
+@app.route("/dashboard/")
+def dashboard():
+    try:
+        return render_template('dashboard.html')
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
 @app.route("/register/", methods=['POST'])
 def register():
     # full name, token, password, is_gmail, creation_date, phone numbers

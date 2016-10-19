@@ -9,9 +9,26 @@
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <body>
-{% block body %}
 
-{% endblock %}
+<div data-role="page" id="base">
+
+	<div data-role="header">
+        <a href="/dashboard/" class="ui-btn ui-shadow ui-btn-right">Log In</a>
+        <button class="ui-btn ui-shadow">Sign Up</button>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		{% block content %}
+
+        {% endblock %}
+	</div><!-- /content -->
+
+	<div data-role="footer">
+        <h3>© Copyright 2016, Bigatad AB. All rights reserved.</h3>
+	</div><!-- /footer -->
+</div><!-- /page -->
+
+
 </body>
 
 <!--script src="/static/js/customload.js"></script-->
