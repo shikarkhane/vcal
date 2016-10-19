@@ -14,10 +14,10 @@ def landing():
         logging.exception(e)
         return render_template("oops.html")
 
-@app.route("/dashboard/")
-def dashboard():
+@app.route("/template/<template>/")
+def dashboard(template):
     try:
-        return render_template('dashboard.html')
+        return render_template('{0}.html'.format(template))
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
