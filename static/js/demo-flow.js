@@ -1,7 +1,7 @@
 $(".act-home").click(function(){
     window.location.replace("/");
 });
-$(".act-sign-in").click(function(){
+$(".act-sign-up").click(function(){
     window.location.replace("/");
 });
 
