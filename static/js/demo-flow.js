@@ -1,22 +1,22 @@
-window.usertype = 'user'
+
 $(".act-home").click(function(){
-    window.location.replace("/dashboard/"+window.usertype+'/');
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
 $(".act-sign-up").click(function(){
     window.location.replace("/");
 });
 
 $(".act-is-admin").click(function(){
-    window.usertype = 'admin';
-    window.location.replace("/dashboard/"+window.usertype+'/');
+    $.cookie("usertype", "admin");
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
 $(".act-is-user").click(function(){
-    window.usertype = 'user';
-    window.location.replace("/dashboard/"+window.usertype+'/');
+    $.cookie("usertype", "user");
+    window.location.replace("/dashboard/"+$.cookie("usertype") +'/');
 });
 
 $(".act-log-in").click(function(){
-    window.location.replace("/dashboard/"+window.usertype+'/');
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
 $(".act-summon").click(function(){
     window.location.replace("/template/summon/");
