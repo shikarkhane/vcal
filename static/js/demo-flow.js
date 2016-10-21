@@ -42,4 +42,8 @@ $(".act-children").click(function(){
 $(".act-work-sign-up").click(function(){
     window.location.replace("/template/work-sign-up/");
 });
+$(".act-rule").click(function(){
+    window.location.replace("/template/rule/");
+});
+
 
