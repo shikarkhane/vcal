@@ -3,11 +3,11 @@ $( document ).ready(function() {
         $(".act-username")[0].textContent=$.cookie("usertype");
     }
     else{
-        $(".act-username")[0].hidden = true;
+        $(".act-username").closest('.ui-btn').hide();
     }
 });
 $(".act-home").click(function(){
-    window.location.replace("/");
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
 $(".act-sign-up").click(function(){
     window.location.replace("/");
@@ -23,7 +23,7 @@ $(".act-is-user").click(function(){
 });
 
 $(".act-log-in").click(function(){
-    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
+    window.location.replace("/");
 });
 $(".act-summon").click(function(){
     window.location.replace("/template/summon/");
