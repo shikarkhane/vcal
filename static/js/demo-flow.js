@@ -1,4 +1,6 @@
-
+$( document ).ready(function() {
+    console.log( "ready!" );
+});
 $(".act-home").click(function(){
     window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
