@@ -1,8 +1,13 @@
 $( document ).ready(function() {
-    console.log( "ready!" );
+    if ($.cookie("usertype")){
+        $(".act-username")[0].textContent=$.cookie("usertype");
+    }
+    else{
+        $(".act-username")[0].hidden = true;
+    }
 });
 $(".act-home").click(function(){
-    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
+    window.location.replace("/");
 });
 $(".act-sign-up").click(function(){
     window.location.replace("/");
@@ -47,5 +52,7 @@ $(".act-work-sign-up").click(function(){
 $(".act-rule").click(function(){
     window.location.replace("/template/rule/");
 });
-
+$(".act-username").click(function(){
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
+});
 
