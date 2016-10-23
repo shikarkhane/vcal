@@ -55,4 +55,9 @@ $(".act-rule").click(function(){
 $(".act-username").click(function(){
     window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
-
+$(".act-create-group").click(function(){
+    window.location.replace("/template/group/');
+});
+$(".act-save-group").click(function(){
+    window.location.replace("/template/wizard/');
+});
