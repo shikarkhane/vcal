@@ -7,9 +7,11 @@ $( document ).ready(function() {
     }
     if( $.cookie("show_work_step") == 1){
         $(".act-work-step").show();
+        $(".clsnextstep").closest('.ui-btn').show();
     }
     else{
         $(".act-work-step").hide();
+        $(".clsnextstep").closest('.ui-btn').hide();
     }
 });
 $(".act-home").click(function(){
