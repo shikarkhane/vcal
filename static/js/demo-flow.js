@@ -8,12 +8,28 @@ $( document ).ready(function() {
     if( $.cookie("show_work_step") == 1){
         $(".act-work-step").show();
         $(".clsnextstep").closest('.ui-btn').show();
+        update_work_step();
     }
     else{
         $(".act-work-step").hide();
         $(".clsnextstep").closest('.ui-btn').hide();
     }
+
 });
+function update_work_step(){
+    var p = window.location.pathname.replace('template', '').replace(/\//g, '');
+    var el = $(".step-" + p);
+    if (el.length > 0){
+        el.prevAll().removeClass('todo').addClass('done');
+        if ( p == 'done'){
+            el.removeClass('todo').addClass('done');
+        }
+    }
+    else{
+        // user has escaped the work-step flow, dont show work -step
+        $(".act-work-step").hide();
+    }
+};
 $(".act-home").click(function(){
     window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
