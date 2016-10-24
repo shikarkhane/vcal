@@ -5,6 +5,12 @@ $( document ).ready(function() {
     else{
         $(".act-username").closest('.ui-btn').hide();
     }
+    if( $.cookie("show_work_step") == 1){
+        $(".act-work-step").show();
+    }
+    else{
+        $(".act-work-step").hide();
+    }
 });
 $(".act-home").click(function(){
     window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
@@ -56,8 +62,25 @@ $(".act-username").click(function(){
     window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
 $(".act-create-group").click(function(){
-    window.location.replace("/template/group/');
+    window.location.replace("/template/group/");
 });
 $(".act-save-group").click(function(){
-    window.location.replace("/template/wizard/');
+    $.cookie("show_work_step", 1);
+    window.location.replace("/template/invite/");
+});
+$(".act-send-invites").click(function(){
+    if ( $.cookie("show_work_step") == 1){
+        window.location.replace("/template/work-day/");
+    }
+    window.location.replace("/template/members/");
+});
+$(".act-workday-nextstep").click(function(){
+    if ( $.cookie("show_work_step") == 1){
+        window.location.replace("/template/rule/");
+    }
+});
+$(".act-term-nextstep").click(function(){
+    if ( $.cookie("show_work_step") == 1){
+        window.location.replace("/template/done/");
+    }
 });

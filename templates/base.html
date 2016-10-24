@@ -9,6 +9,8 @@
    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+<link rel="stylesheet" href="/static/css/work_step.css"/>
 <body>
 
 <div data-role="page" id="base">
@@ -26,6 +28,15 @@
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
+        <div class="act-work-step">
+            <ol class="etapier">
+                <li class="done">Invite</li>
+                <li class="done">Work day</li>
+                <li class="done">Rule</li>
+                <li class="todo">Term</li>
+                <li class="todo">Done</li>
+            </ol>
+        </div>
 		{% block content %}
 
         {% endblock %}
