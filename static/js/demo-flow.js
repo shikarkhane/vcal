@@ -59,28 +59,37 @@ $(".act-rule").click(function(){
     window.location.replace("/template/rule/");
 });
 $(".act-username").click(function(){
-    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
+    $.cookie("show_work_step", 0, { path: '/' });
+    window.location.replace("/");
 });
 $(".act-create-group").click(function(){
     window.location.replace("/template/group/");
 });
 $(".act-save-group").click(function(){
-    $.cookie("show_work_step", 1);
+    $.cookie("show_work_step", 1, { path: '/' });
     window.location.replace("/template/invite/");
 });
-$(".act-send-invites").click(function(){
+$(".act-invite-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
         window.location.replace("/template/work-day/");
     }
-    window.location.replace("/template/members/");
 });
 $(".act-workday-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
         window.location.replace("/template/rule/");
     }
 });
+$(".act-rule-nextstep").click(function(){
+    if ( $.cookie("show_work_step") == 1){
+        window.location.replace("/template/term/");
+    }
+});
 $(".act-term-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
         window.location.replace("/template/done/");
     }
+});
+$(".act-done-nextstep").click(function(){
+    $.cookie("show_work_step", 0, { path: '/' });
+    window.location.replace("/dashboard/"+$.cookie("usertype")+'/');
 });
