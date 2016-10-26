@@ -7,8 +7,7 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 
 app = Flask(__name__)
 babel = Babel(app)
-g = None
-
+g = {}
 
 @babel.localeselector
 def get_locale():
@@ -16,12 +15,11 @@ def get_locale():
 
 @app.before_request
 def before():
-    global g
     if request.view_args and 'lang_code' in request.view_args:
-        g.current_lang = request.view_args['lang_code']
+        g['current_lang'] = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
-@app.route("/")
+@app.route("/<lang_code>/")
 def landing():
     try:
         return render_template('landing.html')
