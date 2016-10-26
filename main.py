@@ -1,10 +1,12 @@
 from flask import Flask, render_template
 import logging
+from flask_babel import Babel
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 app = Flask(__name__)
+babel = Babel(app)
 
 @app.route("/")
 def landing():
