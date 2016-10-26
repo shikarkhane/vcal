@@ -27,7 +27,7 @@ def landing():
         logging.exception(e)
         return render_template("oops.html")
 
-@app.route("/dashboard/<usertype>/")
+@app.route("/<lang_code>/dashboard/<usertype>/")
 def dashboard(usertype):
     try:
         return render_template('dashboard.html', usertype = usertype)
@@ -35,7 +35,7 @@ def dashboard(usertype):
         logging.exception(e)
         return render_template("oops.html")
 
-@app.route("/template/<template>/")
+@app.route("/<lang_code>/template/<template>/")
 def anytemplate(template):
     try:
         return render_template('{0}.html'.format(template))

@@ -4,10 +4,10 @@
 {% block content %}
 
     <div class="ui-body ui-body-a ui-corner-all">
-        <h3>Sign-up as stand-in for Gomorronsol</h3>
+        <h3>{{ _('Sign-up as stand-in for') }} Gomorronsol</h3>
 
         <fieldset data-role="controlgroup" data-type="horizontal">
-            <legend>Term:</legend>
+            <legend>{{ _('Term') }}:</legend>
             <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" value="on" checked="checked">
             <label for="radio-choice-h-2a">VT2016</label>
             <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" value="off">
@@ -16,8 +16,8 @@
 <div data-role="tabs" id="tabs">
   <div data-role="navbar">
     <ul>
-      <li><a href="#one" data-ajax="false">Fill 4 Stand-in days</a></li>
-      <li><a href="#two" data-ajax="false">Fill 1 Work day</a></li>
+      <li><a href="#one" data-ajax="false">{{ _('Fill 4 Stand-in days') }}</a></li>
+      <li><a href="#two" data-ajax="false">{{ _('Fill 1 Work day') }}</a></li>
       
     </ul>
   </div>

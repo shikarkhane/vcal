@@ -6,7 +6,7 @@
     <div class="ui-body ui-body-a ui-corner-all">
         <h3>Groups</h3>
         <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-gomorronsol">Gomorronsol</button>
-        <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-create-group">Create group!</button>
+        <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-create-group">{{ _('Create group') }}!</button>
     </div>
 
     <!-- Status -->
@@ -14,31 +14,31 @@
             <div data-role="collapsible" data-enhanced="true" class="ui-collapsible ui-collapsible-inset ui-corner-all ui-collapsible-collapsed">
                 <h4 class="ui-collapsible-heading ui-collapsible-heading-collapsed">
                     <a href="#" class="ui-collapsible-heading-toggle ui-btn ui-btn-icon-left ui-icon-plus">
-                    Status summary
-                    <div class="ui-collapsible-heading-status"> click to expand contents</div>
+                    {{ _('Status summary') }}
+                    <div class="ui-collapsible-heading-status">{{ _('click to expand contents') }}</div>
                     </a>
                 </h4>
                 <div class="ui-collapsible-content ui-collapsible-content-collapsed" aria-hidden="true">
-                <p>Vacant days in VT2016: 15 days</p>
-                <p>Upcoming vacant days: 15th Nov, 18th Nov, 28th Nov</p>
+                <p>{{ _('Vacant days in') }} VT2016: 15 {{ _('days') }}</p>
+                <p>{{ _('Upcoming vacant days') }}: 15th Nov, 18th Nov, 28th Nov</p>
                 </div>
             </div>
         </div>
 
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
-            <h3>Actions</h3>
+            <h3>{{ _('Actions') }}</h3>
             {% if usertype == 'admin' %}
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-summon">Summon</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-work-day">Work day</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-term">Term</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-show-ups">Show-ups</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-invite">Invite</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-members">Member</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-rule">Rule</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-summon">{{ _('Summon') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-work-day">{{ _('Work day') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-term">{{ _('Term') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-show-ups">{{ _('Show-ups') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-invite">{{ _('Invite') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-members">{{ _('Member') }}</button>
+                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-rule">{{ _('Rule') }}</button>
             {% endif %}
-            <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-children">Children</button>
-            <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-work-sign-up">Sign-up</button>
+            <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-children">{{ _('Children') }}</button>
+            <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-work-sign-up">{{ _('Sign-up') }}</button>
         </div>
 
 
