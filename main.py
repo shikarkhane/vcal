@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import logging
 from flask_babel import Babel
 
@@ -16,8 +16,13 @@ def get_locale():
 @app.before_request
 def before():
     if request.view_args and 'lang_code' in request.view_args:
-        g['current_lang'] = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
+        if request.view_args['lang_code'] not in ('sv', 'en'):
+            g['current_lang'] = request.view_args['lang_code']
+            request.view_args.pop('lang_code')
+
+@app.route("/")
+def root():
+    return redirect("/sv/")
 
 @app.route("/<lang_code>/")
 def landing():
