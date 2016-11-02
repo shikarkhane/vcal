@@ -59,3 +59,7 @@ ol.etapier li.todo:before {
     content: " " ;
     background-color: white;
 }
+
+.custom-size-flipswitch{
+    width:280px;
+}
