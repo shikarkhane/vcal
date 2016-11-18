@@ -7,10 +7,10 @@ from app import db, babel
 
 
 # Import module models (i.e. User)
-from app.mod_draft.models import User, Group
+from app.mod_group.models import Group
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_draft = Blueprint('draft', __name__)
+mod_group = Blueprint('group', __name__)
 
 
 # Log everything, and send it to stderr.
@@ -22,7 +22,7 @@ g = {}
 def get_locale():
     return g.get('current_lang', 'en')
 
-@mod_draft.before_request
+@mod_group.before_request
 def before():
     if request.view_args and 'lang_code' in request.view_args:
         if request.view_args['lang_code'] not in ('sv', 'en'):
@@ -30,30 +30,14 @@ def before():
         g['current_lang'] = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
-@mod_draft.route("/")
-def root():
-    return redirect("/sv/")
 
-@mod_draft.route("/<lang_code>/")
-def landing():
+@mod_group.route("/<lang_code>/group/", methods=['POST'])
+def group():
+    # create a group, group_type, group_owner
     try:
-        return render_template('draft/landing.html')
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
-
-@mod_draft.route("/<lang_code>/dashboard/<usertype>/")
-def dashboard(usertype):
-    try:
-        return render_template('draft/dashboard.html', usertype = usertype)
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
-
-@mod_draft.route("/<lang_code>/template/<template>/")
-def anytemplate(template):
-    try:
-        return render_template('draft/{0}.html'.format(template))
+        d = json.loads(request.body)
+        g = Group(d['name'], d['type_id'])
+        db.session.add(g)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
@@ -66,15 +50,6 @@ def anytemplate(template):
 # def register_via_invite():
 #     # full name, token, password, is_gmail, creation_date, phone numbers
 #     return render_template('register.html')
-@mod_draft.route("/<lang_code>/group/", methods=['POST'])
-def group():
-    # create a group, group_type, group_owner
-    try:
-        d = json.loads(request.body)
-        g = Group(groupname,)
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
 # @app.route("/<lang_code>/group/getall/")
 # def groups():
 #     # return all groups user belongs to along with is_admin info

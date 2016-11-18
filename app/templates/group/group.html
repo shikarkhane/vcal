@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+    <!-- Actions -->
+        <div class="ui-body ui-body-a ui-corner-all">
+            <h3>{{ _('Create group') }}</h3>
+
+                 <label for="txt-create-group-name">{{ _('Name') }}:</label>
+                 <input type="text" name="text-1" id="txt-create-group-name" value="Gomorronsol">
+                 <label for="select-group-type">{{ _('Type') }}:</label>
+                 <select name="select-native-1" id="select-group-type">
+                    <option value="1">{{ _('Forskola') }}</option>
+                </select>
+            <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all act-save-group">{{ _('Save') }}</button>
+
+        </div>
+
+
+
+{% endblock %}
+
+{% block afterinclude %}
+    <script src="/static/js/group/create-group.js"></script>
+{% endblock %}

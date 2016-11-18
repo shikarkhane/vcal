@@ -64,14 +64,11 @@ class Group(Base):
 
     # Identification Data: email & password
     name = db.Column(db.String(100), nullable=False)
-    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User',
-                            backref=db.backref('posts', lazy='dynamic'))
-
+    type_id = db.Column(db.SmallInteger)
     # New instance instantiation procedure
-    def __init__(self, name, user):
+    def __init__(self, name, type_id):
         self.name     = name
-        self.user = user
+        self.type_id = type_id
 
     def __repr__(self):
         return '<User %r>' % (self.email)

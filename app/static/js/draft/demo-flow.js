@@ -83,10 +83,7 @@ $(".act-username").click(function(){
 $(".act-create-group").click(function(){
     window.location.replace("/sv/template/group/");
 });
-$(".act-save-group").click(function(){
-    $.cookie("show_work_step", 1, { path: '/' });
-    window.location.replace("/sv/template/invite/");
-});
+
 $(".act-invite-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
         window.location.replace("/sv/template/work-day/");

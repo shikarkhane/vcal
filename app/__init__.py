@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 def not_found(error):
     return render_template('oops.html'), 404
 
-# Import a module / component using its blueprint handler variable (mod_auth)
+# Import a module / component using its blueprint handler variable (mod_group)
 from app.mod_draft.controllers import mod_draft as draft_module
 
 # Register blueprint(s)
