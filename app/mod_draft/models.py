@@ -18,6 +18,7 @@ class User(Base):
     __tablename__ = 'user'
 
     # Identification Data: email & password
+    name = db.Column(db.String(100), nullable=False)
     email    = db.Column(db.String(128),  nullable=False,
                                             unique=True)
     password = db.Column(db.String(192),  nullable=True)
@@ -30,13 +31,13 @@ class User(Base):
     # New instance instantiation procedure
     def __init__(self, name, email, password, token):
 
-        self.name     = name
+        self.name     = email.split('@')[0]
         self.email    = email
         self.password = password
         self.auth_token = token
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<User %r>' % (self.email)
 
 class PublicHoliday(Base):
 
@@ -55,3 +56,22 @@ class PublicHoliday(Base):
 
     def __repr__(self):
         return '<Date %r>' % (str(self.holiday_date))
+
+# Define a User model
+class Group(Base):
+
+    __tablename__ = 'group'
+
+    # Identification Data: email & password
+    name = db.Column(db.String(100), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User',
+                            backref=db.backref('posts', lazy='dynamic'))
+
+    # New instance instantiation procedure
+    def __init__(self, name, user):
+        self.name     = name
+        self.user = user
+
+    def __repr__(self):
+        return '<User %r>' % (self.email)
