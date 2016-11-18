@@ -3,7 +3,7 @@ import logging
 import json
 
 # Import the database object from the main app module
-from app import db, babel
+from app import db
 
 
 # Import module models (i.e. User)
@@ -18,9 +18,6 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 
 g = {}
 
-@babel.localeselector
-def get_locale():
-    return g.get('current_lang', 'en')
 
 @mod_group.before_request
 def before():
@@ -38,6 +35,7 @@ def group():
         d = json.loads(request.body)
         g = Group(d['name'], d['type_id'])
         db.session.add(g)
+        db.session.commit()
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")

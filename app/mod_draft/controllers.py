@@ -3,11 +3,11 @@ import logging
 import json
 
 # Import the database object from the main app module
-from app import db, babel
+from app import db, get_locale
 
 
 # Import module models (i.e. User)
-from app.mod_draft.models import User, Group
+from app.mod_draft.models import User
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_draft = Blueprint('draft', __name__)
@@ -16,11 +16,7 @@ mod_draft = Blueprint('draft', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-g = {}
 
-@babel.localeselector
-def get_locale():
-    return g.get('current_lang', 'en')
 
 @mod_draft.before_request
 def before():
@@ -66,15 +62,6 @@ def anytemplate(template):
 # def register_via_invite():
 #     # full name, token, password, is_gmail, creation_date, phone numbers
 #     return render_template('register.html')
-@mod_draft.route("/<lang_code>/group/", methods=['POST'])
-def group():
-    # create a group, group_type, group_owner
-    try:
-        d = json.loads(request.body)
-        g = Group(groupname,)
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
 # @app.route("/<lang_code>/group/getall/")
 # def groups():
 #     # return all groups user belongs to along with is_admin info

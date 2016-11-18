@@ -17,6 +17,11 @@ babel = Babel(app)
 # by modules and controllers
 db = SQLAlchemy(app)
 
+
+@babel.localeselector
+def get_locale():
+    return g.get('current_lang', 'en')
+
 # Sample HTTP error handling
 @app.errorhandler(404)
 def not_found(error):
@@ -24,12 +29,15 @@ def not_found(error):
 
 # Import a module / component using its blueprint handler variable (mod_group)
 from app.mod_draft.controllers import mod_draft as draft_module
+from app.mod_group.controllers import mod_group as group_module
 
 # Register blueprint(s)
 app.register_blueprint(draft_module)
+app.register_blueprint(group_module)
 # app.register_blueprint(xyz_module)
 # ..
 
 # Build the database:
 # This will create the database file using SQLAlchemy
+
 db.create_all()

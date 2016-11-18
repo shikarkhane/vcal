@@ -4,12 +4,12 @@ function goto_invite(){
 }
 $(".act-save-group").click(function(){
     name = $("#txt-create-group-name").val()
-    type = $("#select-group-type").val()
+    type_id = $("#select-group-type").val()
 
     $.ajax({
           method: "POST",
-          url: "/group/",
-          data: { name: "John", location: "Boston" }
+          url: "/sv/group/",
+          data: { name: name, type_id: type_id }
         })
           .done(function( msg ) {
             alert( "Data Saved: " + msg );
