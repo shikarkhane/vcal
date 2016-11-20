@@ -1,5 +1,5 @@
 # Import flask and template operators
-from flask import Flask, render_template
+from flask import Flask, render_template, g
 from flask_babel import Babel
 # Import SQLAlchemy
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 
 @babel.localeselector
 def get_locale():
-    return g.get('current_lang', 'en')
+    return g.current_lang
 
 # Sample HTTP error handling
 @app.errorhandler(404)
@@ -41,3 +41,5 @@ app.register_blueprint(group_module)
 # This will create the database file using SQLAlchemy
 
 db.create_all()
+with app.app_context():
+    g.current_lang = 'en'

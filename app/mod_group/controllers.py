@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, abort, Blueprint
+from flask import Flask, render_template, request, redirect, abort, \
+    Blueprint, g
 import logging
 import json
 
@@ -16,15 +17,12 @@ mod_group = Blueprint('group', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-g = {}
-
-
 @mod_group.before_request
 def before():
     if request.view_args and 'lang_code' in request.view_args:
         if request.view_args['lang_code'] not in ('sv', 'en'):
             return abort(404)
-        g['current_lang'] = request.view_args['lang_code']
+        g.current_lang = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
 
