@@ -14,5 +14,9 @@ $(".act-save-group").click(function(){
         })
           .done(function( msg ) {
             alert( "Data Saved: " + msg );
+            if ( $.cookie("show_work_step") == 1){
+                window.location.replace("/sv/invite/");
+            }
           });
+
 });
