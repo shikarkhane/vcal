@@ -81,7 +81,7 @@ $(".act-username").click(function(){
     window.location.replace("/sv/");
 });
 $(".act-create-group").click(function(){
-    window.location.replace("/sv/template/group/");
+    window.location.replace("/sv/group/");
 });
 
 $(".act-invite-nextstep").click(function(){

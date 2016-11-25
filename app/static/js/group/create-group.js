@@ -7,9 +7,10 @@ $(".act-save-group").click(function(){
     type_id = $("#select-group-type").val()
 
     $.ajax({
+          contentType : 'application/json',
           method: "POST",
           url: "/sv/group/",
-          data: { name: name, type_id: type_id }
+          data: JSON.stringify({ name: name, type_id: type_id })
         })
           .done(function( msg ) {
             alert( "Data Saved: " + msg );
