@@ -84,11 +84,6 @@ $(".act-create-group").click(function(){
     window.location.replace("/sv/group/");
 });
 
-$(".act-invite-nextstep").click(function(){
-    if ( $.cookie("show_work_step") == 1){
-        window.location.replace("/sv/template/work-day/");
-    }
-});
 $(".act-workday-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
         window.location.replace("/sv/template/rule/");
