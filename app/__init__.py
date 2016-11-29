@@ -30,10 +30,12 @@ def not_found(error):
 # Import a module / component using its blueprint handler variable (mod_group)
 from app.mod_draft.controllers import mod_draft as draft_module
 from app.mod_group.controllers import mod_group as group_module
+from app.mod_member.controllers import mod_member as member_module
 
 # Register blueprint(s)
 app.register_blueprint(draft_module)
 app.register_blueprint(group_module)
+app.register_blueprint(member_module)
 # app.register_blueprint(xyz_module)
 # ..
 

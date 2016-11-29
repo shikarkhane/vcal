@@ -10,13 +10,13 @@ from app import db
 from app.mod_member.models import Invite, Member
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_group = Blueprint('member', __name__)
+mod_member = Blueprint('member', __name__)
 
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_group.before_request
+@mod_member.before_request
 def before():
     if request.view_args and 'lang_code' in request.view_args:
         if request.view_args['lang_code'] not in ('sv', 'en'):
@@ -24,7 +24,7 @@ def before():
         g.current_lang = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
-@mod_group.route("/<lang_code>/invite/", methods=['POST', 'GET'])
+@mod_member.route("/<lang_code>/invite/", methods=['POST', 'GET'])
 def invite():
     # create a group, group_type, group_owner
     try:
@@ -46,7 +46,7 @@ def invite():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_group.route("/<lang_code>/member/", methods=['POST', 'GET'])
+@mod_member.route("/<lang_code>/member/", methods=['POST', 'GET'])
 def member():
     try:
         if request.method == 'POST':

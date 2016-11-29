@@ -8,7 +8,7 @@ class Invite(Base):
     __tablename__ = 'invite'
 
     email = db.Column(db.String(128), nullable=False)
-    group_id = db.Column(db.integer, nullable=False)
+    group_id = db.Column(db.Integer, nullable=False)
     invite_token = db.Column(db.String, nullable=True)
 
     # New instance instantiation procedure
@@ -24,8 +24,8 @@ class Member(Base):
 
     __tablename__ = 'group_member'
 
-    group_id = db.Column(db.integer, nullable=False)
-    user_id = db.Column(db.integer, nullable=False)
+    group_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, user_id):
