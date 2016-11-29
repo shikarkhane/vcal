@@ -24,18 +24,51 @@ def before():
         g.current_lang = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
-@mod_group.route("/<lang_code>/group/", methods=['POST', 'GET'])
-def group():
+@mod_group.route("/<lang_code>/invite/", methods=['POST', 'GET'])
+def invite():
     # create a group, group_type, group_owner
     try:
         if request.method == 'POST':
             d = request.get_json()
-            g = Group(d['name'], d['type_id'])
-            db.session.add(g)
+            gid = d['group_id']
+            emails = d['emails']
+            for email in emails:
+                # todo: add random token number/string
+                inv = Invite(email, gid, '1')
+                db.session.add(inv)
             db.session.commit()
-            return 'group saved'
+            return 'invite list saved'
         elif request.method == 'GET':
-            return render_template('group/{0}.html'.format('group'))
+            return render_template('member/{0}.html'.format('invite'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_group.route("/<lang_code>/member/", methods=['POST', 'GET'])
+def member():
+    try:
+        if request.method == 'POST':
+            d = request.get_json()
+            group_id = d['group_id']
+
+            add_users = d['new_user_ids']
+            for u in add_users:
+                x = Member(group_id, u)
+                db.session.add(x)
+            db.session.commit()
+
+            removed_ids = d['removed_member_ids']
+            for rid in removed_ids:
+                Member.query.filter_by(id=rid).delete()
+            db.session.commit()
+            return 'member list updated'
+        elif request.method == 'GET':
+            d = request.get_json()
+            group_id = d['group_id']
+            member_list = Member.query.filter_by(group_id=group_id).all()
+            return render_template('member/{0}.html'.format('member'))
         else:
             return abort(404)
     except Exception, e:

@@ -78,15 +78,7 @@ def anytemplate(template):
 # def terms():
 #     # return all terms for a <group>
 #     return render_template('register.html')
-# @app.route("/<lang_code>/invite/")
-# def invite():
-#     # invite by emails
-#     return render_template('register.html')
-# @app.route("/<lang_code>/members/", methods=['GET','POST'])
-# def members():
-#     # get all members for a group
-#     # post removals or additions to a group
-#     return render_template('register.html')
+
 # @app.route("/<lang_code>/summon/")
 # def summon():
 #     # In <group>, summon X number of people on D date for <half day> with <time notes>
