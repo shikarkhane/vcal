@@ -3,46 +3,23 @@
 from app import db
 from app.common.models import Base
 
-# Define a User model
-class User(Base):
+class Workday(Base):
 
-    __tablename__ = 'user'
+    __tablename__ = 'workday'
 
-    # Identification Data: email & password
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(128),  nullable=False, unique=True)
-    password = db.Column(db.String(192),  nullable=True)
-    auth_token = db.Column(db.String(300), nullable=True)
-
-    # Authorisation Data: role & status
-    role     = db.Column(db.SmallInteger, nullable=False)
-    status   = db.Column(db.SmallInteger, nullable=False)
+    group_id = db.Column(db.Integer, nullable=False)
+    work_date = db.Column(db.DateTime, nullable=False)
+    standin_count = db.Column(db.SmallInteger, nullable=False)
+    from_time_in_24hours = db.Column(db.String, default = '0900')
+    to_time_in_24hours = db.Column(db.String, default = '1630')
 
     # New instance instantiation procedure
-    def __init__(self, name, email, password, token):
-
-        self.name     = email.split('@')[0]
-        self.email    = email
-        self.password = password
-        self.auth_token = token
-
-    def __repr__(self):
-        return '<User %r>' % (self.email)
-
-class PublicHoliday(Base):
-
-    __tablename__ = 'public_holiday'
-
-    # date
-    holiday_date    = db.Column(db.DateTime,  nullable=False)
-    # full day or half day
-    is_halfday   = db.Column(db.SmallInteger, nullable=False)
-
-    # New instance instantiation procedure
-    def __init__(self, date, is_halfday):
-
-        self.holiday_date  = date
-        self.is_halfday    = is_halfday
+    def __init__(self, group_id, work_date, standin_count, from_time, to_time):
+        self.group_id = group_id
+        self.work_date = work_date
+        self.standin_count = standin_count
+        self.from_time_in_24hours = from_time
+        self.to_time_in_24hours = to_time
 
     def __repr__(self):
-        return '<Date %r>' % (str(self.holiday_date))
+        return '<Work_date %r>' % (self.work_date)

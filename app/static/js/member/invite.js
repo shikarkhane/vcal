@@ -18,6 +18,6 @@ $(".act-send-invites").click(function(){
 
 $(".act-invite-nextstep").click(function(){
     if ( $.cookie("show_work_step") == 1){
-        window.location.replace("/sv/template/work-day/");
+        window.location.replace("/sv/work-day/");
     }
 });
