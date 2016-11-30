@@ -27,6 +27,8 @@ def before():
 @mod_switchday.route("/<lang_code>/switchday/", methods=['POST', 'GET'])
 def rule():
     try:
+        # todo show Term in the UI, people can choose to term and see the same info
+        # split into 2 tabs for vikarie days and arbetsdag
         if request.method == 'POST':
             return 'switch day saved'
         elif request.method == 'GET':
