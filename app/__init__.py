@@ -31,11 +31,20 @@ def not_found(error):
 from app.mod_draft.controllers import mod_draft as draft_module
 from app.mod_group.controllers import mod_group as group_module
 from app.mod_member.controllers import mod_member as member_module
+from app.mod_workday.controllers import mod_workday as workday_module
+from app.mod_rule.controllers import mod_rule as rule_module
+from app.mod_term.controllers import mod_term as term_module
+from app.mod_switchday.controllers import mod_switchday as switchday_module
+
 
 # Register blueprint(s)
 app.register_blueprint(draft_module)
-app.register_blueprint(group_module)
 app.register_blueprint(member_module)
+app.register_blueprint(group_module)
+app.register_blueprint(workday_module)
+app.register_blueprint(rule_module)
+app.register_blueprint(term_module)
+app.register_blueprint(switchday_module)
 # app.register_blueprint(xyz_module)
 # ..
 

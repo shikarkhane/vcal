@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="ui-body ui-body-a ui-corner-all">
+            <h3>{{ _('Switch days - swap days with other families') }}</h3>
+ <div data-role="controlgroup">
+     <h4>{{ _('Choose your days which you want to switch ') }}</h4>
+    
+     <ul data-role="listview">
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-1" data-on-text="20th Oct" data-off-text="20th Oct" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-2" data-on-text="29th Oct" data-off-text="29th Oct" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-3" data-on-text="5th Nov" data-off-text="5th Nov" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="button" value="more" class="ui-icon-carat-d ui-btn-icon-right"></li>
+    </ul>
+</div>
+
+ <div data-role="controlgroup">
+     <h4>{{ _('Open pool of dates available for swap') }}</h4>
+
+         <ul data-role="listview">
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-11" data-on-text="15th Dec" data-off-text="15th Dec" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-22" data-on-text="2th Oct" data-off-text="2th Oct" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-33" data-on-text="25th Nov" data-off-text="25th Nov" data-wrapper-class="custom-size-flipswitch"></li>
+        <li><input type="button" value="more" class="ui-icon-carat-d ui-btn-icon-right"></li>
+    </ul>
+</div>
+    </div>
+{% endblock %}
+
+
+{% block afterinclude %}
+    <script src="/static/js/switchday/switchday.js"></script>
+{% endblock %}

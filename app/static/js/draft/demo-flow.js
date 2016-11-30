@@ -17,7 +17,7 @@ $( document ).ready(function() {
 
 });
 function update_work_step(){
-    var p = window.location.pathname.replace('template', '').replace(/\//g, '');
+    var p = window.location.pathname.replace('sv', '').replace('template', '').replace(/\//g, '');
     var el = $(".step-" + p);
     if (el.length > 0){
         el.prevAll().removeClass('todo').addClass('done');
@@ -53,20 +53,24 @@ $(".act-summon").click(function(){
     window.location.replace("/sv/template/summon/");
 });
 $(".act-work-day").click(function(){
-    window.location.replace("/sv/template/work-day/");
+    window.location.replace("/sv/workday/");
 });
 $(".act-term").click(function(){
-    window.location.replace("/sv/template/term/");
+    window.location.replace("/sv/term/");
 });
 $(".act-show-ups").click(function(){
     window.location.replace("/sv/template/show-ups/");
 });
 $(".act-invite").click(function(){
-    window.location.replace("/sv/template/invite/");
+    window.location.replace("/sv/invite/");
 });
 $(".act-members").click(function(){
-    window.location.replace("/sv/template/members/");
+    window.location.replace("/sv/member/");
 });
+$(".act-switch-day").click(function(){
+    window.location.replace("/sv/switchday/");
+});
+
 $(".act-children").click(function(){
     window.location.replace("/sv/template/children/");
 });
@@ -74,7 +78,7 @@ $(".act-work-sign-up").click(function(){
     window.location.replace("/sv/template/work-sign-up/");
 });
 $(".act-rule").click(function(){
-    window.location.replace("/sv/template/rule/");
+    window.location.replace("/sv/rule/");
 });
 $(".act-username").click(function(){
     $.cookie("show_work_step", 0, { path: '/' });
@@ -84,21 +88,6 @@ $(".act-create-group").click(function(){
     window.location.replace("/sv/group/");
 });
 
-$(".act-workday-nextstep").click(function(){
-    if ( $.cookie("show_work_step") == 1){
-        window.location.replace("/sv/template/rule/");
-    }
-});
-$(".act-rule-nextstep").click(function(){
-    if ( $.cookie("show_work_step") == 1){
-        window.location.replace("/sv/template/term/");
-    }
-});
-$(".act-term-nextstep").click(function(){
-    if ( $.cookie("show_work_step") == 1){
-        window.location.replace("/sv/template/done/");
-    }
-});
 $(".act-done-nextstep").click(function(){
     $.cookie("show_work_step", 0, { path: '/' });
     window.location.replace("/sv/dashboard/"+$.cookie("usertype")+'/');

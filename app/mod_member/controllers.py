@@ -65,9 +65,9 @@ def member():
             db.session.commit()
             return 'member list updated'
         elif request.method == 'GET':
-            d = request.get_json()
-            group_id = d['group_id']
-            member_list = Member.query.filter_by(group_id=group_id).all()
+            #d = request.get_json()
+            #group_id = d['group_id']
+            #member_list = Member.query.filter_by(group_id=group_id).all()
             return render_template('member/{0}.html'.format('member'))
         else:
             return abort(404)
