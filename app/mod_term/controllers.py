@@ -27,6 +27,7 @@ def before():
 @mod_term.route("/<lang_code>/term/", methods=['POST', 'GET'])
 def rule():
     try:
+        # todo when a new term is set/updated, add dates in vikariedays table
         if request.method == 'POST':
             d = request.get_json()
             gid = d['group_id']

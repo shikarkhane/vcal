@@ -36,6 +36,7 @@ def showup():
 @mod_actionday.route("/<lang_code>/work-sign-up/", methods=[ 'GET'])
 def worksignup():
     try:
+        # todo do not let user deselect a chosen date X days from that date
         return render_template('actionday/{0}.html'.format('work-sign-up'))
     except Exception, e:
         logging.exception(e)
