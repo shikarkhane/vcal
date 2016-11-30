@@ -50,7 +50,7 @@ $(".act-log-in").click(function(){
     window.location.replace("/sv/");
 });
 $(".act-summon").click(function(){
-    window.location.replace("/sv/template/summon/");
+    window.location.replace("/sv/summon/");
 });
 $(".act-work-day").click(function(){
     window.location.replace("/sv/workday/");
@@ -59,7 +59,7 @@ $(".act-term").click(function(){
     window.location.replace("/sv/term/");
 });
 $(".act-show-ups").click(function(){
-    window.location.replace("/sv/template/show-ups/");
+    window.location.replace("/sv/show-ups/");
 });
 $(".act-invite").click(function(){
     window.location.replace("/sv/invite/");
@@ -72,10 +72,10 @@ $(".act-switch-day").click(function(){
 });
 
 $(".act-children").click(function(){
-    window.location.replace("/sv/template/children/");
+    window.location.replace("/sv/children/");
 });
 $(".act-work-sign-up").click(function(){
-    window.location.replace("/sv/template/work-sign-up/");
+    window.location.replace("/sv/work-sign-up/");
 });
 $(".act-rule").click(function(){
     window.location.replace("/sv/rule/");

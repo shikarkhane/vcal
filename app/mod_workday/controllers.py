@@ -8,7 +8,7 @@ from app import db, get_locale
 
 
 # Import module models (i.e. User)
-from app.mod_workday.models import Workday
+from app.mod_workday.models import Workday, Summon
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_workday = Blueprint('workday', __name__)
@@ -39,6 +39,23 @@ def working_day():
             return 'workday was saved'
         elif request.method == 'GET':
             return render_template('workday/{0}.html'.format('work-day'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/<lang_code>/summon/", methods=['GET','POST'])
+def summon():
+    try:
+        if request.method == 'POST':
+            d = request.get_json()
+            w = Summon(d['group_id'], d['work_date'], d['standin_count'], d['from_time'], d['to_time'])
+            db.session.add(w)
+            db.session.commit()
+            return 'summon was saved'
+        elif request.method == 'GET':
+            return render_template('workday/{0}.html'.format('summon'))
         else:
             return abort(404)
     except Exception, e:

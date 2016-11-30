@@ -7,16 +7,17 @@ import json
 from app import db
 
 
-from app.mod_term.models import Term
+# Import module models (i.e. User)
+#from app.mod_group.models import Group
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
-mod_term = Blueprint('term', __name__)
+mod_actionday = Blueprint('actionday', __name__)
 
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_term.before_request
+@mod_actionday.before_request
 def before():
     if request.view_args and 'lang_code' in request.view_args:
         if request.view_args['lang_code'] not in ('sv', 'en'):
@@ -24,30 +25,18 @@ def before():
         g.current_lang = request.view_args['lang_code']
         request.view_args.pop('lang_code')
 
-@mod_term.route("/<lang_code>/term/", methods=['POST', 'GET'])
-def rule():
+@mod_actionday.route("/<lang_code>/show-ups/", methods=[ 'GET'])
+def showup():
     try:
-        if request.method == 'POST':
-            d = request.get_json()
-            gid = d['group_id']
-            name = d['term_name']
-            family_spread = d['family_spread']
-            r = Term(gid, name, family_spread)
-            db.session.add(r)
-            db.session.commit()
-            return 'term saved'
-        elif request.method == 'GET':
-            return render_template('term/{0}.html'.format('term'))
-        else:
-            return abort(404)
+        return render_template('actionday/{0}.html'.format('show-ups'))
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_term.route("/<lang_code>/children/", methods=['GET'])
-def children():
+@mod_actionday.route("/<lang_code>/work-sign-up/", methods=[ 'GET'])
+def worksignup():
     try:
-        return render_template('term/{0}.html'.format('term'))
+        return render_template('actionday/{0}.html'.format('work-sign-up'))
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")

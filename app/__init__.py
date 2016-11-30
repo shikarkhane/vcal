@@ -35,6 +35,7 @@ from app.mod_workday.controllers import mod_workday as workday_module
 from app.mod_rule.controllers import mod_rule as rule_module
 from app.mod_term.controllers import mod_term as term_module
 from app.mod_switchday.controllers import mod_switchday as switchday_module
+from app.mod_actionday.controllers import mod_actionday as actionday_module
 
 
 # Register blueprint(s)
@@ -45,6 +46,8 @@ app.register_blueprint(workday_module)
 app.register_blueprint(rule_module)
 app.register_blueprint(term_module)
 app.register_blueprint(switchday_module)
+app.register_blueprint(actionday_module)
+
 # app.register_blueprint(xyz_module)
 # ..
 
