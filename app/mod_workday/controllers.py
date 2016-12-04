@@ -33,7 +33,7 @@ def working_day():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            w = Workday(d['group_id'], d['work_date'], d['standin_count'], d['from_time'], d['to_time'])
+            w = Workday(d['created_by_id'], d['group_id'], d['work_date'], d['standin_count'], d['from_time'], d['to_time'])
             db.session.add(w)
             db.session.commit()
             return 'workday was saved'
@@ -50,7 +50,7 @@ def summon():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            w = Summon(d['group_id'], d['work_date'], d['standin_count'], d['from_time'], d['to_time'])
+            w = Summon(d['created_by_id'], d['group_id'], d['work_date'], d['from_time'], d['to_time'])
             db.session.add(w)
             db.session.commit()
             return 'summon was saved'

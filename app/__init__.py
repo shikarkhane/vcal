@@ -2,7 +2,7 @@
 from flask import Flask, render_template, g
 from flask_babel import Babel
 # Import SQLAlchemy
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 
 # Define the WSGI application object
 app = Flask(__name__)
