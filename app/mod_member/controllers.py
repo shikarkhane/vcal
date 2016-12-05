@@ -74,3 +74,24 @@ def member():
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+
+
+@mod_member.route("/<lang_code>/joingroup/<invite_code>/", methods=['POST'])
+def joingroup(invite_code):
+    try:
+        # todo: user joins a group if invite id matches. for time being we keep this simple
+        if request.method == 'POST':
+            d = request.get_json()
+            group_id = d['group_id']
+            user_id = d['group_id']
+
+            x = Member(group_id, user_id)
+            db.session.add(x)
+            db.session.commit()
+
+            return 'Joined group'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")

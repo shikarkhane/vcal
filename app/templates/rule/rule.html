@@ -5,17 +5,25 @@
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Rule - formula for work allocation') }}</h3>
-            <div data-role="controlgroup">
-                <h4>{{ _('Stand-in day rule') }}:</h4>
-                <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 1 kid') }} @ 1 {{ _('day') }}</button>
-                 <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 2 kids') }} @ 2 {{ _('days') }}</button>
-                 <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 3 kids') }} @ 2.2 {{ _('days') }}</button>
-               </div>
-             <div data-role="controlgroup">
+            <div data-role="collapsible" data-mini="true">
+                <h4>{{ _('Stand-in day rule') }}:</h4>
+
+                    <label for="standin-rule-1">{{ _('Family with 1 kid') }}</label>
+                    <input id="standin-rule-1" data-mini="true" type="number" class="cls-rule-value" placeholder="1">
+                    <label for="standin-rule-2">{{ _('Family with 2 kids') }}</label>
+                    <input id="standin-rule-2" data-mini="true" type="number" class="cls-rule-value" placeholder="2">
+                    <label for="standin-rule-3">{{ _('Family with 3 kid') }}</label>
+                    <input id="standin-rule-3" data-mini="true" type="number" class="cls-rule-value" placeholder="2.2">
+            </div>
+            <div data-role="collapsible" data-mini="true">
                 <h4>{{ _('Work day rule') }}:</h4>
-                <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 1 kid') }} @ 1 {{ _('day') }}</button>
-                 <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 2 kids') }} @ 1.2 {{ _('days') }}</button>
-                 <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Family with 3 kids') }} @ 1.4 {{ _('days') }}</button>
+
+                    <label for="workday-rule-1">{{ _('Family with 1 kid') }}</label>
+                    <input id="workday-rule-1" data-mini="true" type="number" class="cls-rule-value" placeholder="1">
+                    <label for="workday-rule-2">{{ _('Family with 2 kids') }}</label>
+                    <input id="workday-rule-2" data-mini="true" type="number" class="cls-rule-value" placeholder="1.2">
+                    <label for="workday-rule-3">{{ _('Family with 3 kid') }}</label>
+                    <input id="workday-rule-3" data-mini="true" type="number" class="cls-rule-value" placeholder="1.4">
             </div>
 
             <input type="button" class="act-rule-nextstep clsnextstep" value="{{ _('Next step') }}">
