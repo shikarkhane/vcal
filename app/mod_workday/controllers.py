@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, abort, \
     Blueprint, g
 import logging
 import json
+import datetime
 
 # Import the database object from the main app module
 from app import db, get_locale
@@ -33,7 +34,9 @@ def working_day():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            w = Workday(d['created_by_id'], d['group_id'], d['work_date'], d['standin_count'], d['from_time'], d['to_time'])
+            w = Workday(d['created_by_id'], d['group_id'],
+                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
+                        d['standin_count'], d['from_time'], d['to_time'])
             db.session.add(w)
             db.session.commit()
             return 'workday was saved'

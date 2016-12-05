@@ -7,7 +7,22 @@
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Work-day') }}</h3>
-            <input type="button" dclass="act-create-workday" ata-icon="edit" value="{{ _('Create work-day') }}">
+            <div data-role="collapsible" data-mini="true">
+                <h4>{{ _('Create work-day') }}</h4>
+
+                    <label for="create-workday-date">{{ _('Date') }}</label>
+                    <input id="create-workday-date" data-mini="true" type="date" >
+                    <label for="create-workday-standin-count">{{ _('Stand-in count') }}</label>
+                    <input id="create-workday-standin-count" data-mini="true" type="number" placeholder="1">
+                    <label for="create-workday-fromtime">{{ _('From') }}</label>
+                    <input id="create-workday-fromtime" data-mini="true" type="number" placeholder="0900">
+                    <label for="create-workday-totime">{{ _('To') }}</label>
+                    <input id="create-workday-totime" data-mini="true" type="number" placeholder="1630">
+                    <button id="create-workday-save">{{ _('Save') }}</button>
+
+            </div>
+
+
             <div data-role="controlgroup" data-type="horizontal">
                 <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">{{ _('On') }} 8th Dec, {{ _('2 stand-ins needed between') }} 9 AM till 4:30 PM</a>
             </div>
