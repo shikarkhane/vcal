@@ -31,7 +31,7 @@ def rule():
             d = request.get_json()
             gid = d['group_id']
             rule_definition = d['definition']
-            r = Rule(gid, rule_definition)
+            r = Rule(gid, json.dumps(rule_definition))
             db.session.add(r)
             db.session.commit()
             return 'rule saved'
