@@ -7,7 +7,24 @@
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Term') }}</h3>
-            <input type="button" data-icon="edit" value="{{ _('Create term') }}">
+            <div data-role="collapsible" data-mini="true">
+                <h4>{{ _('Create term') }}:</h4>
+                    <label for="term-name">{{ _('Term name') }}</label>
+                    <input id="term-name" data-mini="true" type="text" >
+                    <label for="term-start-date">{{ _('Start date') }}</label>
+                    <input id="term-start-date" data-mini="true" type="date" >
+                    <label for="term-end-date">{{ _('End date') }}</label>
+                    <input id="term-end-date" data-mini="true" type="date"  >
+                    <label for="term-family-1">{{ _('Family count with 1 kid') }}</label>
+                    <input id="term-family-1" data-mini="true" type="number"  placeholder="15">
+                    <label for="term-family-2">{{ _('Family count with 2 kids') }}</label>
+                    <input id="term-family-2" data-mini="true" type="number"  placeholder="5">
+                    <label for="term-family-3">{{ _('Family count with 3 kids') }}</label>
+                    <input id="term-family-3" data-mini="true" type="number"  placeholder="1">
+
+                    <button id="term-save">{{ _('Save') }}</button>
+                    
+            </div>
             <div class="ui-body ui-body-a ui-corner-all">
                 <h3>VT 2016 ( Jan to Jul 2016 ) - {{ _('Total kids: 31') }}</h3>
                 <ul data-role="listview">
