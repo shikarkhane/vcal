@@ -32,6 +32,7 @@ def rule():
             gid = d['group_id']
             rule_definition = d['definition']
             r = Rule(gid, json.dumps(rule_definition))
+            Rule.query.filter_by(group_id=gid).delete()
             db.session.add(r)
             db.session.commit()
             return 'rule saved'
