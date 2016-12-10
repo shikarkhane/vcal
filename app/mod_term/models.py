@@ -12,7 +12,7 @@ class Term(Base):
     name = db.Column(db.String(50), nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    family_spread = db.Column(db.String(300),  nullable=False)
+    family_spread = db.Column(db.String,  nullable=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, name, start_dt, end_dt, family_spread):
