@@ -3,15 +3,20 @@
 
 {% block content %}
 
-
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Kids per term at Gomorronsol') }}</h3>
-            <a href="#" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-right">VT2016 (Jan-Jul 2016) : 1 {{ _('kid') }}</a>
-            <a href="#" class="ui-btn ui-corner-all ui-icon-check ui-btn-icon-right">HT2016 (Aug-Sept 2016) : 2 {{ _('kids') }}</a>
 
+            <fieldset data-role="controlgroup" data-type="horizontal" class="term-children" data-term-id="1">
+                <legend>VT2016 (Jan-Jul 2016)</legend>
+                <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" class="children-radio" data-child-count="1" value="on" checked="checked">
+                <label for="radio-choice-h-2a">1</label>
+                <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" class="children-radio" data-child-count="2" value="off">
+                <label for="radio-choice-h-2b">2</label>
+                <input type="radio" name="radio-choice-h-2" id="radio-choice-h-2c" class="children-radio" data-child-count="3" value="other">
+                <label for="radio-choice-h-2c">3</label>
+            </fieldset>
         </div>
-
 
 
 {% endblock %}

@@ -3,7 +3,7 @@
 from app import db
 from app.common.models import Base
 
-# Define a User model
+
 class Term(Base):
 
     __tablename__ = 'term'
@@ -24,3 +24,18 @@ class Term(Base):
 
     def __repr__(self):
         return '<term name %r>' % (self.name)
+
+class Children(Base):
+
+    __tablename__ = 'term_children'
+
+    term_id = db.Column(db.Integer, nullable=False, unique=True)
+    child_count = db.Column(db.Integer, nullable=False)
+
+    # New instance instantiation procedure
+    def __init__(self, term_id, child_count):
+        self.term_id     = term_id
+        self.child_count    = child_count
+
+    def __repr__(self):
+        return '<term id %r>' % (self.term_id)

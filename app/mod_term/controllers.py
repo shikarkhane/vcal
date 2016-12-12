@@ -7,7 +7,7 @@ import datetime
 from app import db
 
 
-from app.mod_term.models import Term
+from app.mod_term.models import Term, Children
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_term = Blueprint('term', __name__)
@@ -47,10 +47,22 @@ def term():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_term.route("/<lang_code>/children/", methods=['GET'])
+@mod_term.route("/<lang_code>/children/", methods=['GET', 'POST'])
 def children():
     try:
-        return render_template('term/{0}.html'.format('term'))
+        if request.method == 'POST':
+            d = request.get_json()
+            tid = d['term_id']
+            child_count = d['child_count']
+            r = Children(tid, child_count)
+            Children.query.filter_by(term_id=tid).delete()
+            db.session.add(r)
+            db.session.commit()
+            return 'term child count saved'
+        elif request.method == 'GET':
+            return render_template('term/{0}.html'.format('children'))
+        else:
+            return abort(404)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
