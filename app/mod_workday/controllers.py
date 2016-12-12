@@ -9,7 +9,7 @@ from app import db, get_locale
 
 
 # Import module models (i.e. User)
-from app.mod_workday.models import Workday, Summon
+from app.mod_workday.models import Workday, Summon, StandinDay
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_workday = Blueprint('workday', __name__)
@@ -42,6 +42,28 @@ def working_day():
             return 'workday was saved'
         elif request.method == 'GET':
             return render_template('workday/{0}.html'.format('work-day'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/<lang_code>/standinday/", methods=['GET', 'POST'])
+def standin_day():
+    try:
+        if request.method == 'POST':
+            # todo: saving standin_user_id as None is pending.
+            d = request.get_json()
+            w = StandinDay( d['group_id'],
+                        datetime.datetime.strptime(d['standin_date'], '%Y-%m-%d').date(),
+                        d['standin_user_id'],
+                        datetime.datetime.strptime(d['booking_date'], '%Y-%m-%d').date(),)
+            db.session.add(w)
+            db.session.commit()
+            return 'standin day was saved'
+        elif request.method == 'GET':
+            vacant_dates = StandinDay.query.filter_by(standin_user_id=None).all()
+            return json.dumps(vacant_dates)
         else:
             return abort(404)
     except Exception, e:
