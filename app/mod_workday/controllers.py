@@ -54,9 +54,15 @@ def standin_day():
         if request.method == 'POST':
             # todo: saving standin_user_id as None is pending.
             d = request.get_json()
+
+            if not d['standin_user_id']:
+                standin_user_id = None
+            else:
+                standin_user_id = d['standin_user_id']
+
             w = StandinDay( d['group_id'],
                         datetime.datetime.strptime(d['standin_date'], '%Y-%m-%d').date(),
-                        d['standin_user_id'],
+                        standin_user_id,
                         datetime.datetime.strptime(d['booking_date'], '%Y-%m-%d').date(),)
             db.session.add(w)
             db.session.commit()
