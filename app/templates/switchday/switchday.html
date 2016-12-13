@@ -4,26 +4,29 @@
 {% block content %}
 <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Switch days - swap days with other families') }}</h3>
- <div data-role="controlgroup">
-     <h4>{{ _('Choose your days which you want to switch ') }}</h4>
-    
-     <ul data-role="listview">
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-1" data-on-text="20th Oct" data-off-text="20th Oct" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-2" data-on-text="29th Oct" data-off-text="29th Oct" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-3" data-on-text="5th Nov" data-off-text="5th Nov" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="button" value="more" class="ui-icon-carat-d ui-btn-icon-right"></li>
-    </ul>
+ <div data-role="collapsible">
+     <legend>{{ _('Your days') }} - {{ _('Choose your days which you want to switch ') }}</legend>
+        <fieldset data-role="controlgroup">
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
+            <label for="checkbox-v-2a">20th Oct</label>
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2b">
+            <label for="checkbox-v-2b">29th Oct</label>
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2c">
+            <label for="checkbox-v-2c">5th Nov</label>
+        </fieldset>
+
 </div>
 
- <div data-role="controlgroup">
-     <h4>{{ _('Open pool of dates available for swap') }}</h4>
-
-         <ul data-role="listview">
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-11" data-on-text="15th Dec" data-off-text="15th Dec" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-22" data-on-text="2th Oct" data-off-text="2th Oct" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="checkbox" data-role="flipswitch" name="flip-checkbox-3" id="flip-checkbox-33" data-on-text="25th Nov" data-off-text="25th Nov" data-wrapper-class="custom-size-flipswitch"></li>
-        <li><input type="button" value="more" class="ui-icon-carat-d ui-btn-icon-right"></li>
-    </ul>
+ <div data-role="collapsible">
+     <legend>{{ _('Switch pool') }} - {{ _('Dates available for swap') }}</legend>
+        <fieldset data-role="controlgroup">
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2g">
+            <label for="checkbox-v-2g">20th Oct</label>
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2h">
+            <label for="checkbox-v-2h">29th Oct</label>
+            <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2i">
+            <label for="checkbox-v-2i">5th Nov</label>
+        </fieldset>
 </div>
     </div>
 {% endblock %}

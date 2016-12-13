@@ -7,7 +7,19 @@
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
             <h3>{{ _('Summon') }}</h3>
-            <input type="button" data-icon="edit" value="{{ _('Create summon') }}">
+            <div data-role="collapsible" data-mini="true">
+                <h4>{{ _('Create summon') }}</h4>
+
+                    <label for="create-summon-date">{{ _('Date') }}</label>
+                    <input id="create-summon-date" data-mini="true" type="date" >
+                    <label for="create-summon-fromtime">{{ _('From') }}</label>
+                    <input id="create-summon-fromtime" data-mini="true" type="number" placeholder="0900">
+                    <label for="create-summon-totime">{{ _('To') }}</label>
+                    <input id="create-summon-totime" data-mini="true" type="number" placeholder="1630">
+                    <button id="create-summon-save">{{ _('Save') }}</button>
+
+            </div>
+
             <div data-role="controlgroup" data-type="horizontal">
                 <a href="#" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-right">{{ _('On') }} 23rd Dec, {{ _('stand-in needed between') }} 9 AM till 4:30 PM</a>
             </div>

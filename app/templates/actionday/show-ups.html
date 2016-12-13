@@ -6,13 +6,20 @@
 
     <!-- Actions -->
         <div class="ui-body ui-body-a ui-corner-all">
+            <fieldset data-role="controlgroup">
             <h3>{{ _('Show-ups') }}</h3>
-            <input type="date" data-clear-btn="true" name="date-2" id="date-2" value="2016-11-23">
-            <div data-role="controlgroup" data-type="horizontal">
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-right">Jimmy</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all ui-icon-delete ui-btn-icon-right">Nikhil</button>
-                <button class="ui-btn ui-shadow ui-btn-inline ui-corner-all ui-icon-check ui-btn-icon-right">Eva</button>
-            </div>
+                <div class="ui-field-contain">
+                    <label for="date-2">{{ _('Choose date') }}:</label>
+                    <input type="date" data-clear-btn="true" name="date-2" id="date-2" value="2016-11-23">
+                </div>
+
+                <input type="checkbox" name="checkbox-v-2a" id="checkbox-v-2a">
+                <label for="checkbox-v-2a">Jimmy</label>
+                <input type="checkbox" name="checkbox-v-2b" id="checkbox-v-2b">
+                <label for="checkbox-v-2b">Nikhil</label>
+                <input type="checkbox" name="checkbox-v-2c" id="checkbox-v-2c">
+                <label for="checkbox-v-2c">Eva</label>
+            </fieldset>
                 <button class="ui-btn ui-shadow ui-corner-all ">{{ _('Confirm') }}</button>
         </div>
 
