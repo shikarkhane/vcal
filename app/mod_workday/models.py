@@ -9,23 +9,28 @@ class Workday(Base):
 
     group_id = db.Column(db.Integer, nullable=False)
     work_date = db.Column(db.DateTime, nullable=False)
-    standin_count = db.Column(db.SmallInteger, nullable=False)
     from_time_in_24hours = db.Column(db.String, default = '0900')
     to_time_in_24hours = db.Column(db.String, default = '1630')
     creator_user_id = db.Column(db.Integer, nullable=False)
+    standin_user_id = db.Column(db.Integer, nullable=True)
+    booking_date = db.Column(db.DateTime, nullable=False)
+    is_half_day = db.Column(db.Boolean, nullable=False, default=False)
+    has_worked = db.Column(db.Boolean, nullable=False, default=False)
 
     # New instance instantiation procedure
-    def __init__(self, creator_user_id, group_id, work_date, standin_count, from_time, to_time):
+    def __init__(self, creator_user_id, group_id, work_date, from_time, to_time,
+                 standin_user_id, booking_date, is_half_day):
         self.creator_user_id = creator_user_id
         self.group_id = group_id
         self.work_date = work_date
-        self.standin_count = standin_count
         self.from_time_in_24hours = from_time
         self.to_time_in_24hours = to_time
+        self.standin_user_id = standin_user_id
+        self.booking_date = booking_date
+        self.is_half_day = is_half_day
 
     def __repr__(self):
         return '<Work_date %r>' % (self.work_date)
-
 class StandinDay(Base):
 
     __tablename__ = 'standinday'
@@ -34,6 +39,7 @@ class StandinDay(Base):
     standin_date = db.Column(db.DateTime, nullable=False)
     standin_user_id = db.Column(db.Integer, nullable=True)
     booking_date = db.Column(db.DateTime, nullable=False)
+    has_worked = db.Column(db.Boolean, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, standin_date, standin_user_id, booking_date):

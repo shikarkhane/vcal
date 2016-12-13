@@ -34,9 +34,17 @@ def working_day():
     try:
         if request.method == 'POST':
             d = request.get_json()
+
+            if not d['standin_user_id']:
+                standin_user_id = None
+            else:
+                standin_user_id = d['standin_user_id']
+
             w = Workday(d['created_by_id'], d['group_id'],
                         datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
-                        d['standin_count'], d['from_time'], d['to_time'])
+                         d['from_time'], d['to_time'], standin_user_id,
+                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
+                        d['is_half_day'])
             db.session.add(w)
             db.session.commit()
             return 'workday was saved'
@@ -91,6 +99,34 @@ def summon():
             return render_template('workday/{0}.html'.format('summon'))
         else:
             return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/<lang_code>/show-ups/", methods=['GET', 'POST'])
+def showup():
+    try:
+        if request.method == 'POST':
+            d = request.get_json()
+            dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d').date(),
+            workday_users = d['workday_user_ids']
+            standin_users = d['standin_user_ids']
+            # todo for date = dt, update has_worked flag in standin and workday tables if that user had booked the date
+            return 'showup was saved'
+        elif request.method == 'GET':
+            # todo get both standin and workday users for a given date
+            return render_template('actionday/{0}.html'.format('show-ups'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/<lang_code>/work-sign-up/", methods=['GET', 'POST'])
+def worksignup():
+    try:
+        # todo do not let user deselect a chosen date X days from that date
+        return render_template('actionday/{0}.html'.format('work-sign-up'))
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
