@@ -60,7 +60,7 @@ def working_day():
 def standin_day():
     try:
         if request.method == 'POST':
-            # todo: saving standin_user_id as None is pending.
+
             d = request.get_json()
 
             if not d['standin_user_id']:
