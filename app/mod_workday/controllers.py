@@ -106,27 +106,30 @@ def summon():
 @mod_workday.route("/<lang_code>/show-ups/", methods=['GET', 'POST'])
 def showup():
     try:
+        d = request.get_json()
+        gid = d['group_id']
+        dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d')
+
         if request.method == 'POST':
-            d = request.get_json()
-            gid = d['group_id']
-            dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d').date(),
             workday_users = d['workday_user_ids']
             standin_users = d['standin_user_ids']
 
             # update has_worked flag, if user and booking date matches
             for wu in workday_users:
-                r = Workday.query.filter_by(group_id=gid, standin_user_id=wu, booking_date=dt)
+                r = Workday.query.filter_by(group_id=gid, standin_user_id=wu, booking_date=dt).all()
                 if r:
                     r.has_worked = True
             for su in standin_users:
-                q = StandinDay.query.filter_by(group_id=gid, standin_user_id=su, booking_date=dt)
+                q = StandinDay.query.filter_by(group_id=gid, standin_user_id=su, booking_date=dt).all()
                 if q:
                     q.has_worked = True
 
             return 'showup was saved'
         elif request.method == 'GET':
-            # todo get both standin and workday users for a given date
-            return render_template('workday/{0}.html'.format('show-ups'))
+            w = Workday.query.filter_by(group_id=gid, booking_date=dt).all()
+            s = StandinDay.query.filter_by(group_id=gid, booking_date=dt).all()
+            # todo: get both standin and workday users for a given date
+            return render_template('workday/{0}.html'.format('show-ups'), workday_owners=[], standin_owners=[])
         else:
             return abort(404)
     except Exception, e:
