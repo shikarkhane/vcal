@@ -108,14 +108,25 @@ def showup():
     try:
         if request.method == 'POST':
             d = request.get_json()
+            gid = d['group_id']
             dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d').date(),
             workday_users = d['workday_user_ids']
             standin_users = d['standin_user_ids']
-            # todo for date = dt, update has_worked flag in standin and workday tables if that user had booked the date
+
+            # update has_worked flag, if user and booking date matches
+            for wu in workday_users:
+                r = Workday.query.filter_by(group_id=gid, standin_user_id=wu, booking_date=dt)
+                if r:
+                    r.has_worked = True
+            for su in standin_users:
+                q = StandinDay.query.filter_by(group_id=gid, standin_user_id=su, booking_date=dt)
+                if q:
+                    q.has_worked = True
+
             return 'showup was saved'
         elif request.method == 'GET':
             # todo get both standin and workday users for a given date
-            return render_template('actionday/{0}.html'.format('show-ups'))
+            return render_template('workday/{0}.html'.format('show-ups'))
         else:
             return abort(404)
     except Exception, e:
