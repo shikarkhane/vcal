@@ -103,12 +103,12 @@ def summon():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/show-ups/", methods=['GET', 'POST'])
-def showup():
+@mod_workday.route("/<lang_code>/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
+def showup(group_id, chosen_date):
     try:
         d = request.get_json()
-        gid = d['group_id']
-        dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d')
+        gid = group_id
+        dt = datetime.datetime.strptime(chosen_date, '%Y%m%d')
 
         if request.method == 'POST':
             workday_users = d['workday_user_ids']

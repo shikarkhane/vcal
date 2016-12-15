@@ -4,10 +4,14 @@ $("#confirm-showups").click(function(){
     workday_user_ids = [];
     standin_user_ids= [];
     $( ".cls-workday-date" ).each(function( index ) {
-      workday_user_ids.push($( this ).attr("data-user-id"));
+        if( this.checked ){
+            workday_user_ids.push($( this ).attr("data-user-id"));
+        }
     });
     $( ".cls-standin-date" ).each(function( index ) {
-      standin_user_ids.push($( this ).attr("data-user-id"));
+        if( this.checked ){
+            standin_user_ids.push($( this ).attr("data-user-id"));
+        }
     });
 
     $.ajax({

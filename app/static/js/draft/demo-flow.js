@@ -59,7 +59,7 @@ $(".act-term").click(function(){
     window.location.replace("/sv/term/");
 });
 $(".act-show-ups").click(function(){
-    window.location.replace("/sv/show-ups/");
+    window.location.replace("/sv/show-ups/1/date/20161215/");
 });
 $(".act-invite").click(function(){
     window.location.replace("/sv/invite/");
