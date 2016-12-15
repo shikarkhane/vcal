@@ -136,11 +136,42 @@ def showup(group_id, chosen_date):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/work-sign-up/", methods=['GET', 'POST'])
-def worksignup():
+@mod_workday.route("/<lang_code>/work-sign-up/<group_id>/", methods=['GET', 'POST'])
+def worksignup(group_id):
     try:
         # todo do not let user deselect a chosen date X days from that date
-        return render_template('actionday/{0}.html'.format('work-sign-up'))
+        d = request.get_json()
+        gid = group_id
+        user_id = d['user_id']
+
+        if request.method == 'POST':
+            chosen_date = d['chosen_date']
+            is_workday = d['is_workday']
+
+            if is_workday:
+                # todo: handle inside a db transaction
+                w = Workday.query.filter_by(group_id=gid, work_date=chosen_date,
+                                            standin_user_id=None).first()
+                if w:
+                    w.standin_user_id = user_id
+                    w.booking_date = datetime.datetime.utcnow()
+                    db.session.commit()
+            else:
+                w = StandinDay.query.filter_by(group_id=gid, standin_date=chosen_date,
+                                            standin_user_id=None).first()
+                if w:
+                    w.standin_user_id = user_id
+                    w.booking_date = datetime.datetime.utcnow()
+                    db.session.commit()
+
+            return 'worksignup was saved'
+        elif request.method == 'GET':
+            w = Workday.query.filter_by(group_id=gid, standin_user_id=None).all()
+            s = StandinDay.query.filter_by(group_id=gid, standin_user_id=None).all()
+            return render_template('workday/{0}.html'.format('work-sign-up'),
+                                   workday_owners=[], standin_owners=[])
+        else:
+            return abort(404)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
