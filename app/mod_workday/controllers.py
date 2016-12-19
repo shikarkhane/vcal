@@ -142,9 +142,9 @@ def worksignup(group_id):
         # todo do not let user deselect a chosen date X days from that date
         d = request.get_json()
         gid = group_id
-        user_id = d['user_id']
 
         if request.method == 'POST':
+            user_id = d['user_id']
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
 
@@ -166,6 +166,7 @@ def worksignup(group_id):
 
             return 'worksignup was saved'
         elif request.method == 'GET':
+            user_id = 1
             w = Workday.query.filter_by(group_id=gid, standin_user_id=None).all()
             s = StandinDay.query.filter_by(group_id=gid, standin_user_id=None).all()
             return render_template('workday/{0}.html'.format('work-sign-up'),

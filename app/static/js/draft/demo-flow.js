@@ -14,8 +14,8 @@ $( document ).ready(function() {
         $(".act-work-step").hide();
         $(".clsnextstep").closest('.ui-btn').hide();
     }
-
 });
+
 function update_work_step(){
     var p = window.location.pathname.replace('sv', '').replace('template', '').replace(/\//g, '');
     var el = $(".step-" + p);
@@ -75,7 +75,7 @@ $(".act-children").click(function(){
     window.location.replace("/sv/children/");
 });
 $(".act-work-sign-up").click(function(){
-    window.location.replace("/sv/work-sign-up/");
+    window.location.replace("/sv/work-sign-up/1/");
 });
 $(".act-rule").click(function(){
     window.location.replace("/sv/rule/");
