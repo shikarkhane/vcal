@@ -1,17 +1,16 @@
 $( document ).ready(function() {
-    /*
-    get pending day count
+    group_id = 1;
+
     $.ajax({
           contentType : 'application/json',
           method: "GET",
-          url: "/sv/show-ups/" + group_id + "/date/" + work_date + "/",
-          data: JSON.stringify({ workday_user_ids: workday_user_ids,
-          standin_user_ids: standin_user_ids})
+          url: "/sv/work-sign-up/" + group_id + "/"
+          // ,data: JSON.stringify({ workday_user_ids: workday_user_ids, standin_user_ids: standin_user_ids})
         })
           .done(function( msg ) {
-            console.log('showup was saved');
+            console.log('get work sign up');
           });
-          */
+
 });
 
 
