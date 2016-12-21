@@ -46,6 +46,13 @@ def term():
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+@mod_term.route("/<lang_code>/term_details/<group_id>/", methods=['GET'])
+def term_details(group_id):
+    try:
+        return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31'}])
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
 
 @mod_term.route("/<lang_code>/children/", methods=['GET', 'POST'])
 def children():

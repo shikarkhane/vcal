@@ -10,35 +10,67 @@ $( document ).ready(function() {
           .done(function( msg ) {
             console.log('get work sign up');
           });
+    $.ajax({
+          contentType : 'application/json',
+          method: "GET",
+          url: "/sv/term_details/" + group_id + "/"
+        })
+          .done(function( msg ) {
+            console.log(msg);
+          });
 
 });
 
 
 $(".cls-worksignup-term").change(function(){
     term_id = $( this ).attr("data-term-id");
-    //show pending days for the term selected
+    console.log('last date'+ last_date);
 });
 
 
 $(".cls-worksignup-standin").change(function(){
     chosen_date = $( this ).attr("data-date");
-    //show pending days for the term selected
+    user_id = 23;
+    is_workday = false;
+
+     $.ajax({
+          contentType : 'application/json',
+          method: "POST",
+          url: "/sv/work-sign-up/" + group_id + "/",
+          data: JSON.stringify({ chosen_date: chosen_date, user_id: user_id,
+          is_workday: is_workday})
+        })
+          .done(function( msg ) {
+            console.log('work sign up - stand in saved');
+          });
 });
 
 
 $(".cls-worksignup-workday").change(function(){
     chosen_date = $( this ).attr("data-date");
-    //show pending days for the term selected
+    user_id = 23;
+    is_workday = true;
+
+     $.ajax({
+          contentType : 'application/json',
+          method: "POST",
+          url: "/sv/work-sign-up/" + group_id + "/",
+          data: JSON.stringify({ chosen_date: chosen_date, user_id: user_id,
+          is_workday: is_workday})
+        })
+          .done(function( msg ) {
+            console.log('work sign up - stand in saved');
+          });
 });
 
 
 $(".cls-worksignup-more-standin").click(function(){
     last_date = $( this ).attr("data-last-date");
-    //show pending days for the term selected
+    console.log('last date'+ last_date);
 });
 
 $(".cls-worksignup-more-workday").click(function(){
     last_date = $( this ).attr("data-last-date");
-    //show pending days for the term selected
+    console.log('last date'+ last_date);
 });
 
