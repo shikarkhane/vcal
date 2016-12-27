@@ -147,20 +147,25 @@ def worksignup(group_id):
             user_id = d['user_id']
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
+            is_taken = d['is_taken']
+
+            q_user_id = None
+            if is_taken:
+                q_user_id = user_id
 
             if is_workday:
                 # todo: handle inside a db transaction
                 w = Workday.query.filter_by(group_id=gid, work_date=chosen_date,
-                                            standin_user_id=None).first()
+                                            standin_user_id=q_user_id).first()
                 if w:
-                    w.standin_user_id = user_id
+                    w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
                     db.session.commit()
             else:
                 w = StandinDay.query.filter_by(group_id=gid, standin_date=chosen_date,
-                                            standin_user_id=None).first()
+                                            standin_user_id=q_user_id).first()
                 if w:
-                    w.standin_user_id = user_id
+                    w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
                     db.session.commit()
 

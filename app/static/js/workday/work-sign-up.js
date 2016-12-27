@@ -32,13 +32,17 @@ $(".cls-worksignup-standin").change(function(){
     chosen_date = $( this ).attr("data-date");
     user_id = 23;
     is_workday = false;
+    is_taken = false;
+    if( this.checked ){
+            is_taken = true;
+        }
 
      $.ajax({
           contentType : 'application/json',
           method: "POST",
           url: "/sv/work-sign-up/" + group_id + "/",
           data: JSON.stringify({ chosen_date: chosen_date, user_id: user_id,
-          is_workday: is_workday})
+          is_workday: is_workday, is_taken: is_taken})
         })
           .done(function( msg ) {
             console.log('work sign up - stand in saved');
@@ -50,16 +54,20 @@ $(".cls-worksignup-workday").change(function(){
     chosen_date = $( this ).attr("data-date");
     user_id = 23;
     is_workday = true;
+    is_taken = false;
+        if( this.checked ){
+                is_taken = true;
+            }
 
      $.ajax({
           contentType : 'application/json',
           method: "POST",
           url: "/sv/work-sign-up/" + group_id + "/",
           data: JSON.stringify({ chosen_date: chosen_date, user_id: user_id,
-          is_workday: is_workday})
+          is_workday: is_workday, is_taken: is_taken})
         })
           .done(function( msg ) {
-            console.log('work sign up - stand in saved');
+            console.log('work sign up - workday saved');
           });
 });
 
