@@ -1,6 +1,5 @@
 # Import flask and template operators
-from flask import Flask, render_template, g
-from flask_babel import Babel
+from flask import Flask, render_template
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 
@@ -10,22 +9,11 @@ app = Flask(__name__)
 # Configurations
 app.config.from_object('config')
 
-# translations using flask babel
-babel = Babel(app)
 
 # Define the database object which is imported
 # by modules and controllers
 db = SQLAlchemy(app)
 
-
-@babel.localeselector
-def get_locale():
-    return g.current_lang
-
-# Sample HTTP error handling
-@app.errorhandler(404)
-def not_found(error):
-    return render_template('oops.html'), 404
 
 # Import a module / component using its blueprint handler variable (mod_group)
 from app.mod_draft.controllers import mod_draft as draft_module
@@ -53,5 +41,3 @@ app.register_blueprint(switchday_module)
 # This will create the database file using SQLAlchemy
 
 db.create_all()
-with app.app_context():
-    g.current_lang = 'en'

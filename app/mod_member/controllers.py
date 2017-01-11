@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 
@@ -16,15 +16,7 @@ mod_member = Blueprint('member', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_member.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
-@mod_member.route("/<lang_code>/invite/", methods=['POST', 'GET'])
+@mod_member.route("/invite/", methods=['POST', 'GET'])
 def invite():
     # create a group, group_type, group_owner
     try:
@@ -46,7 +38,7 @@ def invite():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_member.route("/<lang_code>/member/", methods=['POST', 'GET'])
+@mod_member.route("/member/", methods=['POST', 'GET'])
 def member():
     try:
         if request.method == 'POST':
@@ -76,7 +68,7 @@ def member():
         return render_template("oops.html")
 
 
-@mod_member.route("/<lang_code>/joingroup/<invite_code>/", methods=['POST'])
+@mod_member.route("/joingroup/<invite_code>/", methods=['POST'])
 def joingroup(invite_code):
     try:
         # todo: user joins a group if invite id matches. for time being we keep this simple

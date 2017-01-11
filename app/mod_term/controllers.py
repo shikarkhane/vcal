@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 import datetime
@@ -16,15 +16,7 @@ mod_term = Blueprint('term', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_term.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
-@mod_term.route("/<lang_code>/term/", methods=['POST', 'GET'])
+@mod_term.route("/term/", methods=['POST', 'GET'])
 def term():
     try:
         # todo when a new term is set/updated, add dates in vikariedays table
@@ -46,7 +38,7 @@ def term():
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
-@mod_term.route("/<lang_code>/term_details/<group_id>/", methods=['GET'])
+@mod_term.route("/term_details/<group_id>/", methods=['GET'])
 def term_details(group_id):
     try:
         return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31'}])
@@ -54,7 +46,7 @@ def term_details(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_term.route("/<lang_code>/children/", methods=['GET', 'POST'])
+@mod_term.route("/children/", methods=['GET', 'POST'])
 def children():
     try:
         if request.method == 'POST':

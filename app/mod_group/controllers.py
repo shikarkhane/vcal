@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 
@@ -17,15 +17,8 @@ mod_group = Blueprint('group', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_group.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
 
-@mod_group.route("/<lang_code>/group/", methods=['POST', 'GET'])
+@mod_group.route("/group/", methods=['POST', 'GET'])
 def group():
     # create a group, group_type, group_owner
     try:

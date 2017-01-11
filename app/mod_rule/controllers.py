@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 
@@ -16,15 +16,7 @@ mod_rule = Blueprint('rule', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_rule.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
-@mod_rule.route("/<lang_code>/rule/", methods=['POST', 'GET'])
+@mod_rule.route("/rule/", methods=['POST', 'GET'])
 def rule():
     try:
         if request.method == 'POST':

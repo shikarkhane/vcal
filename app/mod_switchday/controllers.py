@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 
@@ -16,15 +16,7 @@ mod_switchday = Blueprint('switchday', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
-@mod_switchday.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
-@mod_switchday.route("/<lang_code>/switchday/", methods=['POST', 'GET'])
+@mod_switchday.route("/switchday/", methods=['POST', 'GET'])
 def rule():
     try:
         # todo show Term in the UI, people can choose to term and see the same info

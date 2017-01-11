@@ -1015,3 +1015,7 @@ Traceback (most recent call last):
 UnknownLocaleError: unknown locale u'st'
 2016-10-26 15:36:37,187 127.0.0.1 - - [26/Oct/2016 15:36:37] "GET /st/ HTTP/1.1" 200 -
 2016-10-26 15:36:41,236 127.0.0.1 - - [26/Oct/2016 15:36:41] "GET /sv/ HTTP/1.1" 200 -
+2017-01-11 14:38:48,598  * Running on http://127.0.0.1:8080/ (Press CTRL+C to quit)
+2017-01-11 14:38:48,606  * Restarting with stat
+2017-01-11 14:38:48,976  * Debugger is active!
+2017-01-11 14:38:49,002  * Debugger pin code: 288-761-499

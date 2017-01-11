@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 
 # Import the database object from the main app module
-from app import db, get_locale
+from app import db
 
 
 # Import module models (i.e. User)
@@ -19,19 +19,7 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 
 
 
-@mod_draft.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang  = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
 @mod_draft.route("/")
-def root():
-    return redirect("/sv/")
-
-@mod_draft.route("/<lang_code>/")
 def landing():
     try:
         return render_template('draft/landing.html')
@@ -39,7 +27,7 @@ def landing():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_draft.route("/<lang_code>/dashboard/<usertype>/")
+@mod_draft.route("/dashboard/<usertype>/")
 def dashboard(usertype):
     try:
         return render_template('draft/dashboard.html', usertype = usertype)
@@ -47,7 +35,7 @@ def dashboard(usertype):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_draft.route("/<lang_code>/template/<template>/")
+@mod_draft.route("/template/<template>/")
 def anytemplate(template):
     try:
         return render_template('draft/{0}.html'.format(template))

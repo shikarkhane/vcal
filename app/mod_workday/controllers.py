@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, abort, \
-    Blueprint, g
+    Blueprint
 import logging
 import json
 import datetime
 
 # Import the database object from the main app module
-from app import db, get_locale
+from app import db
 
 
 # Import module models (i.e. User)
@@ -19,17 +19,7 @@ mod_workday = Blueprint('workday', __name__)
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 
-
-@mod_workday.before_request
-def before():
-    if request.view_args and 'lang_code' in request.view_args:
-        if request.view_args['lang_code'] not in ('sv', 'en'):
-            return abort(404)
-        g.current_lang  = request.view_args['lang_code']
-        request.view_args.pop('lang_code')
-
-
-@mod_workday.route("/<lang_code>/workday/", methods=['GET','POST'])
+@mod_workday.route("/workday/", methods=['GET','POST'])
 def working_day():
     try:
         if request.method == 'POST':
@@ -56,7 +46,7 @@ def working_day():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/standinday/", methods=['GET', 'POST'])
+@mod_workday.route("/standinday/", methods=['GET', 'POST'])
 def standin_day():
     try:
         if request.method == 'POST':
@@ -84,7 +74,7 @@ def standin_day():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/summon/", methods=['GET','POST'])
+@mod_workday.route("/summon/", methods=['GET','POST'])
 def summon():
     try:
         if request.method == 'POST':
@@ -103,7 +93,7 @@ def summon():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
+@mod_workday.route("/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
 def showup(group_id, chosen_date):
     try:
         d = request.get_json()
@@ -136,7 +126,7 @@ def showup(group_id, chosen_date):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/<lang_code>/work-sign-up/<group_id>/", methods=['GET', 'POST'])
+@mod_workday.route("/work-sign-up/<group_id>/", methods=['GET', 'POST'])
 def worksignup(group_id):
     try:
         # todo do not let user deselect a chosen date X days from that date
