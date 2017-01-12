@@ -12,6 +12,7 @@ from app.mod_term.models import Term, Children
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_term = Blueprint('term', __name__)
 
+from app.common.util import AlchemyEncoder
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
@@ -41,7 +42,9 @@ def term():
 @mod_term.route("/term_details/<group_id>/", methods=['GET'])
 def term_details(group_id):
     try:
-        return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31'}])
+        r = Term.query.filter_by(group_id=group_id).all()
+        return json.dumps(r, cls=AlchemyEncoder)
+        #return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31', 'id': '1'}])
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
