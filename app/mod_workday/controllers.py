@@ -18,6 +18,7 @@ mod_workday = Blueprint('workday', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
+from app.common.util import AlchemyEncoder
 
 @mod_workday.route("/workday/", methods=['GET','POST'])
 def working_day():
@@ -74,19 +75,34 @@ def standin_day():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/summon/", methods=['GET','POST'])
-def summon():
+@mod_workday.route("/summon/<group_id>/", methods=['GET','POST'])
+def summon(group_id):
     try:
         if request.method == 'POST':
             d = request.get_json()
-            w = Summon(d['created_by_id'], d['group_id'],
+            w = Summon(d['created_by_id'], group_id,
                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
                        d['from_time'], d['to_time'])
             db.session.add(w)
             db.session.commit()
             return 'summon was saved'
         elif request.method == 'GET':
-            return render_template('workday/{0}.html'.format('summon'))
+            r = Summon.query.filter_by(group_id=group_id).all()
+            return json.dumps(r, cls=AlchemyEncoder)
+            #return render_template('workday/{0}.html'.format('summon'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/summon/<term_id>/", methods=['DELETE'])
+def delete_summon(term_id):
+    try:
+        if request.method == 'DELETE':
+            Summon.query.filter_by(id=term_id).delete()
+            db.session.commit()
+            return 'Deleted summon'
         else:
             return abort(404)
     except Exception, e:
