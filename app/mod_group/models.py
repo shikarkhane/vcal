@@ -18,4 +18,4 @@ class Group(Base):
         self.type_id = type_id
 
     def __repr__(self):
-        return '<User %r>' % (self.email)
+        return '<Group %r>' % (self.name)

@@ -17,6 +17,7 @@ mod_group = Blueprint('group', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
+from app.common.util import AlchemyEncoder
 
 @mod_group.route("/group/", methods=['POST', 'GET'])
 def group():
@@ -29,7 +30,9 @@ def group():
             db.session.commit()
             return 'group saved'
         elif request.method == 'GET':
-            return render_template('group/{0}.html'.format('group'))
+            r = Group.query.all()
+            return json.dumps(r, cls=AlchemyEncoder)
+            #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)
     except Exception, e:
