@@ -114,11 +114,11 @@ def delete_summon(term_id):
 @mod_workday.route("/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
 def showup(group_id, chosen_date):
     try:
-        d = request.get_json()
         gid = group_id
         dt = datetime.datetime.strptime(chosen_date, '%Y-%m-%d')
 
         if request.method == 'POST':
+            d = request.get_json()
             workday_users = d['workday_user_ids']
             standin_users = d['standin_user_ids']
 
@@ -136,8 +136,11 @@ def showup(group_id, chosen_date):
         elif request.method == 'GET':
             w = Workday.query.filter_by(group_id=gid, booking_date=dt).all()
             s = StandinDay.query.filter_by(group_id=gid, booking_date=dt).all()
-            # todo: get both standin and workday users for a given date
-            return render_template('workday/{0}.html'.format('show-ups'), workday_owners=[], standin_owners=[])
+            w_dumps = json.dumps(w, cls=AlchemyEncoder)
+            s_dumps = json.dumps(s, cls=AlchemyEncoder)
+            result = {'standin': json.loads(s_dumps), 'workday': json.loads(w_dumps)}
+            return json.dumps(result)
+            #return render_template('workday/{0}.html'.format('show-ups'), workday_owners=[], standin_owners=[])
         else:
             return abort(404)
     except Exception, e:
