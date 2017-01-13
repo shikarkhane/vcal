@@ -16,6 +16,8 @@ mod_member = Blueprint('member', __name__)
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
+from app.common.util import AlchemyEncoder
+
 @mod_member.route("/invite/", methods=['POST', 'GET'])
 def invite():
     # create a group, group_type, group_owner
@@ -38,12 +40,11 @@ def invite():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_member.route("/member/", methods=['POST', 'GET'])
-def member():
+@mod_member.route("/member/<group_id>/", methods=['POST', 'GET'])
+def member(group_id):
     try:
         if request.method == 'POST':
             d = request.get_json()
-            group_id = d['group_id']
 
             add_users = d['new_user_ids']
             for u in add_users:
@@ -57,10 +58,9 @@ def member():
             db.session.commit()
             return 'member list updated'
         elif request.method == 'GET':
-            #d = request.get_json()
-            #group_id = d['group_id']
-            #member_list = Member.query.filter_by(group_id=group_id).all()
-            return render_template('member/{0}.html'.format('member'))
+            m = Member.query.filter_by(group_id=group_id).all()
+            return json.dumps(m, cls=AlchemyEncoder)
+            #return render_template('member/{0}.html'.format('member'))
         else:
             return abort(404)
     except Exception, e:
