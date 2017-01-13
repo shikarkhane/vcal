@@ -20,8 +20,8 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 
 from app.common.util import AlchemyEncoder
 
-@mod_workday.route("/workday/", methods=['GET','POST'])
-def working_day():
+@mod_workday.route("/workday/<group_id>/", methods=['GET','POST'])
+def working_day(group_id):
     try:
         if request.method == 'POST':
             d = request.get_json()
@@ -31,7 +31,7 @@ def working_day():
             else:
                 standin_user_id = d['standin_user_id']
 
-            w = Workday(d['created_by_id'], d['group_id'],
+            w = Workday(d['created_by_id'], group_id,
                         datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
                          d['from_time'], d['to_time'], standin_user_id,
                         datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
@@ -40,7 +40,9 @@ def working_day():
             db.session.commit()
             return 'workday was saved'
         elif request.method == 'GET':
-            return render_template('workday/{0}.html'.format('work-day'))
+            r = Workday.query.filter_by(group_id=group_id).all()
+            return json.dumps(r, cls=AlchemyEncoder)
+            # return render_template('workday/{0}.html'.format('work-day'))
         else:
             return abort(404)
     except Exception, e:
