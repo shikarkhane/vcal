@@ -49,12 +49,12 @@ def term_details(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_term.route("/children/", methods=['GET', 'POST'])
-def children():
+@mod_term.route("/children/<term_id>/", methods=['GET', 'POST'])
+def children(term_id):
     try:
         if request.method == 'POST':
             d = request.get_json()
-            tid = d['term_id']
+            tid = term_id
             child_count = d['child_count']
             r = Children(tid, child_count)
             Children.query.filter_by(term_id=tid).delete()
@@ -62,7 +62,9 @@ def children():
             db.session.commit()
             return 'term child count saved'
         elif request.method == 'GET':
-            return render_template('term/{0}.html'.format('children'))
+            r = Children.query.filter_by(term_id=term_id).all()
+            return json.dumps(r, cls=AlchemyEncoder)
+            #return render_template('term/{0}.html'.format('children'))
         else:
             return abort(404)
     except Exception, e:
