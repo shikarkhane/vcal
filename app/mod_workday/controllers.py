@@ -187,6 +187,7 @@ def worksignup(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
+# open days should also list the ones available in Switch day list
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
