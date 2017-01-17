@@ -164,31 +164,62 @@ def worksignup(group_id):
             if is_taken:
                 q_user_id = user_id
 
+            dt = datetime.datetime.strptime(chosen_date, '%Y-%m-%d')
             if is_workday:
                 # todo: handle inside a db transaction
-                w = Workday.query.filter_by(group_id=gid, work_date=chosen_date,
-                                            standin_user_id=q_user_id).first()
+
+                w = Workday.query.filter_by(group_id=gid, work_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
                     db.session.commit()
             else:
-                w = StandinDay.query.filter_by(group_id=gid, standin_date=chosen_date,
-                                            standin_user_id=q_user_id).first()
+                w = StandinDay.query.filter_by(group_id=gid, standin_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
                     db.session.commit()
 
             return 'worksignup was saved'
-        elif request.method == 'GET':
-            user_id = 1
-            w = Workday.query.filter_by(group_id=gid, standin_user_id=None).all()
-            s = StandinDay.query.filter_by(group_id=gid, standin_user_id=None).all()
-            return render_template('workday/{0}.html'.format('work-sign-up'),
-                                   workday_owners=[], standin_owners=[])
         else:
             return abort(404)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+
+@mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
+def openworkday(group_id):
+    try:
+        w = Workday.query.filter_by(group_id=group_id, standin_user_id=None).all()
+        return json.dumps(w, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/openstandin/<group_id>/", methods=['GET'])
+def openstandin(group_id):
+    try:
+        s = StandinDay.query.filter_by(group_id=group_id, standin_user_id=None).all()
+        return json.dumps(s, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+@mod_workday.route("/myworkday/<group_id>/user/<user_id>/", methods=['GET'])
+def myworkday(group_id, user_id):
+    try:
+        w = Workday.query.filter_by(group_id=group_id, standin_user_id=user_id).all()
+        return json.dumps(w, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/mystandin/<group_id>/user/<user_id>/", methods=['GET'])
+def mystandin(group_id, user_id):
+    try:
+        s = StandinDay.query.filter_by(group_id=group_id, standin_user_id=user_id).all()
+        return json.dumps(s, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+
