@@ -35,7 +35,7 @@ def add_switchday(group_id, user_id):
             w = Switchday.query.filter_by(group_id=gid, switch_date=dt).first()
             if not w:
                 w = Switchday(group_id,
-                            datetime.datetime.strptime(d['switch_date'], '%Y-%m-%d').date(),
+                            datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d').date(),
                             d['from_time'], d['to_time'], user_id,
                             d['is_half_day'], is_workday)
                 db.session.add(w)
