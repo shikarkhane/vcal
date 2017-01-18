@@ -20,12 +20,13 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 from app.common.util import AlchemyEncoder
 
 @mod_switchday.route("/switchday/<group_id>/user/<user_id>/", methods=['GET', 'POST', 'DELETE'])
-def add_switchday(group_id, user_id):
+def manage(group_id, user_id):
     try:
         # todo do not let user deselect a chosen date X days from that date
         gid = group_id
 
         if request.method == 'POST':
+            # only used to offer own date for switching
             d = request.get_json()
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
@@ -54,6 +55,23 @@ def add_switchday(group_id, user_id):
             w = Switchday.query.filter_by(group_id=gid, switch_date=dt, standin_user_id=user_id).delete()
             db.session.commit()
             return 'switchday was deleted'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+@mod_switchday.route("/switchday/<group_id>/type/<show_workday>/", methods=['GET'])
+def open_switchday(group_id, show_workday):
+    try:
+        gid = group_id
+
+        if request.method == 'GET':
+            r = []
+            if show_workday:
+                r = Switchday.query.filter_by(group_id=group_id, is_work_day=True).all()
+            else:
+                r = Switchday.query.filter_by(group_id=group_id, is_work_day=False).all()
+            return json.dumps(r, cls=AlchemyEncoder)
         else:
             return abort(404)
     except Exception, e:
