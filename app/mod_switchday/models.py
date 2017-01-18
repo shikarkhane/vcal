@@ -3,28 +3,28 @@
 from app import db
 from app.common.models import Base
 
-# Define a User model
-class User(Base):
+class Switchday(Base):
 
-    __tablename__ = 'user'
+    __tablename__ = 'switchday'
 
-    # Identification Data: email & password
-    name = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(128),  nullable=False, unique=True)
-    password = db.Column(db.String(192),  nullable=True)
-    auth_token = db.Column(db.String(300), nullable=True)
-
-    # Authorisation Data: role & status
-    role     = db.Column(db.SmallInteger, nullable=False)
-    status   = db.Column(db.SmallInteger, nullable=False)
+    group_id = db.Column(db.Integer, nullable=False)
+    switch_date = db.Column(db.DateTime, nullable=False)
+    from_time_in_24hours = db.Column(db.String, default = '0900')
+    to_time_in_24hours = db.Column(db.String, default = '1630')
+    standin_user_id = db.Column(db.Integer, nullable=True)
+    is_half_day = db.Column(db.Boolean, nullable=False, default=False)
+    is_work_day = db.Column(db.Boolean, nullable=False, default=False)
 
     # New instance instantiation procedure
-    def __init__(self, name, email, password, token):
-
-        self.name     = email.split('@')[0]
-        self.email    = email
-        self.password = password
-        self.auth_token = token
+    def __init__(self, group_id, switch_date, from_time, to_time,
+                 standin_user_id, is_half_day, is_work_day):
+        self.group_id = group_id
+        self.switch_date = switch_date
+        self.from_time_in_24hours = from_time
+        self.to_time_in_24hours = to_time
+        self.standin_user_id = standin_user_id
+        self.is_half_day = is_half_day
+        self.is_work_day = is_work_day
 
     def __repr__(self):
-        return '<User %r>' % (self.email)
+        return '<Switch_date %r>' % (self.switch_date)
