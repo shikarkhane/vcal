@@ -7,7 +7,7 @@ import json
 from app import db
 
 
-from app.mod_member.models import Invite, Member
+from app.mod_member.models import Invite, Member, User
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_member = Blueprint('member', __name__)
@@ -17,6 +17,29 @@ mod_member = Blueprint('member', __name__)
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 from app.common.util import AlchemyEncoder
+
+
+@mod_member.route("/user/", methods=['POST', 'GET'])
+def register():
+    try:
+        if request.method == 'POST':
+            d = request.get_json()
+            u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
+            db.session.add(u)
+            db.session.flush()
+            db.session.refresh(u)
+            userId = u.id
+            db.session.commit()
+            return json.dumps({'userId': userId})
+        elif request.method == 'GET':
+            d = request.get_json()
+            res = User.query.filter_by(id=d['userId']).first()
+            return json.dumps(res, cls=AlchemyEncoder)
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
 
 @mod_member.route("/invite/", methods=['POST', 'GET'])
 def invite():

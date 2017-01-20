@@ -7,8 +7,6 @@ import json
 from app import db
 
 
-# Import module models (i.e. User)
-from app.mod_draft.models import User
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_draft = Blueprint('draft', __name__)
