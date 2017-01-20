@@ -24,13 +24,19 @@ def register():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
-            db.session.add(u)
-            db.session.flush()
-            db.session.refresh(u)
-            userId = u.id
+            res = User.query.filter_by(email=d['email']).first()
+            if not res:
+                u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
+                db.session.add(u)
+                db.session.flush()
+                db.session.refresh(u)
+                userid = u.id
+            else:
+                userid = res.id
+                res.auth_token = d['tokenId']
+                res.image_url = d['imageUrl']
             db.session.commit()
-            return json.dumps({'userId': userId})
+            return json.dumps({'userId': userid})
         elif request.method == 'GET':
             d = request.get_json()
             res = User.query.filter_by(id=d['userId']).first()
