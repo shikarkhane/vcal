@@ -9,12 +9,14 @@ class Rule(Base):
     __tablename__ = 'rule'
 
     # Identification Data: email & password
-    group_id = db.Column(db.Integer, nullable=False, unique=True)
+    group_id = db.Column(db.Integer, nullable=False)
+    term_id = db.Column(db.Integer, nullable=False)
     definition = db.Column(db.String, nullable=False)
 
     # New instance instantiation procedure
-    def __init__(self, group_id, definition):
+    def __init__(self, group_id, term_id, definition):
         self.group_id     = group_id
+        self.term_id = term_id
         self.definition    = definition
 
     def __repr__(self):

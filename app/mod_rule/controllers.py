@@ -18,22 +18,22 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 
 from app.common.util import AlchemyEncoder
 
-@mod_rule.route("/rule/<group_id>/", methods=['POST', 'GET'])
-def rule(group_id):
+@mod_rule.route("/rule/<group_id>/term/<term_id>/", methods=['POST', 'GET'])
+def rule(group_id, term_id):
     try:
         if request.method == 'POST':
             d = request.get_json()
             gid = group_id
             rule_definition = d['definition']
-            r = Rule(gid, json.dumps(rule_definition))
-            Rule.query.filter_by(group_id=gid).delete()
+            r = Rule(gid, term_id, json.dumps(rule_definition))
+            Rule.query.filter_by(group_id=gid, term_id=term_id).delete()
             db.session.add(r)
             db.session.commit()
             return 'rule saved'
         elif request.method == 'GET':
-            r = Rule.query.filter_by(group_id=group_id).first()
+            r = Rule.query.filter_by(group_id=group_id, term_id=term_id).first()
             if not r:
-                return json.dumps([])
+                return json.dumps({})
             return json.dumps(r, cls=AlchemyEncoder)
             #return render_template('rule/{0}.html'.format('rule'))
         else:
