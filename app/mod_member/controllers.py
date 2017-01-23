@@ -31,12 +31,16 @@ def register():
                 db.session.flush()
                 db.session.refresh(u)
                 userid = u.id
+                role = u.role
+                isActive = u.is_active
             else:
                 userid = res.id
+                role = res.role
+                isActive = res.is_active
                 res.auth_token = d['tokenId']
                 res.image_url = d['imageUrl']
             db.session.commit()
-            return json.dumps({'userId': userid})
+            return json.dumps({'userId': userid, 'role': role, 'isActive': isActive})
         elif request.method == 'GET':
             d = request.get_json()
             res = User.query.filter_by(id=d['userId']).first()
