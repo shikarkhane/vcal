@@ -4,7 +4,7 @@ import logging
 import json
 
 # Import the database object from the main app module
-from app import db
+from app import db, engine
 
 
 # Import module models (i.e. User)
@@ -25,13 +25,12 @@ def group():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            g = Group(d['name'], d['type_id'])
-            db.session.add(g)
-            db.session.commit()
+            g = Group(d['name'], int(d['type_id']))
+            engine.save(g)
             return 'group saved'
         elif request.method == 'GET':
-            r = Group.query.all()
-            return json.dumps(r, cls=AlchemyEncoder)
+            r = engine.query(Group).all()
+            return json.dumps(r)
             #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)

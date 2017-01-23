@@ -36,3 +36,31 @@ def notify_admin_unfilled_days():
 def notify_admin_if_next_term_missing():
     # notify admin if current term has 1 month left in it, and next term is missing
     logging.info('notify_admin_if_next_term_missing')
+
+
+# Take care of some imports
+from datetime import datetime
+from flywheel import Model, Field, Engine
+
+# Set up our data model
+class Tweet(Model):
+    userid = Field(hash_key=True)
+    id = Field(range_key=True)
+    ts = Field(type=datetime, index='ts-index')
+    text = Field()
+
+    def __init__(self, userid, id, ts, text):
+        self.userid = userid
+        self.id = id
+        self.ts = ts
+        self.text = text
+
+# Create an engine and connect to an AWS region
+engine = Engine()
+engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy', is_secure=False, session = None)
+
+# Register our model with the engine so it can create the Dynamo table
+engine.register(Tweet)
+
+# Create the dynamo table for our registered model
+engine.create_schema()

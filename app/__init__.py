@@ -3,6 +3,12 @@ from flask import Flask, render_template
 # Import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
+from flywheel import Engine
+
+#dynamodb move
+engine = Engine()
+engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy',
+               is_secure=False, session = None)
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -43,3 +49,11 @@ app.register_blueprint(switchday_module)
 # This will create the database file using SQLAlchemy
 
 db.create_all()
+
+from app.mod_group.models import Group
+# Register our model with the engine so it can create the Dynamo table
+engine.register(Group)
+# Create the dynamo table for our registered model
+
+engine.create_schema()
+
