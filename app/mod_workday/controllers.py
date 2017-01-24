@@ -120,18 +120,18 @@ def showup(group_id, chosen_date):
 
             # update has_worked flag, if user and booking date matches
             for wu in workday_users:
-                r = Workday.query.filter_by(group_id=gid, standin_user_id=wu, booking_date=dt).all()
+                r = engine.query(Workday).filter_by(group_id=gid, standin_user_id=wu, booking_date=dt).all()
                 if r:
                     r.has_worked = True
             for su in standin_users:
-                q = StandinDay.query.filter_by(group_id=gid, standin_user_id=su, booking_date=dt).all()
+                q = engine.query(StandinDay).filter_by(group_id=gid, standin_user_id=su, booking_date=dt).all()
                 if q:
                     q.has_worked = True
 
             return 'showup was saved'
         elif request.method == 'GET':
-            w = Workday.query.filter_by(group_id=gid, booking_date=dt).all()
-            s = StandinDay.query.filter_by(group_id=gid, booking_date=dt).all()
+            w = engine.query(Workday).filter_by(group_id=gid, booking_date=dt).all()
+            s = engine.query(StandinDay).filter_by(group_id=gid, booking_date=dt).all()
             w_dumps = json.dumps(w, cls=AlchemyEncoder)
             s_dumps = json.dumps(s, cls=AlchemyEncoder)
             result = {'standin': json.loads(s_dumps), 'workday': json.loads(w_dumps)}
@@ -164,17 +164,17 @@ def worksignup(group_id):
             if is_workday:
                 # todo: handle inside a db transaction
 
-                w = Workday.query.filter_by(group_id=gid, work_date=dt).first()
+                w = engine.query(Workday).filter_by(group_id=gid, work_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
-                    db.session.commit()
+                    engine.sync(w)
             else:
-                w = StandinDay.query.filter_by(group_id=gid, standin_date=dt).first()
+                w = engine.query(StandinDay).filter_by(group_id=gid, standin_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = datetime.datetime.utcnow()
-                    db.session.commit()
+                    engine.sync(w)
 
             return 'worksignup was saved'
         else:
@@ -187,7 +187,7 @@ def worksignup(group_id):
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
-        w = Workday.query.filter_by(group_id=group_id, standin_user_id=None).all()
+        w = engine.query(Workday).filter_by(group_id=group_id, standin_user_id=None).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -196,7 +196,7 @@ def openworkday(group_id):
 @mod_workday.route("/openstandin/<group_id>/", methods=['GET'])
 def openstandin(group_id):
     try:
-        s = StandinDay.query.filter_by(group_id=group_id, standin_user_id=None).all()
+        s = engine.query(StandinDay).filter_by(group_id=group_id, standin_user_id=None).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -204,7 +204,7 @@ def openstandin(group_id):
 @mod_workday.route("/myworkday/<group_id>/user/<user_id>/", methods=['GET'])
 def myworkday(group_id, user_id):
     try:
-        w = Workday.query.filter_by(group_id=group_id, standin_user_id=user_id).all()
+        w = engine.query(Workday).filter_by(group_id=group_id, standin_user_id=user_id).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -213,7 +213,7 @@ def myworkday(group_id, user_id):
 @mod_workday.route("/mystandin/<group_id>/user/<user_id>/", methods=['GET'])
 def mystandin(group_id, user_id):
     try:
-        s = StandinDay.query.filter_by(group_id=group_id, standin_user_id=user_id).all()
+        s = engine.query(StandinDay).filter_by(group_id=group_id, standin_user_id=user_id).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
