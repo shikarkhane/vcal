@@ -4,7 +4,7 @@ import logging
 import json
 
 # Import the database object from the main app module
-from app import db
+from app import engine
 
 
 from app.mod_member.models import Invite, Member, User
@@ -27,9 +27,7 @@ def register():
             res = User.query.filter_by(email=d['email']).first()
             if not res:
                 u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
-                db.session.add(u)
-                db.session.flush()
-                db.session.refresh(u)
+                engine.save(u)
                 userid = u.id
                 role = u.role
                 isActive = u.is_active
@@ -39,7 +37,7 @@ def register():
                 isActive = res.is_active
                 res.auth_token = d['tokenId']
                 res.image_url = d['imageUrl']
-            db.session.commit()
+                engine.sync(res)
             return json.dumps({'userId': userid, 'role': role, 'isActive': isActive})
         elif request.method == 'GET':
             d = request.get_json()
@@ -62,8 +60,7 @@ def invite():
             for email in emails:
                 # todo: add random token number/string
                 inv = Invite(email, gid, '1')
-                db.session.add(inv)
-            db.session.commit()
+                engine.save(inv)
             return 'invite list saved'
         elif request.method == 'GET':
             return render_template('member/{0}.html'.format('invite'))
@@ -82,16 +79,14 @@ def member(group_id):
             add_users = d['new_user_ids']
             for u in add_users:
                 x = Member(group_id, u)
-                db.session.add(x)
-            db.session.commit()
+                engine.save(x)
 
             removed_ids = d['removed_member_ids']
             for rid in removed_ids:
-                Member.query.filter_by(id=rid).delete()
-            db.session.commit()
+                engine.query(Member).filter_by(id=rid).delete()
             return 'member list updated'
         elif request.method == 'GET':
-            m = Member.query.filter_by(group_id=group_id).all()
+            m = engine.query(Member).filter_by(group_id=group_id).all()
             return json.dumps(m, cls=AlchemyEncoder)
             #return render_template('member/{0}.html'.format('member'))
         else:
@@ -111,8 +106,7 @@ def joingroup(invite_code):
             user_id = d['group_id']
 
             x = Member(group_id, user_id)
-            db.session.add(x)
-            db.session.commit()
+            engine.save(x)
 
             return 'Joined group'
         else:

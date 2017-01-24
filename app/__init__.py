@@ -1,8 +1,6 @@
 # Import flask and template operators
-from flask import Flask, render_template
-# Import SQLAlchemy
-from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS, cross_origin
+from flask import Flask
+from flask_cors import CORS
 from flywheel import Engine
 
 #dynamodb move
@@ -17,10 +15,6 @@ CORS(app)
 # Configurations
 app.config.from_object('config')
 
-
-# Define the database object which is imported
-# by modules and controllers
-db = SQLAlchemy(app)
 
 
 # Import a module / component using its blueprint handler variable (mod_group)
@@ -48,7 +42,6 @@ app.register_blueprint(switchday_module)
 # Build the database:
 # This will create the database file using SQLAlchemy
 
-db.create_all()
 
 from app.mod_group.models import Group
 # Register our model with the engine so it can create the Dynamo table

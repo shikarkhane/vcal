@@ -1,13 +1,11 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from app import db
 
-from flywheel import Model, Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING
+from app.common.models import DyBase
 
-
-from app.common.models import Base, DyBase
 # Define a User model
-class Group(Model):
+class Group(DyBase):
 
     __tablename__ = 'group'
 

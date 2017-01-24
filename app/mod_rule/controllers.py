@@ -4,7 +4,7 @@ import logging
 import json
 
 # Import the database object from the main app module
-from app import db
+from app import engine
 
 
 from app.mod_rule.models import Rule
@@ -26,12 +26,11 @@ def rule(group_id, term_id):
             gid = group_id
             rule_definition = d['definition']
             r = Rule(gid, term_id, json.dumps(rule_definition))
-            Rule.query.filter_by(group_id=gid, term_id=term_id).delete()
-            db.session.add(r)
-            db.session.commit()
+            engine.query(Rule).filter_by(group_id=gid, term_id=term_id).delete()
+            engine.save(r, overwrite=True)
             return 'rule saved'
         elif request.method == 'GET':
-            r = Rule.query.filter_by(group_id=group_id, term_id=term_id).first()
+            r = engine.query(Rule).filter_by(group_id=group_id, term_id=term_id).first()
             if not r:
                 return json.dumps({})
             return json.dumps(r, cls=AlchemyEncoder)

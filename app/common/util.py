@@ -1,13 +1,14 @@
 import json
 import datetime
 
-from sqlalchemy.ext.declarative import DeclarativeMeta
+from flywheel.model_meta import ModelMetaclass
+
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj.__class__, DeclarativeMeta):
+        if isinstance(obj.__class__, ModelMetaclass):
             # an SQLAlchemy class
             fields = {}
-            for field in [x for x in dir(obj) if not x.startswith('_') and x != 'metadata']:
+            for field in [x for x in dir(obj) if not x.startswith('_') and not x.endswith('_') and x != 'metadata']:
                 data = obj.__getattribute__(field)
                 try:
                     if isinstance(data, datetime.date):

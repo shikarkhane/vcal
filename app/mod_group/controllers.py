@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, abort, \
+from flask import render_template, request, abort, \
     Blueprint
 import logging
 import json
 
 # Import the database object from the main app module
-from app import db, engine
+from app import engine
 
 
 # Import module models (i.e. User)
@@ -29,8 +29,11 @@ def group():
             engine.save(g)
             return 'group saved'
         elif request.method == 'GET':
-            r = engine.query(Group).all()
-            return json.dumps(r)
+            r = engine.scan(Group).gen()
+            x = []
+            for i in r:
+                x.append(i)
+            return json.dumps(x, cls=AlchemyEncoder)
             #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)

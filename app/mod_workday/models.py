@@ -1,21 +1,22 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from app import db
-from app.common.models import Base
 
-class Workday(Base):
+from flywheel import Field, NUMBER, STRING
+from app.common.models import DyBase
+
+class Workday(DyBase):
 
     __tablename__ = 'workday'
 
-    group_id = db.Column(db.Integer, nullable=False)
-    work_date = db.Column(db.DateTime, nullable=False)
-    from_time_in_24hours = db.Column(db.String, default = '0900')
-    to_time_in_24hours = db.Column(db.String, default = '1630')
-    creator_user_id = db.Column(db.Integer, nullable=False)
-    standin_user_id = db.Column(db.Integer, nullable=True)
-    booking_date = db.Column(db.DateTime, nullable=False)
-    is_half_day = db.Column(db.Boolean, nullable=False, default=False)
-    has_worked = db.Column(db.Boolean, nullable=False, default=False)
+    group_id = Field(data_type=NUMBER, nullable=False)
+    work_date = Field(data_type=NUMBER, nullable=False)
+    from_time_in_24hours = Field(data_type=STRING, default = '0900')
+    to_time_in_24hours = Field(data_type=STRING, default = '1630')
+    creator_user_id = Field(data_type=NUMBER, nullable=False)
+    standin_user_id = Field(data_type=NUMBER, nullable=True)
+    booking_date = Field(data_type=NUMBER, nullable=False)
+    is_half_day = Field(data_type=NUMBER, nullable=False, default=False)
+    has_worked = Field(data_type=NUMBER, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, creator_user_id, group_id, work_date, from_time, to_time,
@@ -31,15 +32,15 @@ class Workday(Base):
 
     def __repr__(self):
         return '<Work_date %r>' % (self.work_date)
-class StandinDay(Base):
+class StandinDay(DyBase):
 
     __tablename__ = 'standinday'
 
-    group_id = db.Column(db.Integer, nullable=False)
-    standin_date = db.Column(db.DateTime, nullable=False)
-    standin_user_id = db.Column(db.Integer, nullable=True)
-    booking_date = db.Column(db.DateTime, nullable=False)
-    has_worked = db.Column(db.Boolean, nullable=False, default=False)
+    group_id = Field(data_type=NUMBER, nullable=False)
+    standin_date = Field(data_type=NUMBER, nullable=False)
+    standin_user_id = Field(data_type=NUMBER, nullable=True)
+    booking_date = Field(data_type=NUMBER, nullable=False)
+    has_worked = Field(data_type=NUMBER, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, standin_date, standin_user_id, booking_date):
@@ -52,15 +53,15 @@ class StandinDay(Base):
         return '<standin_date %r>' % (self.standin_date)
 
 
-class Summon(Base):
+class Summon(DyBase):
 
     __tablename__ = 'summon'
 
-    created_by_id = db.Column(db.Integer, nullable=False)
-    group_id = db.Column(db.Integer, nullable=False)
-    work_date = db.Column(db.DateTime, nullable=False)
-    from_time_in_24hours = db.Column(db.String, default = '0900')
-    to_time_in_24hours = db.Column(db.String, default = '1630')
+    created_by_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=NUMBER, nullable=False)
+    work_date = Field(data_type=NUMBER, nullable=False)
+    from_time_in_24hours = Field(data_type=STRING, default = '0900')
+    to_time_in_24hours = Field(data_type=STRING, default = '1630')
 
     # New instance instantiation procedure
     def __init__(self, created_by_id, group_id, work_date, from_time, to_time):

@@ -1,19 +1,20 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from app import db
-from app.common.models import Base
+from flywheel import Field, NUMBER, STRING
+from app.common.models import DyBase
 
-class Switchday(Base):
+
+class Switchday(DyBase):
 
     __tablename__ = 'switchday'
 
-    group_id = db.Column(db.Integer, nullable=False)
-    switch_date = db.Column(db.DateTime, nullable=False)
-    from_time_in_24hours = db.Column(db.String, default = '0900')
-    to_time_in_24hours = db.Column(db.String, default = '1630')
-    standin_user_id = db.Column(db.Integer, nullable=True)
-    is_half_day = db.Column(db.Boolean, nullable=False, default=False)
-    is_work_day = db.Column(db.Boolean, nullable=False, default=False)
+    group_id = Field(data_type=NUMBER, nullable=False)
+    switch_date = Field(data_type=NUMBER, nullable=False)
+    from_time_in_24hours = Field(data_type=STRING, default = '0900')
+    to_time_in_24hours = Field(data_type=STRING, default = '1630')
+    standin_user_id = Field(data_type=NUMBER, nullable=True)
+    is_half_day = Field(data_type=NUMBER, nullable=False, default=False)
+    is_work_day = Field(data_type=NUMBER, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, switch_date, from_time, to_time,

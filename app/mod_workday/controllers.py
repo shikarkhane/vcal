@@ -5,7 +5,7 @@ import json
 import datetime
 
 # Import the database object from the main app module
-from app import db
+from app import engine
 
 
 # Import module models (i.e. User)
@@ -36,11 +36,10 @@ def working_day(group_id):
                          d['from_time'], d['to_time'], standin_user_id,
                         datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
                         d['is_half_day'])
-            db.session.add(w)
-            db.session.commit()
+            engine.save(w)
             return 'workday was saved'
         elif request.method == 'GET':
-            r = Workday.query.filter_by(group_id=group_id).all()
+            r = engine.query(Workday).filter_by(group_id=group_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
             # return render_template('workday/{0}.html'.format('work-day'))
         else:
@@ -65,11 +64,10 @@ def standin_day():
                         datetime.datetime.strptime(d['standin_date'], '%Y-%m-%d').date(),
                         standin_user_id,
                         datetime.datetime.strptime(d['booking_date'], '%Y-%m-%d').date(),)
-            db.session.add(w)
-            db.session.commit()
+            engine.save(w)
             return 'standin day was saved'
         elif request.method == 'GET':
-            vacant_dates = StandinDay.query.filter_by(standin_user_id=None).all()
+            vacant_dates = engine.query(StandinDay).filter_by(standin_user_id=None).all()
             return json.dumps(vacant_dates)
         else:
             return abort(404)
@@ -85,11 +83,10 @@ def summon(group_id):
             w = Summon(d['created_by_id'], group_id,
                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
                        d['from_time'], d['to_time'])
-            db.session.add(w)
-            db.session.commit()
+            engine.save(w)
             return 'summon was saved'
         elif request.method == 'GET':
-            r = Summon.query.filter_by(group_id=group_id).all()
+            r = engine.query(Summon).filter_by(group_id=group_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
             #return render_template('workday/{0}.html'.format('summon'))
         else:
@@ -102,8 +99,7 @@ def summon(group_id):
 def delete_summon(term_id):
     try:
         if request.method == 'DELETE':
-            Summon.query.filter_by(id=term_id).delete()
-            db.session.commit()
+            engine.query(Summon).filter_by(id=term_id).delete()
             return 'Deleted summon'
         else:
             return abort(404)

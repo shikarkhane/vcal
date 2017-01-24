@@ -1,18 +1,18 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from app import db
-from app.common.models import Base
+from app.common.models import DyBase
+from flywheel import Field, NUMBER
 
 # Define a User model
 
-class PublicHoliday(Base):
+class PublicHoliday(DyBase):
 
     __tablename__ = 'public_holiday'
 
-    # date
-    holiday_date    = db.Column(db.DateTime,  nullable=False)
+    # dateField(data_type=STRING, hash_key=True)
+    holiday_date    = Field(data_type=NUMBER,  nullable=False)
     # full day or half day
-    is_halfday   = db.Column(db.SmallInteger, nullable=False)
+    is_halfday   = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure
     def __init__(self, date, is_halfday):
