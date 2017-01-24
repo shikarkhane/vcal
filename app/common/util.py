@@ -1,5 +1,5 @@
 import json
-import datetime
+#import datetime
 
 from flywheel.model_meta import ModelMetaclass
 
@@ -11,9 +11,9 @@ class AlchemyEncoder(json.JSONEncoder):
             for field in [x for x in dir(obj) if not x.startswith('_') and not x.endswith('_') and x != 'metadata']:
                 data = obj.__getattribute__(field)
                 try:
-                    if isinstance(data, datetime.date):
-                        x = data
-                        data = datetime.datetime.strftime(data, '%Y-%m-%d')
+                    # if isinstance(data, datetime.date):
+                    #     x = data
+                    #     data = datetime.datetime.strftime(data, '%Y-%m-%d')
                     json.dumps(data) # this will fail on non-encodable values, like other classes
                     fields[field] = data
                 except TypeError:

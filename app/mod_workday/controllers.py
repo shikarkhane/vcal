@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, abort, \
     Blueprint
 import logging
 import json
-import datetime
-
+#import datetime
+import time
 # Import the database object from the main app module
 from app import engine
 
@@ -32,9 +32,9 @@ def working_day(group_id):
                 standin_user_id = d['standin_user_id']
 
             w = Workday(d['created_by_id'], group_id,
-                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
+                        d['work_date'],
                          d['from_time'], d['to_time'], standin_user_id,
-                        datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
+                        d['work_date'],
                         d['is_half_day'])
             engine.save(w)
             return 'workday was saved'
@@ -61,9 +61,9 @@ def standin_day():
                 standin_user_id = d['standin_user_id']
 
             w = StandinDay( d['group_id'],
-                        datetime.datetime.strptime(d['standin_date'], '%Y-%m-%d').date(),
+                        d['standin_date'],
                         standin_user_id,
-                        datetime.datetime.strptime(d['booking_date'], '%Y-%m-%d').date(),)
+                        d['booking_date'])
             engine.save(w)
             return 'standin day was saved'
         elif request.method == 'GET':
@@ -81,7 +81,7 @@ def summon(group_id):
         if request.method == 'POST':
             d = request.get_json()
             w = Summon(d['created_by_id'], group_id,
-                       datetime.datetime.strptime(d['work_date'], '%Y-%m-%d').date(),
+                       d['work_date'],
                        d['from_time'], d['to_time'])
             engine.save(w)
             return 'summon was saved'
@@ -111,7 +111,7 @@ def delete_summon(term_id):
 def showup(group_id, chosen_date):
     try:
         gid = group_id
-        dt = datetime.datetime.strptime(chosen_date, '%Y-%m-%d')
+        dt = chosen_date
 
         if request.method == 'POST':
             d = request.get_json()
@@ -160,20 +160,20 @@ def worksignup(group_id):
             if is_taken:
                 q_user_id = user_id
 
-            dt = datetime.datetime.strptime(chosen_date, '%Y-%m-%d')
+            dt = chosen_date
             if is_workday:
                 # todo: handle inside a db transaction
 
                 w = engine.query(Workday).filter_by(group_id=gid, work_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
-                    w.booking_date = datetime.datetime.utcnow()
+                    w.booking_date = int(time.time())
                     engine.sync(w)
             else:
                 w = engine.query(StandinDay).filter_by(group_id=gid, standin_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
-                    w.booking_date = datetime.datetime.utcnow()
+                    w.booking_date = int(time.time())
                     engine.sync(w)
 
             return 'worksignup was saved'

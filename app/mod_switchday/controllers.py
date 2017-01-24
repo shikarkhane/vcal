@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, abort, \
     Blueprint
 import logging
 import json
-import datetime
+#import datetime
 
 # Import the database object from the main app module
 from app import engine
@@ -31,12 +31,12 @@ def manage(group_id, user_id):
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
 
-            dt = datetime.datetime.strptime(chosen_date, '%Y-%m-%d')
+            dt = chosen_date
             # todo: handle inside a db transaction
             w = engine.query(Switchday).filter_by(group_id=gid, switch_date=dt).first()
             if not w:
                 w = Switchday(group_id,
-                            datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d').date(),
+                            d['chosen_date'].date(),
                             d['from_time'], d['to_time'], user_id,
                             d['is_half_day'], is_workday)
                 engine.save(w)
@@ -48,7 +48,7 @@ def manage(group_id, user_id):
             return json.dumps(r, cls=AlchemyEncoder)
         elif request.method == 'DELETE':
             d = request.get_json()
-            dt = datetime.datetime.strptime(d['chosen_date'], '%Y-%m-%d')
+            dt = d['chosen_date']
 
             w = engine.query(Switchday).filter_by(group_id=gid, switch_date=dt, standin_user_id=user_id).delete()
             return 'switchday was deleted'

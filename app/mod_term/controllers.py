@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, abort, \
     Blueprint
 import logging
 import json
-import datetime
+#import datetime
 # Import the database object from the main app module
 from app import engine
 
@@ -25,8 +25,8 @@ def term():
             d = request.get_json()
             gid = d['group_id']
             name = d['term_name']
-            start_dt = datetime.datetime.strptime(d['start_date'], '%Y-%m-%d').date()
-            end_dt = datetime.datetime.strptime(d['end_date'], '%Y-%m-%d').date()
+            start_dt = d['start_date']
+            end_dt = d['end_date']
             family_spread = json.dumps(d['family_spread'])
             r = Term(gid, name, start_dt, end_dt, family_spread)
             engine.save(r)
