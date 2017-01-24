@@ -8,6 +8,11 @@ class DyBase(Model):
 
     __abstract__  = True
 
-    id            = Field(data_type=NUMBER)
-    date_created  = Field(NUMBER,  default=int(time.time()))
-    date_modified = Field(NUMBER,  default=int(time.time()))
+    id            = Field(data_type=NUMBER, hash_key=True)
+    date_created  = Field(data_type=NUMBER)
+    date_modified = Field(data_type=NUMBER)
+
+    def __init__(self):
+        self.id = int(time.time())
+        self.date_created = int(time.time())
+        self.date_modified = int(time.time())

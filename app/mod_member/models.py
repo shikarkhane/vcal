@@ -14,6 +14,7 @@ class Invite(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, email, group_id, invite_token):
+        super(Invite, self).__init__()
         self.email = email
         self.group_id = group_id
         self.invite_token = invite_token
@@ -30,6 +31,7 @@ class Member(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, group_id, user_id):
+        super(Member, self).__init__()
         self.group_id = group_id
         self.user_id = user_id
 
@@ -44,7 +46,7 @@ class User(DyBase):
     name = Field(data_type=STRING, nullable=False)
     given_name = Field(data_type=STRING, nullable=False)
     family_name = Field(data_type=STRING, nullable=False)
-    email = Field(data_type=STRING,  nullable=False, unique=True)
+    email = Field(data_type=STRING,  nullable=False)
     password = Field(data_type=STRING,  nullable=True)
     auth_token = Field(data_type=STRING, nullable=True)
     image_url = Field(data_type=STRING, nullable=True)
@@ -55,7 +57,7 @@ class User(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, name, givenName, familyName, email, password, token, imageUrl):
-
+        super(User, self).__init__()
         self.name     = name
         self.given_name = givenName
         self.family_name = familyName

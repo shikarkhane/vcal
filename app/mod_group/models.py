@@ -10,10 +10,11 @@ class Group(DyBase):
     __tablename__ = 'group'
 
     # Identification Data: email & password
-    name = Field(data_type=STRING, hash_key=True)
+    name = Field(data_type=STRING)
     type_id = Field(data_type=NUMBER)
     # New instance instantiation procedure
     def __init__(self, name, type_id):
+        super(Group, self).__init__()
         self.name     = name
         self.type_id = type_id
 

@@ -15,6 +15,7 @@ class Term(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, group_id, name, start_dt, end_dt, family_spread):
+        super(Term, self).__init__()
         self.group_id     = group_id
         self.name    = name
         self.start_date  =start_dt
@@ -33,6 +34,7 @@ class Children(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, term_id, child_count):
+        super(Children, self).__init__()
         self.term_id     = term_id
         self.child_count    = child_count
 

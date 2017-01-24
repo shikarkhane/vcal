@@ -15,6 +15,7 @@ class Rule(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, group_id, term_id, definition):
+        super(Rule, self).__init__()
         self.group_id     = group_id
         self.term_id = term_id
         self.definition    = definition

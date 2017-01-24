@@ -21,6 +21,7 @@ class Workday(DyBase):
     # New instance instantiation procedure
     def __init__(self, creator_user_id, group_id, work_date, from_time, to_time,
                  standin_user_id, booking_date, is_half_day):
+        super(Workday, self).__init__()
         self.creator_user_id = creator_user_id
         self.group_id = group_id
         self.work_date = work_date
@@ -44,6 +45,7 @@ class StandinDay(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, group_id, standin_date, standin_user_id, booking_date):
+        super(StandinDay, self).__init__()
         self.group_id = group_id
         self.standin_date = standin_date
         self.standin_user_id = standin_user_id
@@ -65,6 +67,7 @@ class Summon(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, created_by_id, group_id, work_date, from_time, to_time):
+        super(Summon, self).__init__()
         self.created_by_id = created_by_id
         self.group_id = group_id
         self.work_date = work_date

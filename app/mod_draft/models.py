@@ -16,7 +16,7 @@ class PublicHoliday(DyBase):
 
     # New instance instantiation procedure
     def __init__(self, date, is_halfday):
-
+        super(PublicHoliday, self).__init__()
         self.holiday_date  = date
         self.is_halfday    = is_halfday
 

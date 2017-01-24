@@ -19,6 +19,7 @@ class Switchday(DyBase):
     # New instance instantiation procedure
     def __init__(self, group_id, switch_date, from_time, to_time,
                  standin_user_id, is_half_day, is_work_day):
+        super(Switchday, self).__init__()
         self.group_id = group_id
         self.switch_date = switch_date
         self.from_time_in_24hours = from_time

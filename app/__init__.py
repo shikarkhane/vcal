@@ -43,9 +43,19 @@ app.register_blueprint(switchday_module)
 # This will create the database file using SQLAlchemy
 
 
+from app.mod_draft.models import PublicHoliday
 from app.mod_group.models import Group
+from app.mod_member.models import Invite, Member, User
+from app.mod_rule.models import Rule
+from app.mod_switchday.models import Switchday
+from app.mod_term.models import Children, Term
+from app.mod_workday.models import StandinDay, Summon, Workday
+
+
+engine.delete_schema()
+
 # Register our model with the engine so it can create the Dynamo table
-engine.register(Group)
+engine.register(PublicHoliday, Group, Invite, Member, User, Rule, Switchday, Children, Term, StandinDay, Summon, Workday)
 # Create the dynamo table for our registered model
 
 engine.create_schema()
