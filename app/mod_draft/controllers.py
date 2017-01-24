@@ -25,22 +25,6 @@ def landing():
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_draft.route("/dashboard/<usertype>/")
-def dashboard(usertype):
-    try:
-        return render_template('draft/dashboard.html', usertype = usertype)
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
-
-@mod_draft.route("/template/<template>/")
-def anytemplate(template):
-    try:
-        return render_template('draft/{0}.html'.format(template))
-    except Exception, e:
-        logging.exception(e)
-        return render_template("oops.html")
-
 # @mod_draft.route("/<lang_code>/register/", methods=['POST'])
 # def register():
 #     # full name, token, password, is_gmail, creation_date, phone numbers

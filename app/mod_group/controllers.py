@@ -29,11 +29,8 @@ def group():
             engine.save(g)
             return 'group saved'
         elif request.method == 'GET':
-            r = engine.scan(Group).gen()
-            x = []
-            for i in r:
-                x.append(i)
-            return json.dumps(x, cls=AlchemyEncoder)
+            r = engine.scan(Group).all()
+            return json.dumps(r, cls=AlchemyEncoder)
             #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)
