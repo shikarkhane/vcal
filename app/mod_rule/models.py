@@ -1,12 +1,17 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
-from flywheel import Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING, GlobalIndex
 from app.common.models import DyBase
 
 # Define a User model
 class Rule(DyBase):
 
     __tablename__ = 'rule'
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'group_id', 'term_id').throughput(read=10, write=2),
+        ],
+    }
 
     # Identification Data: email & password
     group_id = Field(data_type=NUMBER, nullable=False)

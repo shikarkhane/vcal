@@ -1,14 +1,19 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 
-from flywheel import Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING, GlobalIndex
 from app.common.models import DyBase
 
 class Workday(DyBase):
 
     __tablename__ = 'workday'
-
-    group_id = Field(data_type=NUMBER, nullable=False)
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'work_date').throughput(read=10, write=2),
+        ],
+    }
+    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     work_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')
@@ -36,8 +41,13 @@ class Workday(DyBase):
 class StandinDay(DyBase):
 
     __tablename__ = 'standinday'
-
-    group_id = Field(data_type=NUMBER, nullable=False)
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'standin_date').throughput(read=10, write=2),
+        ],
+    }
+    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     standin_date = Field(data_type=NUMBER, nullable=False)
     standin_user_id = Field(data_type=NUMBER, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
@@ -58,9 +68,13 @@ class StandinDay(DyBase):
 class Summon(DyBase):
 
     __tablename__ = 'summon'
-
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'standin_user_id').throughput(read=10, write=2),
+        ],
+    }
     created_by_id = Field(data_type=NUMBER, nullable=False)
-    group_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     work_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')

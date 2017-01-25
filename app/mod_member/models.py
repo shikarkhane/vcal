@@ -26,7 +26,7 @@ class Member(DyBase):
 
     __tablename__ = 'group_member'
 
-    group_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     user_id = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure

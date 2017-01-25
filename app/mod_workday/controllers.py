@@ -95,11 +95,11 @@ def summon(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/summon/<term_id>/", methods=['DELETE'])
-def delete_summon(term_id):
+@mod_workday.route("/summon/<summon_id>/", methods=['DELETE'])
+def delete_summon(summon_id):
     try:
         if request.method == 'DELETE':
-            engine.query(Summon).filter(id=term_id).delete()
+            engine.query(Summon).filter(id=summon_id).delete()
             return 'Deleted summon'
         else:
             return abort(404)

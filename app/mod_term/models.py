@@ -1,12 +1,16 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 from app.common.models import DyBase
-from flywheel import Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING, GlobalIndex
 
 class Term(DyBase):
 
     __tablename__ = 'term'
-
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+        ],
+    }
     group_id = Field(data_type=NUMBER, nullable=False)
     name = Field(data_type=STRING, nullable=False)
     start_date = Field(data_type=NUMBER, nullable=False)
@@ -29,7 +33,7 @@ class Children(DyBase):
 
     __tablename__ = 'term_children'
 
-    term_id = Field(data_type=NUMBER, nullable=False)
+    term_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     child_count = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure
