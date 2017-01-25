@@ -41,7 +41,7 @@ def term():
 @mod_term.route("/term_details/<group_id>/", methods=['GET'])
 def term_details(group_id):
     try:
-        r = engine.query(Term).filter_by(group_id=group_id).all()
+        r = engine.query(Term).filter(Term.group_id==group_id).all()
         return json.dumps(r, cls=AlchemyEncoder)
         #return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31', 'id': '1'}])
     except Exception, e:
@@ -56,11 +56,11 @@ def children(term_id):
             tid = term_id
             child_count = d['child_count']
             r = Children(tid, child_count)
-            engine.query(Children).filter_by(term_id=tid).delete()
+            engine.query(Children).filter(Children.term_id==tid).delete()
             engine.save(r)
             return 'term child count saved'
         elif request.method == 'GET':
-            r = engine.query(Children).filter_by(term_id=term_id).all()
+            r = engine.query(Children).filter(Children.term_id==term_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
             #return render_template('term/{0}.html'.format('children'))
         else:

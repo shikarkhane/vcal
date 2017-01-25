@@ -1,7 +1,7 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 
-from flywheel import Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING, GlobalIndex
 from app.common.models import DyBase
 
 class Invite(DyBase):
@@ -41,6 +41,11 @@ class Member(DyBase):
 class User(DyBase):
 
     __tablename__ = 'user'
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'email').throughput(read=10, write=2),
+        ],
+    }
 
     # Identification Data: email & password
     name = Field(data_type=STRING, nullable=False)

@@ -24,7 +24,7 @@ def register():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            res = engine.query(User).filter_by(email=d['email']).first()
+            res = engine.query(User).filter( User.email == d['email']).first()
             if not res:
                 u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
                 engine.save(u)
@@ -41,7 +41,7 @@ def register():
             return json.dumps({'userId': userid, 'role': role, 'isActive': isActive})
         elif request.method == 'GET':
             d = request.get_json()
-            res = engine.query(User).filter_by(id=d['userId']).first()
+            res = engine.query(User).filter(User.id == d['userId']).first()
             return json.dumps(res, cls=AlchemyEncoder)
         else:
             return abort(404)
@@ -83,10 +83,10 @@ def member(group_id):
 
             removed_ids = d['removed_member_ids']
             for rid in removed_ids:
-                engine.query(Member).filter_by(id=rid).delete()
+                engine.query(Member).filter(Member.id == rid).delete()
             return 'member list updated'
         elif request.method == 'GET':
-            m = engine.query(Member).filter_by(group_id=group_id).all()
+            m = engine.query(Member).filter(Member.group_id == group_id).all()
             return json.dumps(m, cls=AlchemyEncoder)
             #return render_template('member/{0}.html'.format('member'))
         else:

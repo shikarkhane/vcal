@@ -33,7 +33,7 @@ def manage(group_id, user_id):
 
             dt = chosen_date
             # todo: handle inside a db transaction
-            w = engine.query(Switchday).filter_by(group_id=gid, switch_date=dt).first()
+            w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt).first()
             if not w:
                 w = Switchday(group_id,
                             d['chosen_date'].date(),
@@ -44,13 +44,14 @@ def manage(group_id, user_id):
                 return abort(409)
             return 'switchday was saved'
         elif request.method == 'GET':
-            r = engine.query(Switchday).filter_by(group_id=group_id, standin_user_id=user_id).all()
+            r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.standin_user_id==user_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
         elif request.method == 'DELETE':
             d = request.get_json()
             dt = d['chosen_date']
 
-            w = engine.query(Switchday).filter_by(group_id=gid, switch_date=dt, standin_user_id=user_id).delete()
+            w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt,
+                                               Switchday.standin_user_id==user_id).delete()
             return 'switchday was deleted'
         else:
             return abort(404)
@@ -63,9 +64,9 @@ def open_switchday(group_id, show_workday):
         if request.method == 'GET':
             r = []
             if show_workday:
-                r = engine.query(Switchday).filter_by(group_id=group_id, is_work_day=True).all()
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).all()
             else:
-                r = engine.query(Switchday).filter_by(group_id=group_id, is_work_day=False).all()
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).all()
             return json.dumps(r, cls=AlchemyEncoder)
         else:
             return abort(404)

@@ -39,7 +39,7 @@ def working_day(group_id):
             engine.save(w)
             return 'workday was saved'
         elif request.method == 'GET':
-            r = engine.query(Workday).filter_by(group_id=group_id).all()
+            r = engine.query(Workday).filter(group_id=group_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
             # return render_template('workday/{0}.html'.format('work-day'))
         else:
@@ -67,7 +67,7 @@ def standin_day():
             engine.save(w)
             return 'standin day was saved'
         elif request.method == 'GET':
-            vacant_dates = engine.query(StandinDay).filter_by(standin_user_id=None).all()
+            vacant_dates = engine.query(StandinDay).filter(standin_user_id=None).all()
             return json.dumps(vacant_dates)
         else:
             return abort(404)
@@ -86,7 +86,7 @@ def summon(group_id):
             engine.save(w)
             return 'summon was saved'
         elif request.method == 'GET':
-            r = engine.query(Summon).filter_by(group_id=group_id).all()
+            r = engine.query(Summon).filter(group_id=group_id).all()
             return json.dumps(r, cls=AlchemyEncoder)
             #return render_template('workday/{0}.html'.format('summon'))
         else:
@@ -99,7 +99,7 @@ def summon(group_id):
 def delete_summon(term_id):
     try:
         if request.method == 'DELETE':
-            engine.query(Summon).filter_by(id=term_id).delete()
+            engine.query(Summon).filter(id=term_id).delete()
             return 'Deleted summon'
         else:
             return abort(404)
@@ -120,18 +120,18 @@ def showup(group_id, chosen_date):
 
             # update has_worked flag, if user and booking date matches
             for wu in workday_users:
-                r = engine.query(Workday).filter_by(group_id=gid, standin_user_id=wu, booking_date=dt).all()
+                r = engine.query(Workday).filter(group_id=gid, standin_user_id=wu, booking_date=dt).all()
                 if r:
                     r.has_worked = True
             for su in standin_users:
-                q = engine.query(StandinDay).filter_by(group_id=gid, standin_user_id=su, booking_date=dt).all()
+                q = engine.query(StandinDay).filter(group_id=gid, standin_user_id=su, booking_date=dt).all()
                 if q:
                     q.has_worked = True
 
             return 'showup was saved'
         elif request.method == 'GET':
-            w = engine.query(Workday).filter_by(group_id=gid, booking_date=dt).all()
-            s = engine.query(StandinDay).filter_by(group_id=gid, booking_date=dt).all()
+            w = engine.query(Workday).filter(group_id=gid, booking_date=dt).all()
+            s = engine.query(StandinDay).filter(group_id=gid, booking_date=dt).all()
             w_dumps = json.dumps(w, cls=AlchemyEncoder)
             s_dumps = json.dumps(s, cls=AlchemyEncoder)
             result = {'standin': json.loads(s_dumps), 'workday': json.loads(w_dumps)}
@@ -164,13 +164,13 @@ def worksignup(group_id):
             if is_workday:
                 # todo: handle inside a db transaction
 
-                w = engine.query(Workday).filter_by(group_id=gid, work_date=dt).first()
+                w = engine.query(Workday).filter(group_id=gid, work_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = int(time.time())
                     engine.sync(w)
             else:
-                w = engine.query(StandinDay).filter_by(group_id=gid, standin_date=dt).first()
+                w = engine.query(StandinDay).filter(group_id=gid, standin_date=dt).first()
                 if w:
                     w.standin_user_id = q_user_id
                     w.booking_date = int(time.time())
@@ -187,7 +187,7 @@ def worksignup(group_id):
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
-        w = engine.query(Workday).filter_by(group_id=group_id, standin_user_id=None).all()
+        w = engine.query(Workday).filter(group_id=group_id, standin_user_id=None).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -196,7 +196,7 @@ def openworkday(group_id):
 @mod_workday.route("/openstandin/<group_id>/", methods=['GET'])
 def openstandin(group_id):
     try:
-        s = engine.query(StandinDay).filter_by(group_id=group_id, standin_user_id=None).all()
+        s = engine.query(StandinDay).filter(group_id=group_id, standin_user_id=None).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -204,7 +204,7 @@ def openstandin(group_id):
 @mod_workday.route("/myworkday/<group_id>/user/<user_id>/", methods=['GET'])
 def myworkday(group_id, user_id):
     try:
-        w = engine.query(Workday).filter_by(group_id=group_id, standin_user_id=user_id).all()
+        w = engine.query(Workday).filter(group_id=group_id, standin_user_id=user_id).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -213,7 +213,7 @@ def myworkday(group_id, user_id):
 @mod_workday.route("/mystandin/<group_id>/user/<user_id>/", methods=['GET'])
 def mystandin(group_id, user_id):
     try:
-        s = engine.query(StandinDay).filter_by(group_id=group_id, standin_user_id=user_id).all()
+        s = engine.query(StandinDay).filter(group_id=group_id, standin_user_id=user_id).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
