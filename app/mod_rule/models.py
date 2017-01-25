@@ -14,8 +14,8 @@ class Rule(DyBase):
     }
 
     # Identification Data: email & password
-    group_id = Field(data_type=NUMBER, nullable=False)
-    term_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=STRING, nullable=False)
+    term_id = Field(data_type=STRING, nullable=False)
     definition = Field(data_type=STRING, nullable=False)
 
     # New instance instantiation procedure

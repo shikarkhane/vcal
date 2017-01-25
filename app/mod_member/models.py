@@ -7,9 +7,14 @@ from app.common.models import DyBase
 class Invite(DyBase):
 
     __tablename__ = 'invite'
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+        ],
+    }
 
     email = Field(data_type=STRING, nullable=False)
-    group_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=STRING, nullable=False)
     invite_token = Field(data_type=STRING, nullable=True)
 
     # New instance instantiation procedure
@@ -25,8 +30,13 @@ class Invite(DyBase):
 class Member(DyBase):
 
     __tablename__ = 'group_member'
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+        ],
+    }
 
-    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
+    group_id = Field(data_type=STRING, nullable=False)
     user_id = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure

@@ -11,7 +11,7 @@ class Term(DyBase):
             GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
         ],
     }
-    group_id = Field(data_type=NUMBER, nullable=False)
+    group_id = Field(data_type=STRING, nullable=False)
     name = Field(data_type=STRING, nullable=False)
     start_date = Field(data_type=NUMBER, nullable=False)
     end_date = Field(data_type=NUMBER, nullable=False)
@@ -33,7 +33,7 @@ class Children(DyBase):
 
     __tablename__ = 'term_children'
 
-    term_id = Field(data_type=NUMBER, nullable=False, range_key=True)
+    term_id = Field(data_type=STRING, nullable=False, range_key=True)
     child_count = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure

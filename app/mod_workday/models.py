@@ -10,10 +10,10 @@ class Workday(DyBase):
     __metadata__ = {
         'global_indexes': [
             GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts1-index', 'work_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'group_id', 'work_date').throughput(read=10, write=2),
         ],
     }
-    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
+    group_id = Field(data_type=STRING, nullable=False)
     work_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')
@@ -44,10 +44,10 @@ class StandinDay(DyBase):
     __metadata__ = {
         'global_indexes': [
             GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts1-index', 'standin_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'group_id', 'standin_date').throughput(read=10, write=2),
         ],
     }
-    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
+    group_id = Field(data_type=STRING, nullable=False)
     standin_date = Field(data_type=NUMBER, nullable=False)
     standin_user_id = Field(data_type=NUMBER, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
@@ -68,9 +68,13 @@ class StandinDay(DyBase):
 class Summon(DyBase):
 
     __tablename__ = 'summon'
-
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+        ],
+    }
     created_by_id = Field(data_type=NUMBER, nullable=False)
-    group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
+    group_id = Field(data_type=STRING, nullable=False)
     work_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')
