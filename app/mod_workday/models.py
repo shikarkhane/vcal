@@ -10,7 +10,7 @@ class Workday(DyBase):
     __metadata__ = {
         'global_indexes': [
             GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts-index', 'work_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'work_date').throughput(read=10, write=2),
         ],
     }
     group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
@@ -44,7 +44,7 @@ class StandinDay(DyBase):
     __metadata__ = {
         'global_indexes': [
             GlobalIndex.all('ts-index', 'standin_user_id', 'booking_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts-index', 'standin_date').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'standin_date').throughput(read=10, write=2),
         ],
     }
     group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
