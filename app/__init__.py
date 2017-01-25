@@ -54,12 +54,12 @@ from app.mod_workday.models import StandinDay, Summon, Workday
 
 
 # Register our model with the engine so it can create the Dynamo table
-engine.register(PublicHoliday, Group, Invite, Member, User, Rule, Switchday, Children, Term, StandinDay, Summon, Workday)
+#engine.register(PublicHoliday, Group, Invite, Member, User, Rule, Switchday, Children, Term, StandinDay, Summon, Workday)
 #engine.register( User)
 
 # Create the dynamo table for our registered model
 #engine.delete_schema()
 
-engine.create_schema()
+#engine.create_schema()
 
 

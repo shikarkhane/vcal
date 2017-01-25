@@ -68,11 +68,7 @@ class StandinDay(DyBase):
 class Summon(DyBase):
 
     __tablename__ = 'summon'
-    __metadata__ = {
-        'global_indexes': [
-            GlobalIndex.all('ts-index', 'standin_user_id').throughput(read=10, write=2),
-        ],
-    }
+
     created_by_id = Field(data_type=NUMBER, nullable=False)
     group_id = Field(data_type=NUMBER, nullable=False, range_key=True)
     work_date = Field(data_type=NUMBER, nullable=False)
