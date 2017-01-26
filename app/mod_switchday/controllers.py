@@ -36,7 +36,7 @@ def manage(group_id, user_id):
             w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt).first()
             if not w:
                 w = Switchday(group_id,
-                            d['chosen_date'].date(),
+                            d['chosen_date'],
                             d['from_time'], d['to_time'], user_id,
                             d['is_half_day'], is_workday)
                 engine.save(w)
@@ -63,10 +63,10 @@ def open_switchday(group_id, show_workday):
     try:
         if request.method == 'GET':
             r = []
-            if show_workday:
-                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).index('ts-index').all()
+            if int(show_workday) == 1:
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).all()
             else:
-                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).index('ts-index').all()
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).all()
             return json.dumps(r, cls=AlchemyEncoder)
         else:
             return abort(404)
