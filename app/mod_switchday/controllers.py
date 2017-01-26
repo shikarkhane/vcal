@@ -64,9 +64,9 @@ def open_switchday(group_id, show_workday):
         if request.method == 'GET':
             r = []
             if show_workday:
-                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).all()
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).index('ts-index').all()
             else:
-                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).all()
+                r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).index('ts-index').all()
             return json.dumps(r, cls=AlchemyEncoder)
         else:
             return abort(404)

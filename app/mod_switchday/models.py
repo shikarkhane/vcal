@@ -9,9 +9,7 @@ class Switchday(DyBase):
     __tablename__ = 'switchday'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'switch_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts1-index', 'standin_user_id', 'switch_date').throughput(read=10, write=2),
-            GlobalIndex.all('ts2-index', 'is_work_day').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
         ],
     }
 
@@ -19,7 +17,7 @@ class Switchday(DyBase):
     switch_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')
-    standin_user_id = Field(data_type=NUMBER, nullable=True)
+    standin_user_id = Field(data_type=STRING, nullable=True)
     is_half_day = Field(data_type=NUMBER, nullable=False, default=False)
     is_work_day = Field(data_type=NUMBER, nullable=False, default=False)
 

@@ -187,7 +187,7 @@ def worksignup(group_id):
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
-        w = engine.query(Workday).filter(group_id=group_id, standin_user_id=None).all()
+        w = engine.query(Workday).filter(Workday.group_id==group_id, Workday.standin_user_id==None).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -196,7 +196,7 @@ def openworkday(group_id):
 @mod_workday.route("/openstandin/<group_id>/", methods=['GET'])
 def openstandin(group_id):
     try:
-        s = engine.query(StandinDay).filter(group_id=group_id, standin_user_id=None).all()
+        s = engine.query(StandinDay).filter(StandinDay.group_id==group_id, StandinDay.standin_user_id==None).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -204,7 +204,7 @@ def openstandin(group_id):
 @mod_workday.route("/myworkday/<group_id>/user/<user_id>/", methods=['GET'])
 def myworkday(group_id, user_id):
     try:
-        w = engine.query(Workday).filter(group_id=group_id, standin_user_id=user_id).all()
+        w = engine.query(Workday).filter(Workday.group_id==group_id, Workday.standin_user_id==user_id).all()
         return json.dumps(w, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
@@ -213,7 +213,7 @@ def myworkday(group_id, user_id):
 @mod_workday.route("/mystandin/<group_id>/user/<user_id>/", methods=['GET'])
 def mystandin(group_id, user_id):
     try:
-        s = engine.query(StandinDay).filter(group_id=group_id, standin_user_id=user_id).all()
+        s = engine.query(StandinDay).filter(StandinDay.group_id==group_id, StandinDay.standin_user_id==user_id).all()
         return json.dumps(s, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)

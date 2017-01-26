@@ -32,8 +32,13 @@ class Term(DyBase):
 class Children(DyBase):
 
     __tablename__ = 'term_children'
+    __metadata__ = {
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'term_id').throughput(read=10, write=2),
+        ],
+    }
 
-    term_id = Field(data_type=STRING, nullable=False, range_key=True)
+    term_id = Field(data_type=STRING, nullable=False)
     child_count = Field(data_type=NUMBER, nullable=False)
 
     # New instance instantiation procedure
