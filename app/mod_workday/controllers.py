@@ -89,10 +89,10 @@ def standin_range():
 
             while startDate <= endDate:
                 existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
-                                                        StandinDay.booking_date == int(startDate.timestamp())).first()
+                                                        StandinDay.booking_date == int(startDate.strftime('%s'))).first()
                 if not existStandin:
                     w = StandinDay( gid,
-                                int(startDate.timestamp()),
+                                int(startDate.strftime('%s')),
                                 standin_user_id,
                                 int(time.time()))
                     engine.save(w)
