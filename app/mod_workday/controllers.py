@@ -10,6 +10,7 @@ from app import engine
 
 # Import module models (i.e. User)
 from app.mod_workday.models import Workday, Summon, StandinDay
+import datetime
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_workday = Blueprint('workday', __name__)
@@ -69,6 +70,35 @@ def standin_day():
         elif request.method == 'GET':
             vacant_dates = engine.query(StandinDay).filter(StandinDay.standin_user_id==None).all()
             return json.dumps(vacant_dates)
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+@mod_workday.route("/standindayrange/", methods=['POST'])
+def standin_range():
+    '''create entries of standin days without any standin user'''
+    try:
+        if request.method == 'POST':
+
+            d = request.get_json()
+            gid = d['group_id']
+            standin_user_id = None
+            startDate = datetime.datetime.fromtimestamp(d['start_date'])
+            endDate = datetime.datetime.fromtimestamp(d['end_date'])
+
+            while startDate <= endDate:
+                existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
+                                                        StandinDay.booking_date == int(startDate.timestamp())).first()
+                if not existStandin:
+                    w = StandinDay( gid,
+                                int(startDate.timestamp()),
+                                standin_user_id,
+                                int(time.time()))
+                    engine.save(w)
+                startDate = startDate + datetime.timedelta(days=1)
+
+            return 'standin day range was saved'
         else:
             return abort(404)
     except Exception, e:
