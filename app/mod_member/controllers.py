@@ -24,7 +24,7 @@ def register():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            res = engine.query(User).filter( User.email == d['email']).first()
+            res = engine.query(User).filter( User.email == d['email']).all()
             if not res:
                 u = User(d['name'], d['givenName'], d['familyName'], d['email'], None, d['tokenId'], d['imageUrl'])
                 engine.save(u)
@@ -32,16 +32,17 @@ def register():
                 role = u.role
                 isActive = u.is_active
             else:
-                userid = res.id
-                role = res.role
-                isActive = res.is_active
-                res.auth_token = d['tokenId']
-                res.image_url = d['imageUrl']
-                engine.sync(res)
+                newR = res[0]
+                userid = newR.id
+                role = newR.role
+                isActive = newR.is_active
+                newR.auth_token = d['tokenId']
+                newR.image_url = d['imageUrl']
+                engine.sync(newR)
             return json.dumps({'userId': userid, 'role': role, 'isActive': isActive})
         elif request.method == 'GET':
             d = request.get_json()
-            res = engine.query(User).filter(User.id == d['userId']).first()
+            res = engine.query(User).filter(User.id == d['userId']).all()
             return json.dumps(res, cls=AlchemyEncoder)
         else:
             return abort(404)

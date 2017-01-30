@@ -33,7 +33,7 @@ def manage(group_id, user_id):
 
             dt = chosen_date
             # todo: handle inside a db transaction
-            w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt).first()
+            w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt).all()
             if not w:
                 w = Switchday(group_id,
                             d['chosen_date'],

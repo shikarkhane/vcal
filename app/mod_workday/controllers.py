@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, abort, \
     Blueprint
 import logging
+import calendar
 import json
 #import datetime
 import time
@@ -89,10 +90,10 @@ def standin_range():
 
             while startDate <= endDate:
                 existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
-                                                        StandinDay.booking_date == int(startDate.strftime('%s'))).first()
+                                                        StandinDay.booking_date == calendar.timegm(startDate.timetuple())).all()
                 if not existStandin:
                     w = StandinDay( gid,
-                                int(startDate.strftime('%s')),
+                                calendar.timegm(startDate.timetuple()),
                                 standin_user_id,
                                 int(time.time()))
                     engine.save(w)
@@ -145,25 +146,28 @@ def showup(group_id, chosen_date):
 
         if request.method == 'POST':
             d = request.get_json()
-            workday_users = d['workday_user_ids']
-            standin_users = d['standin_user_ids']
+            userId = d['userId']
+            isWorkday = d['isWorkday']
 
-            # update has_worked flag, if user and booking date matches
-            for wu in workday_users:
-                r = engine.query(Workday).filter(Workday.group_id==gid, Workday.standin_user_id==wu,
-                                                 Workday.booking_date==dt).all()
+            if isWorkday:
+                r = engine.query(Workday).filter(Workday.group_id == gid, Workday.standin_user_id == userId,
+                                                 Workday.work_date == dt).all()
                 if r:
-                    r.has_worked = True
-            for su in standin_users:
-                q = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_user_id==su,
-                                                    StandinDay.booking_date==dt).all()
-                if q:
-                    q.has_worked = True
+                    newR = r[0]
+                    newR.has_worked = True
+                    engine.save(newR)
+            else:
+                r = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_user_id == userId,
+                                                    StandinDay.standin_date == dt).all()
+                if r:
+                    newR = r[0]
+                    newR.has_worked = True
+                    engine.save(newR)
 
             return 'showup was saved'
         elif request.method == 'GET':
-            w = engine.query(Workday).filter(Workday.group_id==gid, Workday.booking_date==dt).all()
-            s = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.booking_date==dt).all()
+            w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).all()
+            s = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
             w_dumps = json.dumps(w, cls=AlchemyEncoder)
             s_dumps = json.dumps(s, cls=AlchemyEncoder)
             result = {'standin': json.loads(s_dumps), 'workday': json.loads(w_dumps)}
@@ -196,17 +200,23 @@ def worksignup(group_id):
             if is_workday:
                 # todo: handle inside a db transaction
 
-                w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).first()
+                w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).all()
                 if w:
-                    w.standin_user_id = q_user_id
-                    w.booking_date = int(time.time())
-                    engine.sync(w)
+                    newW = w[0]
+                    newW.standin_user_id = q_user_id
+                    newW.booking_date = int(time.time())
+                    engine.sync(newW)
+                else:
+                    return 'Workday NOT saved'
             else:
-                w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).first()
+                w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
                 if w:
-                    w.standin_user_id = q_user_id
-                    w.booking_date = int(time.time())
-                    engine.sync(w)
+                    newW = w[0]
+                    newW.standin_user_id = q_user_id
+                    newW.booking_date = int(time.time())
+                    engine.sync(newW)
+                else:
+                    return 'Standin NOT saved'
 
             return 'worksignup was saved'
         else:

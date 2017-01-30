@@ -27,13 +27,13 @@ def rule(group_id, term_id):
             rule_definition = d['definition']
             r = Rule(gid, term_id, json.dumps(rule_definition))
             engine.query(Rule).filter(Rule.group_id == gid, Rule.term_id == term_id).delete()
-            engine.save(r, overwrite=True)
+            engine.save(r)
             return 'rule saved'
         elif request.method == 'GET':
-            r = engine.query(Rule).filter(Rule.group_id==group_id, Rule.term_id==term_id).first()
+            r = engine.query(Rule).filter(Rule.group_id==group_id, Rule.term_id==term_id).all()
             if not r:
                 return json.dumps({})
-            return json.dumps(r, cls=AlchemyEncoder)
+            return json.dumps(r[0], cls=AlchemyEncoder)
             #return render_template('rule/{0}.html'.format('rule'))
         else:
             return abort(404)
