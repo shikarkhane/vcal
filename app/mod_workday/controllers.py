@@ -126,6 +126,28 @@ def summon(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
+@mod_workday.route("/standinday/<standinday_id>/", methods=['DELETE'])
+def delete_standin(standinday_id):
+    try:
+        if request.method == 'DELETE':
+            engine.query(StandinDay).filter(StandinDay.id == standinday_id).delete()
+            return 'Deleted standin'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+@mod_workday.route("/workday/<workday_id>/", methods=['DELETE'])
+def delete_workday(workday_id):
+    try:
+        if request.method == 'DELETE':
+            engine.query(Workday).filter(Workday.id==workday_id).delete()
+            return 'Deleted workday'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
 @mod_workday.route("/summon/<summon_id>/", methods=['DELETE'])
 def delete_summon(summon_id):
     try:
