@@ -54,7 +54,7 @@ def children(term_id):
         if request.method == 'POST':
             d = request.get_json()
             tid = term_id
-            child_count = d['child_count']
+            child_count = int(d['child_count'])
             r = Children(tid, child_count)
             engine.query(Children).filter(Children.term_id==tid).delete()
             engine.save(r)
