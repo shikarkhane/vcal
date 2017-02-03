@@ -126,23 +126,34 @@ def summon(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/standinday/<standinday_id>/", methods=['DELETE'])
-def delete_standin(standinday_id):
+@mod_workday.route("/standinday/<standinday_id>/", methods=['PUT'])
+def unbook_standin(standinday_id):
     try:
-        if request.method == 'DELETE':
-            engine.query(StandinDay).filter(StandinDay.id == standinday_id).delete()
-            return 'Deleted standin'
+        if request.method == 'PUT':
+            r = engine.query(StandinDay).filter(StandinDay.id == standinday_id).all()
+            if r:
+                newR = r[0]
+                newR.standin_user_id = None
+                newR.booking_date = int(time.time())
+                engine.sync(newR)
+            return 'removed standin booking'
         else:
             return abort(404)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
-@mod_workday.route("/workday/<workday_id>/", methods=['DELETE'])
-def delete_workday(workday_id):
+@mod_workday.route("/workday/<workday_id>/", methods=['PUT'])
+def unbook_workday(workday_id):
     try:
         if request.method == 'DELETE':
-            engine.query(Workday).filter(Workday.id==workday_id).delete()
-            return 'Deleted workday'
+            r = engine.query(Workday).filter(Workday.id==workday_id).all()
+            if r:
+                newR = r[0]
+                newR.standin_user_id = None
+                newR.booking_date = int(time.time())
+                engine.sync(newR)
+
+            return ' workday unbooked'
         else:
             return abort(404)
     except Exception, e:
