@@ -9,6 +9,7 @@ from app import engine
 
 
 from app.mod_switchday.models import Switchday
+from operator import itemgetter
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_switchday = Blueprint('switchday', __name__)
@@ -45,7 +46,8 @@ def manage(group_id, user_id):
             return 'switchday was saved'
         elif request.method == 'GET':
             r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.standin_user_id==user_id).all()
-            return json.dumps(r, cls=AlchemyEncoder)
+            newS = sorted(r, key=itemgetter('switch_date'))
+            return json.dumps(newS, cls=AlchemyEncoder)
         elif request.method == 'DELETE':
             d = request.get_json()
             dt = d['chosen_date']
@@ -67,7 +69,8 @@ def open_switchday(group_id, show_workday):
                 r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==True).all()
             else:
                 r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.is_work_day==False).all()
-            return json.dumps(r, cls=AlchemyEncoder)
+            newS = sorted(r, key=itemgetter('switch_date'))
+            return json.dumps(newS, cls=AlchemyEncoder)
         else:
             return abort(404)
     except Exception, e:

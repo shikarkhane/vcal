@@ -7,7 +7,7 @@ import json
 import time
 # Import the database object from the main app module
 from app import engine
-
+from operator import itemgetter
 
 # Import module models (i.e. User)
 from app.mod_workday.models import Workday, Summon, StandinDay
@@ -42,7 +42,8 @@ def working_day(group_id):
             return 'workday was saved'
         elif request.method == 'GET':
             r = engine.query(Workday).filter(Workday.group_id==group_id).all()
-            return json.dumps(r, cls=AlchemyEncoder)
+            newS = sorted(r, key=itemgetter('work_date'))
+            return json.dumps(newS, cls=AlchemyEncoder)
             # return render_template('workday/{0}.html'.format('work-day'))
         else:
             return abort(404)
@@ -118,7 +119,8 @@ def summon(group_id):
             return 'summon was saved'
         elif request.method == 'GET':
             r = engine.query(Summon).filter(Summon.group_id==group_id).all()
-            return json.dumps(r, cls=AlchemyEncoder)
+            newS = sorted(r, key=itemgetter('work_date'))
+            return json.dumps(newS, cls=AlchemyEncoder)
             #return render_template('workday/{0}.html'.format('summon'))
         else:
             return abort(404)
@@ -263,7 +265,8 @@ def worksignup(group_id):
 def openworkday(group_id):
     try:
         w = engine.query(Workday).filter(Workday.group_id==group_id, Workday.standin_user_id==None).all()
-        return json.dumps(w, cls=AlchemyEncoder)
+        newS = sorted(w, key=itemgetter('work_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
@@ -272,7 +275,8 @@ def openworkday(group_id):
 def openstandin(group_id):
     try:
         s = engine.query(StandinDay).filter(StandinDay.group_id==group_id, StandinDay.standin_user_id==None).all()
-        return json.dumps(s, cls=AlchemyEncoder)
+        newS = sorted(s, key=itemgetter('standin_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
@@ -280,7 +284,8 @@ def openstandin(group_id):
 def myworkday(group_id, user_id):
     try:
         w = engine.query(Workday).filter(Workday.group_id==group_id, Workday.standin_user_id==user_id).all()
-        return json.dumps(w, cls=AlchemyEncoder)
+        newS = sorted(w, key=itemgetter('work_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
@@ -289,7 +294,8 @@ def myworkday(group_id, user_id):
 def mystandin(group_id, user_id):
     try:
         s = engine.query(StandinDay).filter(StandinDay.group_id==group_id, StandinDay.standin_user_id==user_id).all()
-        return json.dumps(s, cls=AlchemyEncoder)
+        newS = sorted(s, key=itemgetter('standin_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")

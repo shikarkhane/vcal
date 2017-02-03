@@ -35,3 +35,5 @@ class Switchday(DyBase):
 
     def __repr__(self):
         return '<Switch_date %r>' % (self.switch_date)
+    def __getitem__(self, key):
+        return self.switch_date

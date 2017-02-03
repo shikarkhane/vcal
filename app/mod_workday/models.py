@@ -37,6 +37,8 @@ class Workday(DyBase):
 
     def __repr__(self):
         return '<Work_date %r>' % (self.work_date)
+    def __getitem__(self, key):
+        return self.work_date
 class StandinDay(DyBase):
 
     __tablename__ = 'standinday'
@@ -61,6 +63,9 @@ class StandinDay(DyBase):
 
     def __repr__(self):
         return '<standin_date %r>' % (self.standin_date)
+
+    def __getitem__(self, key):
+        return self.standin_date
 
 
 class Summon(DyBase):
