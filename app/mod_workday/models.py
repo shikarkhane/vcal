@@ -93,3 +93,5 @@ class Summon(DyBase):
 
     def __repr__(self):
         return '<Work_date %r>' % (self.work_date)
+    def __getitem__(self, key):
+        return self.work_date
