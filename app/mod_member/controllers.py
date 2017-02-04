@@ -50,6 +50,20 @@ def register():
         logging.exception(e)
         return render_template("oops.html")
 
+@mod_member.route("/alluser/", methods=['GET'])
+def getAllUsers():
+    '''get userid, name and img url for all users'''
+    try:
+        # todo: filter this by member of a group id
+        if request.method == 'GET':
+            res = engine.scan(User).all(attributes=['id', 'name', 'given_name', 'family_name', 'image_url'])
+            return json.dumps(res, cls=AlchemyEncoder)
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
 @mod_member.route("/invite/", methods=['POST', 'GET'])
 def invite():
     # create a group, group_type, group_owner
