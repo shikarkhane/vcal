@@ -5,6 +5,9 @@ import json
 
 # Import the database object from the main app module
 from app import engine
+from app.mod_draft.models import PublicHoliday
+from app.common.util import AlchemyEncoder
+from operator import itemgetter
 
 
 
@@ -21,6 +24,40 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 def landing():
     try:
         return render_template('draft/landing.html')
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_draft.route("/holiday/<group_id>/", methods=['GET', 'POST'])
+def holiday_day(group_id):
+    try:
+        if request.method == 'POST':
+            d = request.get_json()
+
+            w = PublicHoliday(d['created_by_id'], group_id,
+                        d['holiday_date'],
+                        False)
+            engine.save(w)
+            return 'holiday was saved'
+        elif request.method == 'GET':
+            r = engine.query(PublicHoliday).filter(PublicHoliday.group_id == group_id).all()
+            newS = sorted(r, key=itemgetter('holiday_date'))
+            return json.dumps(newS, cls=AlchemyEncoder)
+            # return render_template('workday/{0}.html'.format('work-day'))
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_draft.route("/holiday/<holiday_id>/", methods=['DELETE'])
+def unbook_workday(holiday_id):
+    try:
+        if request.method == 'DELETE':
+            engine.query(PublicHoliday).filter(PublicHoliday.id == holiday_id).delete()
+            return 'holiday deleted'
+        else:
+            return abort(404)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")

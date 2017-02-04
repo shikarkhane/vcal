@@ -147,7 +147,7 @@ def unbook_standin(standinday_id):
 @mod_workday.route("/workday/<workday_id>/", methods=['PUT'])
 def unbook_workday(workday_id):
     try:
-        if request.method == 'DELETE':
+        if request.method == 'PUT':
             r = engine.query(Workday).filter(Workday.id==workday_id).all()
             if r:
                 newR = r[0]
