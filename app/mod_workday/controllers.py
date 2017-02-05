@@ -172,6 +172,17 @@ def delete_summon(summon_id):
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+@mod_workday.route("/workday/<workday_id>/", methods=['DELETE'])
+def delete_workday(workday_id):
+    try:
+        if request.method == 'DELETE':
+            engine.query(Workday).filter(Workday.id==workday_id).delete()
+            return 'Deleted workday'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
 
 @mod_workday.route("/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
 def showup(group_id, chosen_date):
@@ -260,7 +271,7 @@ def worksignup(group_id):
         logging.exception(e)
         return render_template("oops.html")
 
-# open days should also list the ones available in Switch day list
+# todo open days should also list the ones available in Switch day list
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
@@ -301,3 +312,22 @@ def mystandin(group_id, user_id):
         return render_template("oops.html")
 
 
+@mod_workday.route("/nonopenworkday/<group_id>/", methods=['GET'])
+def nonopenworkday(group_id):
+    try:
+        w = engine.query(Workday).filter(Workday.group_id==group_id, Workday.standin_user_id!=None).all()
+        newS = sorted(w, key=itemgetter('work_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
+@mod_workday.route("/nonopenstandin/<group_id>/", methods=['GET'])
+def nonopenstandin(group_id):
+    try:
+        s = engine.query(StandinDay).filter(StandinDay.group_id==group_id, StandinDay.standin_user_id!=None).all()
+        newS = sorted(s, key=itemgetter('standin_date'))
+        return json.dumps(newS, cls=AlchemyEncoder)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
