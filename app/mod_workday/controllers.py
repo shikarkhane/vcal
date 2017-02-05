@@ -236,11 +236,6 @@ def worksignup(group_id):
             user_id = d['user_id']
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
-            is_taken = d['is_taken']
-
-            q_user_id = None
-            if is_taken:
-                q_user_id = user_id
 
             dt = chosen_date
             if is_workday:
@@ -248,19 +243,25 @@ def worksignup(group_id):
 
                 w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).all()
                 if w:
-                    newW = w[0]
-                    newW.standin_user_id = q_user_id
-                    newW.booking_date = int(time.time())
-                    engine.sync(newW)
+                    if not w.standin_user_id:
+                        newW = w[0]
+                        newW.standin_user_id = user_id
+                        newW.booking_date = int(time.time())
+                        engine.sync(newW)
+                    else:
+                        return abort(409)
                 else:
                     return 'Workday NOT saved'
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
                 if w:
-                    newW = w[0]
-                    newW.standin_user_id = q_user_id
-                    newW.booking_date = int(time.time())
-                    engine.sync(newW)
+                    if not w.standin_user_id:
+                        newW = w[0]
+                        newW.standin_user_id = user_id
+                        newW.booking_date = int(time.time())
+                        engine.sync(newW)
+                    else:
+                        return abort(409)
                 else:
                     return 'Standin NOT saved'
 
@@ -270,6 +271,57 @@ def worksignup(group_id):
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+
+@mod_workday.route("/on-switch-work-sign-up/<group_id>/", methods=['POST'])
+def onswitch_worksignup(group_id):
+    try:
+        # todo do not let user deselect a chosen date X days from that date
+        d = request.get_json()
+        gid = group_id
+
+        if request.method == 'POST':
+            user_id = d['user_id']
+            chosen_date = d['chosen_date']
+            is_workday = d['is_workday']
+            standin_user_id = d['standinUserId']
+
+            dt = chosen_date
+            if is_workday:
+                # todo: handle inside a db transaction
+
+                w = engine.query(Workday).filter(Workday.group_id == gid, Workday.work_date == dt).all()
+                if w:
+                    # important for concurrent updates
+                    if w.standin_user_id == standin_user_id:
+                        newW = w[0]
+                        newW.standin_user_id = user_id
+                        newW.booking_date = int(time.time())
+                        engine.sync(newW)
+                    else:
+                        return abort(409)
+                else:
+                    return 'Workday NOT saved'
+            else:
+                w = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_date == dt).all()
+                if w:
+                    # important for concurrent updates
+                    if w.standin_user_id == standin_user_id:
+                        newW = w[0]
+                        newW.standin_user_id = user_id
+                        newW.booking_date = int(time.time())
+                        engine.sync(newW)
+                    else:
+                        return abort(409)
+                else:
+                    return 'Standin NOT saved'
+
+            return 'on switch - worksignup was saved'
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
 
 # todo open days should also list the ones available in Switch day list
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
