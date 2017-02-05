@@ -243,8 +243,8 @@ def worksignup(group_id):
 
                 w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).all()
                 if w:
-                    if not w.standin_user_id:
-                        newW = w[0]
+                    newW = w[0]
+                    if not newW.standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
                         engine.sync(newW)
@@ -255,8 +255,8 @@ def worksignup(group_id):
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
                 if w:
-                    if not w.standin_user_id:
-                        newW = w[0]
+                    newW = w[0]
+                    if not newW.standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
                         engine.sync(newW)
@@ -291,9 +291,9 @@ def onswitch_worksignup(group_id):
 
                 w = engine.query(Workday).filter(Workday.group_id == gid, Workday.work_date == dt).all()
                 if w:
+                    newW = w[0]
                     # important for concurrent updates
-                    if w.standin_user_id == standin_user_id:
-                        newW = w[0]
+                    if newW.standin_user_id == standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
                         engine.sync(newW)
@@ -304,9 +304,9 @@ def onswitch_worksignup(group_id):
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_date == dt).all()
                 if w:
+                    newW = w[0]
                     # important for concurrent updates
-                    if w.standin_user_id == standin_user_id:
-                        newW = w[0]
+                    if newW.standin_user_id == standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
                         engine.sync(newW)
