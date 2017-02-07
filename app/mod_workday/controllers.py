@@ -39,7 +39,7 @@ def working_day(group_id):
                         d['work_date'],
                         d['is_half_day'])
             engine.save(w)
-            return 'workday was saved'
+            return json.dumps({"status": "ok", "message": "workday was created"})
         elif request.method == 'GET':
             r = engine.query(Workday).filter(Workday.group_id==group_id).all()
             newS = sorted(r, key=itemgetter('work_date'))
@@ -91,7 +91,7 @@ def standin_range():
 
             while startDate <= endDate:
                 existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
-                                                        StandinDay.booking_date == calendar.timegm(startDate.timetuple())).all()
+                                                        StandinDay.standin_date == calendar.timegm(startDate.timetuple())).all()
                 if not existStandin:
                     w = StandinDay( gid,
                                 calendar.timegm(startDate.timetuple()),
