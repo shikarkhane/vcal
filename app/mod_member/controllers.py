@@ -50,6 +50,19 @@ def register():
         logging.exception(e)
         return render_template("oops.html")
 
+@mod_member.route("/user/<user_id>/", methods=['GET'])
+def getUser(user_id):
+    try:
+        if request.method == 'GET':
+            res = engine.query(User).filter(User.id == user_id)\
+                .all(attributes=['id', 'name', 'given_name', 'family_name', 'image_url', 'role', 'is_active'])
+            return json.dumps(res[0], cls=AlchemyEncoder)
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
+
 @mod_member.route("/alluser/", methods=['GET'])
 def getAllUsers():
     '''get userid, name and img url for all users'''

@@ -1,5 +1,5 @@
 import json
-#import datetime
+import decimal
 
 from flywheel.model_meta import ModelMetaclass
 
@@ -20,5 +20,7 @@ class AlchemyEncoder(json.JSONEncoder):
                     fields[field] = None
             # a json-encodable dict
             return fields
+        if isinstance(obj, decimal.Decimal):
+            return float(obj)
 
         return json.JSONEncoder.default(self, obj)
