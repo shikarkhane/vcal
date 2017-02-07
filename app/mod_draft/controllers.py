@@ -40,7 +40,7 @@ def holiday_day(group_id):
             engine.save(w)
             return 'holiday was saved'
         elif request.method == 'GET':
-            r = engine.query(PublicHoliday).filter(PublicHoliday.group_id == group_id).all()
+            r = engine.query(PublicHoliday).filter(PublicHoliday.group_id == group_id).all(attributes=['holiday_date'])
             newS = sorted(r, key=itemgetter('holiday_date'))
             return json.dumps(newS, cls=AlchemyEncoder)
             # return render_template('workday/{0}.html'.format('work-day'))
