@@ -55,7 +55,7 @@ def unbook_workday(holiday_id):
     try:
         if request.method == 'DELETE':
             engine.query(PublicHoliday).filter(PublicHoliday.id == holiday_id).delete()
-            return 'holiday deleted'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:

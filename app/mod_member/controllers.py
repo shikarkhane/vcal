@@ -89,7 +89,7 @@ def invite():
                 # todo: add random token number/string
                 inv = Invite(email, gid, '1')
                 engine.save(inv)
-            return 'invite list saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             return render_template('member/{0}.html'.format('invite'))
         else:
@@ -112,7 +112,7 @@ def member(group_id):
             removed_ids = d['removed_member_ids']
             for rid in removed_ids:
                 engine.query(Member).filter(Member.id == rid).delete()
-            return 'member list updated'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             m = engine.query(Member).filter(Member.group_id == group_id).all()
             return json.dumps(m, cls=AlchemyEncoder)
@@ -136,7 +136,7 @@ def joingroup(invite_code):
             x = Member(group_id, user_id)
             engine.save(x)
 
-            return 'Joined group'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:

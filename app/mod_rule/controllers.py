@@ -28,7 +28,7 @@ def rule(group_id, term_id):
             r = Rule(gid, term_id, json.dumps(rule_definition))
             engine.query(Rule).filter(Rule.group_id == gid, Rule.term_id == term_id).delete()
             engine.save(r)
-            return 'rule saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             r = engine.query(Rule).filter(Rule.group_id==group_id, Rule.term_id==term_id).all()
             if not r:

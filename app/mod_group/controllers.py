@@ -27,7 +27,7 @@ def group():
             d = request.get_json()
             g = Group(d['name'], int(d['type_id']))
             engine.save(g)
-            return 'group saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             r = engine.scan(Group).all()
             return json.dumps(r, cls=AlchemyEncoder)

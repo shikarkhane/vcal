@@ -30,7 +30,7 @@ def term():
             family_spread = json.dumps(d['family_spread'])
             r = Term(gid, name, start_dt, end_dt, family_spread)
             engine.save(r)
-            return 'term saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             return render_template('term/{0}.html'.format('term'))
         else:
@@ -58,7 +58,7 @@ def children(term_id):
             r = Children(tid, child_count)
             engine.query(Children).filter(Children.term_id==tid).delete()
             engine.save(r)
-            return 'term child count saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             r = engine.query(Children).filter(Children.term_id==term_id).all()
             return json.dumps(r, cls=AlchemyEncoder)

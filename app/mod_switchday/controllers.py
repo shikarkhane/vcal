@@ -43,7 +43,7 @@ def manage(group_id, user_id):
                 engine.save(w)
             else:
                 return abort(409)
-            return 'switchday was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.standin_user_id==user_id).all()
             newS = sorted(r, key=itemgetter('switch_date'))
@@ -65,7 +65,7 @@ def delete(group_id, standin_user_id):
 
             engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt,
                                                Switchday.standin_user_id==standin_user_id).delete()
-            return 'switchday was deleted'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:

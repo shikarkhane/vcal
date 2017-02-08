@@ -68,7 +68,7 @@ def standin_day():
                         standin_user_id,
                         d['booking_date'])
             engine.save(w)
-            return 'standin day was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             vacant_dates = engine.query(StandinDay).filter(StandinDay.standin_user_id==None).all()
             return json.dumps(vacant_dates)
@@ -100,7 +100,7 @@ def standin_range():
                     engine.save(w)
                 startDate = startDate + datetime.timedelta(days=1)
 
-            return 'standin day range was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -116,7 +116,7 @@ def summon(group_id):
                        d['work_date'],
                        d['from_time'], d['to_time'])
             engine.save(w)
-            return 'summon was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             r = engine.query(Summon).filter(Summon.group_id==group_id).all()
             newS = sorted(r, key=itemgetter('work_date'))
@@ -138,7 +138,7 @@ def unbook_standin(standinday_id):
                 newR.standin_user_id = None
                 newR.booking_date = int(time.time())
                 engine.sync(newR)
-            return 'removed standin booking'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -155,7 +155,7 @@ def unbook_workday(workday_id):
                 newR.booking_date = int(time.time())
                 engine.sync(newR)
 
-            return ' workday unbooked'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -166,7 +166,7 @@ def delete_summon(summon_id):
     try:
         if request.method == 'DELETE':
             engine.query(Summon).filter(Summon.id==summon_id).delete()
-            return 'Deleted summon'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -177,7 +177,7 @@ def delete_workday(workday_id):
     try:
         if request.method == 'DELETE':
             engine.query(Workday).filter(Workday.id==workday_id).delete()
-            return 'Deleted workday'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -210,7 +210,7 @@ def showup(group_id, chosen_date):
                     newR.has_worked = True
                     engine.save(newR)
 
-            return 'showup was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
             w = engine.query(Workday).filter(Workday.group_id==gid, Workday.work_date==dt).all()
             s = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
@@ -251,7 +251,7 @@ def worksignup(group_id):
                     else:
                         return abort(409)
                 else:
-                    return 'Workday NOT saved'
+                    return json.dumps({"status": "ok", "message": "saved"})
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
                 if w:
@@ -263,9 +263,9 @@ def worksignup(group_id):
                     else:
                         return abort(409)
                 else:
-                    return 'Standin NOT saved'
+                    return json.dumps({"status": "ok", "message": "saved"})
 
-            return 'worksignup was saved'
+            return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
     except Exception, e:
@@ -300,7 +300,7 @@ def onswitch_worksignup(group_id):
                     else:
                         return abort(409)
                 else:
-                    return 'Workday NOT saved'
+                    return json.dumps({"status": "ok", "message": "saved"})
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_date == dt).all()
                 if w:
@@ -313,7 +313,7 @@ def onswitch_worksignup(group_id):
                     else:
                         return abort(409)
                 else:
-                    return 'Standin NOT saved'
+                    return json.dumps({"status": "ok", "message": "saved"})
 
             return 'on switch - worksignup was saved'
         else:
