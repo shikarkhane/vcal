@@ -33,6 +33,7 @@ def manage(group_id, user_id):
             is_workday = d['is_workday']
 
             dt = chosen_date
+            id = None
             # todo: handle inside a db transaction
             w = engine.query(Switchday).filter(Switchday.group_id==gid, Switchday.switch_date==dt).all()
             if not w:
@@ -40,10 +41,11 @@ def manage(group_id, user_id):
                             d['chosen_date'],
                             d['from_time'], d['to_time'], user_id,
                             d['is_half_day'], is_workday)
+                id = w.id
                 engine.save(w)
             else:
                 return abort(409)
-            return json.dumps({"status": "ok", "message": "saved"})
+            return json.dumps({"status": "ok", "message": "saved", "id": id})
         elif request.method == 'GET':
             r = engine.query(Switchday).filter(Switchday.group_id==group_id, Switchday.standin_user_id==user_id).all()
             newS = sorted(r, key=itemgetter('switch_date'))

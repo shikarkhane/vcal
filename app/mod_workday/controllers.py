@@ -38,8 +38,9 @@ def working_day(group_id):
                          d['from_time'], d['to_time'], standin_user_id,
                         d['work_date'],
                         d['is_half_day'])
+            id = w.id
             engine.save(w)
-            return json.dumps({"status": "ok", "message": "workday was created"})
+            return json.dumps({"status": "ok", "message": "workday was created", "id": id})
         elif request.method == 'GET':
             r = engine.query(Workday).filter(Workday.group_id==group_id).all()
             newS = sorted(r, key=itemgetter('work_date'))
@@ -115,8 +116,9 @@ def summon(group_id):
             w = Summon(d['created_by_id'], group_id,
                        d['work_date'],
                        d['from_time'], d['to_time'])
+            id = w.id
             engine.save(w)
-            return json.dumps({"status": "ok", "message": "saved"})
+            return json.dumps({"status": "ok", "message": "saved", "id": id})
         elif request.method == 'GET':
             r = engine.query(Summon).filter(Summon.group_id==group_id).all()
             newS = sorted(r, key=itemgetter('work_date'))
@@ -237,7 +239,9 @@ def worksignup(group_id):
             chosen_date = d['chosen_date']
             is_workday = d['is_workday']
 
+            id = None
             dt = chosen_date
+
             if is_workday:
                 # todo: handle inside a db transaction
 
@@ -247,25 +251,28 @@ def worksignup(group_id):
                     if not newW.standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
+                        id = newW.id
                         engine.sync(newW)
                     else:
                         return abort(409)
                 else:
-                    return json.dumps({"status": "ok", "message": "saved"})
+                    return json.dumps({"status": "ok", "message": "workday doesnot exist"})
             else:
+
                 w = engine.query(StandinDay).filter(StandinDay.group_id==gid, StandinDay.standin_date==dt).all()
                 if w:
                     newW = w[0]
                     if not newW.standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
+                        id = newW.id
                         engine.sync(newW)
                     else:
                         return abort(409)
                 else:
-                    return json.dumps({"status": "ok", "message": "saved"})
+                    return json.dumps({"status": "ok", "message": "standin not found"})
 
-            return json.dumps({"status": "ok", "message": "saved"})
+            return json.dumps({"status": "ok", "message": "saved", "id": id})
         else:
             return abort(404)
     except Exception, e:
@@ -296,11 +303,12 @@ def onswitch_worksignup(group_id):
                     if newW.standin_user_id == standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
+                        id = newW.id
                         engine.sync(newW)
                     else:
                         return abort(409)
                 else:
-                    return json.dumps({"status": "ok", "message": "saved"})
+                    return json.dumps({"status": "ok", "message": "saved", "id": id})
             else:
                 w = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_date == dt).all()
                 if w:
@@ -309,11 +317,12 @@ def onswitch_worksignup(group_id):
                     if newW.standin_user_id == standin_user_id:
                         newW.standin_user_id = user_id
                         newW.booking_date = int(time.time())
+                        id = newW.id
                         engine.sync(newW)
                     else:
                         return abort(409)
                 else:
-                    return json.dumps({"status": "ok", "message": "saved"})
+                    return json.dumps({"status": "ok", "message": "saved", "id": id})
 
             return 'on switch - worksignup was saved'
         else:
