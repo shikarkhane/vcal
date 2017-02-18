@@ -3,12 +3,8 @@ from flask import Flask, render_template, request, redirect, abort, \
 import logging
 import json
 
-# Import the database object from the main app module
-from app import engine
 
 from app.mod_communicate.bl import Message
-
-from app.mod_communicate.models import EmailNotify
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_communicate = Blueprint('communicate', __name__)
@@ -26,10 +22,9 @@ def communicate():
             d = request.get_json()
             email = d['email']
             type = d['type']
-            metrics = d['metrics']
-            r = EmailNotify(email, type)
-            engine.save(r)
-            return json.dumps({"status": "ok", "message": "saved"})
+            metric = json.loads(d['metric'])
+            Message(email, type, metric).send()
+            return json.dumps({"status": "ok", "message": "email sent"})
         else:
             return abort(404)
     except Exception, e:
