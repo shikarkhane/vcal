@@ -39,6 +39,26 @@ def term():
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+@mod_term.route("/term/<term_id>/", methods=['PUT'])
+def updateterm(term_id):
+    try:
+        # todo when a new term is set/updated, add dates in vikariedays table
+        if request.method == 'PUT':
+            d = request.get_json()
+            start_dt = d['start_date']
+            end_dt = d['end_date']
+            family_spread = json.dumps(d['family_spread'])
+            r = engine.get(Term, id=term_id)
+            r.start_date = start_dt
+            r.end_date = end_dt
+            r.family_spread = family_spread
+            r.sync()
+            return json.dumps({"status": "ok", "message": "updated"})
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
 @mod_term.route("/term_details/<group_id>/", methods=['GET'])
 def term_details(group_id):
     try:
