@@ -186,8 +186,8 @@ def delete_workday(workday_id):
         logging.exception(e)
         return render_template("oops.html")
 
-@mod_workday.route("/show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
-def showup(group_id, chosen_date):
+@mod_workday.route("/no-show-ups/<group_id>/date/<chosen_date>/", methods=['GET', 'POST'])
+def noshowup(group_id, chosen_date):
     try:
         gid = group_id
         dt = chosen_date
@@ -202,14 +202,14 @@ def showup(group_id, chosen_date):
                                                  Workday.work_date == dt).all()
                 if r:
                     newR = r[0]
-                    newR.has_worked = True
+                    newR.has_not_worked = True
                     engine.save(newR)
             else:
                 r = engine.query(StandinDay).filter(StandinDay.group_id == gid, StandinDay.standin_user_id == userId,
                                                     StandinDay.standin_date == dt).all()
                 if r:
                     newR = r[0]
-                    newR.has_worked = True
+                    newR.has_not_worked = True
                     engine.save(newR)
 
             return json.dumps({"status": "ok", "message": "saved"})

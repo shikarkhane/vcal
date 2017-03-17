@@ -20,7 +20,7 @@ class Workday(DyBase):
     standin_user_id = Field(data_type=STRING, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
     is_half_day = Field(data_type=NUMBER, nullable=False, default=False)
-    has_worked = Field(data_type=NUMBER, nullable=False, default=False)
+    has_not_worked = Field(data_type=NUMBER, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, creator_user_id, group_id, work_date, from_time, to_time,
@@ -51,7 +51,7 @@ class StandinDay(DyBase):
     standin_date = Field(data_type=NUMBER, nullable=False)
     standin_user_id = Field(data_type=STRING, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
-    has_worked = Field(data_type=NUMBER, nullable=False, default=False)
+    has_not_worked = Field(data_type=NUMBER, nullable=False, default=False)
 
     # New instance instantiation procedure
     def __init__(self, group_id, standin_date, standin_user_id, booking_date):
