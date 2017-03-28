@@ -5,8 +5,8 @@ from flywheel import Engine
 
 #dynamodb move
 engine = Engine()
-engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy',
-               is_secure=False, session = None)
+#engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy', is_secure=False, session = None)
+engine.connect_to_region('eu-west-1')
 
 # Define the WSGI application object
 app = Flask(__name__)
@@ -25,7 +25,7 @@ from app.mod_workday.controllers import mod_workday as workday_module
 from app.mod_rule.controllers import mod_rule as rule_module
 from app.mod_term.controllers import mod_term as term_module
 from app.mod_switchday.controllers import mod_switchday as switchday_module
-
+from app.mod_communicate.controllers import mod_communicate as communication_module
 
 # Register blueprint(s)
 app.register_blueprint(draft_module)
@@ -35,7 +35,7 @@ app.register_blueprint(workday_module)
 app.register_blueprint(rule_module)
 app.register_blueprint(term_module)
 app.register_blueprint(switchday_module)
-
+app.register_blueprint(communication_module)
 # app.register_blueprint(xyz_module)
 # ..
 

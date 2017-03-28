@@ -11,13 +11,13 @@ class Content:
         self.metric = metric
     def getSubject(self):
         if self.type == 'TERM_OPEN':
-            return 'The term {0} ({1} till {2}) is open. ' \
-                   'Please sign-up for stand-in days.'.format(self.metric)
+            return 'The term is open. ' \
+                   'Please sign-up for stand-in days.'
 
     def getContent(self):
         if self.type == 'TERM_OPEN':
-            return 'The term {0} ({1} till {2}) is open. ' \
-                   'Please sign-up for stand-in days.'.format(self.metric)
+            return 'The term is open. ' \
+                   'Please sign-up for stand-in days.'
 
 class Message:
     def __init__(self, email, type, metric):
