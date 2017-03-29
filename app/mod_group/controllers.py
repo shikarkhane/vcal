@@ -25,7 +25,7 @@ def group():
     try:
         if request.method == 'POST':
             d = request.get_json()
-            g = Group(d['name'], int(d['type_id']))
+            g = Group(d['name'], int(d['type_id']), d['domain'])
             engine.save(g)
             return json.dumps({"status": "ok", "message": "saved"})
         elif request.method == 'GET':
