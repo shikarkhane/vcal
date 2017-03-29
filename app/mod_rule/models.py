@@ -9,7 +9,7 @@ class Rule(DyBase):
     __tablename__ = 'rule'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'group_id', 'term_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id', 'term_id').throughput(read=1, write=1),
         ],
     }
 

@@ -9,7 +9,7 @@ class Invite(DyBase):
     __tablename__ = 'invite'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],
     }
 
@@ -32,7 +32,7 @@ class Member(DyBase):
     __tablename__ = 'group_member'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],
     }
 
@@ -53,7 +53,7 @@ class User(DyBase):
     __tablename__ = 'user'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'email').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'email').throughput(read=1, write=1),
         ],
     }
 

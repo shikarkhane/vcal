@@ -9,7 +9,7 @@ class EmailNotify(DyBase):
     __tablename__ = 'email_notify'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'email', 'date_created').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'email', 'date_created').throughput(read=1, write=1),
         ],
     }
 

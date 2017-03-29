@@ -9,7 +9,7 @@ class Workday(DyBase):
     __tablename__ = 'workday'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts1-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'group_id').throughput(read=1, write=1),
         ],
     }
     group_id = Field(data_type=STRING, nullable=False)
@@ -44,7 +44,7 @@ class StandinDay(DyBase):
     __tablename__ = 'standinday'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts1-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts1-index', 'group_id').throughput(read=1, write=1),
         ],
     }
     group_id = Field(data_type=STRING, nullable=False)
@@ -73,7 +73,7 @@ class Summon(DyBase):
     __tablename__ = 'summon'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],
     }
     created_by_id = Field(data_type=STRING, nullable=False)

@@ -8,7 +8,7 @@ class Term(DyBase):
     __tablename__ = 'term'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'group_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],
     }
     group_id = Field(data_type=STRING, nullable=False)
@@ -34,7 +34,7 @@ class Children(DyBase):
     __tablename__ = 'term_children'
     __metadata__ = {
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'term_id').throughput(read=10, write=2),
+            GlobalIndex.all('ts-index', 'term_id').throughput(read=1, write=1),
         ],
     }
 
