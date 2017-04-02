@@ -50,11 +50,12 @@ from app.mod_rule.models import Rule
 from app.mod_switchday.models import Switchday
 from app.mod_term.models import Children, Term
 from app.mod_workday.models import StandinDay, Summon, Workday
-
+from app.mod_communicate.models import EmailNotify
 
 
 # Register our model with the engine so it can create the Dynamo table
-engine.register(PublicHoliday, Group, Invite, Member, User, Rule, Switchday, Children, Term, StandinDay, Summon, Workday)
+engine.register(PublicHoliday, Group, Invite, Member, User, Rule, Switchday, Children, Term, StandinDay,
+                Summon, Workday, EmailNotify)
 
 # Create the dynamo table for our registered model
 engine.create_schema()
