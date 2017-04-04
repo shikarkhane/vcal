@@ -11,12 +11,26 @@ class Content:
         self.metric = metric
     def getSubject(self):
         if self.type == 'TERM_OPEN':
-            return '{0} term is open'.format(self.metric)
+            return '{} term is open'
+        if self.type == 'TERM_EDITED':
+            return '{} term was changed'
+        if self.type == 'BOOKED':
+            return 'You booked {} as {}'
+        if self.type == 'SWITCH':
+            return 'Your switch is published'
 
     def getContent(self):
         if self.type == 'TERM_OPEN':
-            return '{0} term is open. ' \
-                   'Please sign-up for stand-in days.'.format(self.metric)
+            return '{} term is open. ' \
+                   'Please sign-up for stand-in days.'
+        if self.type == 'TERM_EDITED':
+            return '{} term was changed by the administrator' \
+                   'Please login to check, if you are obligated to standin for more days.'
+        if self.type == 'BOOKED':
+            return 'You booked {} as {}'
+        if self.type == 'SWITCH':
+            return 'Your request to switch {} as {} has been published.' \
+                   'Till another user picks your date, you will own it.'
 
 class Message:
     def __init__(self, email, type, metric):
@@ -28,8 +42,8 @@ class Message:
 
     def send(self):
         c = Content(self.type, self.metric)
-        subject = c.getSubject()
-        body = c.getSubject()
+        subject = (c.getSubject()).format(*(self.metric))
+        body = (c.getContent()).format(*(self.metric))
 
         r = self.send_email( subject, body)
         e = EmailNotify(self.email_to, self.type)
