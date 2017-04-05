@@ -18,6 +18,8 @@ class Content:
             return 'You booked {} as {}'
         if self.type == 'SWITCH':
             return 'Your switch is published'
+        if self.type == 'SWITCHED':
+            return 'Someone pitched in for you'
 
     def getContent(self):
         if self.type == 'TERM_OPEN':
@@ -31,6 +33,10 @@ class Content:
         if self.type == 'SWITCH':
             return 'Your request to switch {} as {} has been published.' \
                    'Till another user picks your date, you will own it.'
+        if self.type == 'SWITCHED':
+            return 'Your {} on {} was picked by someone else.' \
+                   'Please check if you need to pick any more dates by logging in.'
+
 
 class Message:
     def __init__(self, email, type, metric):

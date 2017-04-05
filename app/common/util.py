@@ -24,3 +24,10 @@ class AlchemyEncoder(json.JSONEncoder):
             return float(obj)
 
         return json.JSONEncoder.default(self, obj)
+
+
+class DateUtil():
+    def __init__(self):
+        pass
+    def getHumanDate(self, epoch):
+        return '9th Apr 2017'
