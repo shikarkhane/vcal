@@ -11,22 +11,25 @@ class Content:
         self.metric = metric
     def getSubject(self):
         if self.type == 'TERM_OPEN':
-            return '{} term is open'
+            return '[Action needed]: {} term is open'
         if self.type == 'TERM_EDITED':
-            return '{} term was changed'
+            return '[Action needed]: {} term was changed'
         if self.type == 'BOOKED':
-            return 'You booked {} as {}'
+            return '[Info]: You booked {} as {}'
         if self.type == 'SWITCH':
-            return 'Your switch is published'
+            return '[Info]: Your switch is published'
         if self.type == 'SWITCHED':
-            return 'Someone pitched in for you'
+            return '[Info]: Someone pitched in for you'
+        if self.type == 'UNBOOKED_IN_30_DAYS':
+            return '[Action needed]: Unbooked dates in next 30 days'
+
 
     def getContent(self):
         if self.type == 'TERM_OPEN':
-            return '{} term is open. ' \
+            return '{} ({}) term is open. ' \
                    'Please sign-up for stand-in days.'
         if self.type == 'TERM_EDITED':
-            return '{} term was changed by the administrator' \
+            return '{} ({}) term was changed by the administrator' \
                    'Please login to check, if you are obligated to standin for more days.'
         if self.type == 'BOOKED':
             return 'You booked {} as {}'
@@ -34,8 +37,11 @@ class Content:
             return 'Your request to switch {} as {} has been published.' \
                    'Till another user picks your date, you will own it.'
         if self.type == 'SWITCHED':
-            return 'Your {} on {} was picked by someone else.' \
+            return 'Your {} on {} was picked by {}.' \
                    'Please check if you need to pick any more dates by logging in.'
+        if self.type == 'UNBOOKED_IN_30_DAYS':
+            return 'Unbooked dates in next 30 days.'\
+                   'Following dates are unbooked - {}'
 
 
 class Message:
