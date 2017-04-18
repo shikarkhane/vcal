@@ -14,12 +14,9 @@ def getEmail(userId):
         .all(attributes=['email'])
     return res[0]['email']
 
-def notify_unbooked_to_admin(adminUserId, unbookedDates):
-    fn = lambda x: DateUtil().getHumanDate(x)
-    humanDates = ",".join([fn(i) for i in unbookedDates])
-
+def notify_unbooked_to_admin(adminUserId, datesAsText):
     email = getEmail(adminUserId)
-    send(email, 'UNBOOKED_IN_30_DAYS', [humanDates])
+    send(email, 'UNBOOKED_IN_30_DAYS', [datesAsText])
 
 def notify_booked(userId, bookingDate, isWorkday):
     humanDate = DateUtil().getHumanDate(bookingDate)
