@@ -18,14 +18,8 @@ def unbooked_dates(event, context):
     ow = getOpenWorkday(groupId)
 
     fn = lambda x: DateUtil().getHumanDate(x)
-    datesAsText = "Open Standins -  " + ",".join([fn(i) for i in os]) +
-    "\n"
-
+    datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) + "\n\n" +
+    "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
 
     for admin in groupAdmins:
-        notify_unbooked_to_admin(admin['id'], )
-
-    Message("shikarkhane@gmail.com", "TERM_OPEN", ['vt2017']).send()
-    print 'Event time was', event['time']
-    print 'This log is', context.log_group_name, context.log_stream_name
-    print 'Time left for execution:', context.get_remaining_time_in_millis()
+        notify_unbooked_to_admin(admin['id'], datesAsText)

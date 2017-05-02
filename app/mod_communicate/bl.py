@@ -22,6 +22,8 @@ class Content:
             return '[Info]: Someone pitched in for you'
         if self.type == 'UNBOOKED_IN_30_DAYS':
             return '[Action needed]: Unbooked dates in next 30 days'
+        if self.type == 'SUMMONED':
+            return '[Action needed]: Vikarie needed'
 
 
     def getContent(self):
@@ -42,6 +44,9 @@ class Content:
         if self.type == 'UNBOOKED_IN_30_DAYS':
             return 'Unbooked dates in next 30 days.'\
                    'Following dates are unbooked - {}'
+        if self.type == 'SUMMONED':
+            return 'You are being called to work on {}. ' \
+                   'Please send email to vikarie@gomorronsol.net to confirm the receipt of this email.'
 
 
 class Message:
