@@ -2,6 +2,7 @@ import json
 import decimal
 
 from flywheel.model_meta import ModelMetaclass
+import time
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -30,4 +31,4 @@ class DateUtil():
     def __init__(self):
         pass
     def getHumanDate(self, epoch):
-        return '9th Apr 2017'
+        return time.strftime("%A, %d %B %Y", time.localtime(epoch))
