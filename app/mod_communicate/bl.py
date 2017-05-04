@@ -11,19 +11,19 @@ class Content:
         self.metric = metric
     def getSubject(self):
         if self.type == 'TERM_OPEN':
-            return '[Action needed]: {} term is open'
+            return '[Term Open]: {} term is open'
         if self.type == 'TERM_EDITED':
-            return '[Action needed]: {} term was changed'
+            return '[Term Edited]: {} term was changed'
         if self.type == 'BOOKED':
-            return '[Info]: You booked {} as {}'
+            return '[Booked]: {} as {}'
         if self.type == 'SWITCH':
-            return '[Info]: Your switch is published'
+            return '[Switch Published]: {}'
         if self.type == 'SWITCHED':
-            return '[Info]: Someone pitched in for you'
+            return '[Switch Successful]: Someone pitched in'
         if self.type == 'UNBOOKED_IN_30_DAYS':
             return '[Action needed]: Unbooked dates in next 30 days'
         if self.type == 'SUMMONED':
-            return '[Action needed]: Vikarie needed'
+            return '[Summoned]: On {}'
 
 
     def getContent(self):
