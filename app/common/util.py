@@ -4,6 +4,10 @@ import decimal
 from flywheel.model_meta import ModelMetaclass
 import time
 
+from threading import Thread
+from functools import wraps
+
+
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj.__class__, ModelMetaclass):
@@ -32,3 +36,12 @@ class DateUtil():
         pass
     def getHumanDate(self, epoch):
         return time.strftime("%A, %d %B %Y", time.localtime(epoch))
+
+def run_async(func):
+    @wraps(func)
+    def async_func(*args, **kwargs):
+        func_hl = Thread(target = func, args = args, kwargs = kwargs)
+        func_hl.start()
+        return func_hl
+
+    return async_func

@@ -4,9 +4,9 @@ from app.mod_communicate.bl import Message
 from app.mod_member.models import User
 from app.mod_workday.models import StandinDay
 
-from app.common.util import DateUtil
+from app.common.util import DateUtil, run_async
 
-
+@run_async
 def send(email, type, metricList):
     Message(email, type, metricList).send()
 
