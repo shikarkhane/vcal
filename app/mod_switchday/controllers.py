@@ -90,3 +90,15 @@ def open_switchday(group_id, show_workday):
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
+
+@mod_switchday.route("/switchday/<switch_id>/", methods=['DELETE'])
+def delete_switchday(switch_id):
+    try:
+        if request.method == 'DELETE':
+            engine.query(Switchday).filter(Switchday.id == switch_id).delete()
+            return json.dumps({"status": "ok", "message": "saved"})
+        else:
+            return abort(404)
+    except Exception, e:
+        logging.exception(e)
+        return render_template("oops.html")
