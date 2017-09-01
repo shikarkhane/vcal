@@ -5,8 +5,8 @@ from flywheel import Engine
 
 #dynamodb move
 engine = Engine()
-engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy', is_secure=False, session = None)
-#engine.connect_to_region('eu-west-1')
+#engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy', is_secure=False, session = None)
+engine.connect_to_region('eu-west-1')
 
 # Define the WSGI application object
 app = Flask(__name__)

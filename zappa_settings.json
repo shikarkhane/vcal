@@ -6,5 +6,8 @@
            "function": "app.common.jobs.unbooked_dates", // The function to execute
            "expression": "rate(1 minute)" // When to execute it (in cron or rate format)
        }],
+      "manage_roles": false,
+      "role_name": "ZappaLambdaExecution"
+
     }
 }
