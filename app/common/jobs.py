@@ -18,8 +18,7 @@ def unbooked_dates(event, context):
     ow = getOpenWorkday(groupId)
 
     fn = lambda x: DateUtil().getHumanDate(x)
-    datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) + "\n\n" +
-    "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
+    datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) + "\n\n" + "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
 
     for admin in groupAdmins:
         notify_unbooked_to_admin(admin['id'], datesAsText)
