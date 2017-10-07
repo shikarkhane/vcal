@@ -18,7 +18,7 @@ class Switchday(DyBase):
         ],
     }
 
-    group_id = Field(data_type=STRING, nullable=False, range_key=True)
+    group_id = Field(data_type=STRING, nullable=False)
     switch_date = Field(data_type=NUMBER, nullable=False)
     from_time_in_24hours = Field(data_type=STRING, default = '0900')
     to_time_in_24hours = Field(data_type=STRING, default = '1630')

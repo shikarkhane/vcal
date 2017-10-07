@@ -58,7 +58,7 @@ class StandinDay(DyBase):
         ],
     }
     group_id = Field(data_type=STRING, nullable=False)
-    standin_date = Field(data_type=NUMBER, nullable=False, range_key=True)
+    standin_date = Field(data_type=NUMBER, nullable=False)
     standin_user_id = Field(data_type=STRING, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
     has_not_worked = Field(data_type=NUMBER, nullable=False, default=False)
