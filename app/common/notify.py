@@ -41,7 +41,6 @@ def notify_booked(userId, dateBooked, isWorkday):
     if (isWorkday):
         dayType = 'arbetsdag'
     email = getEmail(userId)
-
     send(email, 'BOOKED', [humanDate, dayType])
 
 
@@ -51,7 +50,6 @@ def notify_switch(userId, dateBooked, isWorkday):
     if (isWorkday):
         dayType = 'arbetsdag'
     email = getEmail(userId)
-
     send(email, 'SWITCH', [humanDate, dayType])
 
 
@@ -62,7 +60,6 @@ def notify_switched(userId, dateBooked, isWorkday, userIdWhoTookSwitchDate):
         dayType = 'arbetsdag'
     email = getEmail(userId)
     switchUserEmail = getEmail(userIdWhoTookSwitchDate)
-
     send(email, 'SWITCHED', [humanDate, dayType, switchUserEmail])
 
 

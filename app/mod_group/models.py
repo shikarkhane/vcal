@@ -8,7 +8,12 @@ from app.common.models import DyBase
 class Group(DyBase):
 
     __tablename__ = 'group'
-
+    __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+    }
     # Identification Data: email & password
     name = Field(data_type=STRING)
     type_id = Field(data_type=NUMBER)
