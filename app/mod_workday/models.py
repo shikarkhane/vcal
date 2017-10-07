@@ -8,6 +8,11 @@ class Workday(DyBase):
 
     __tablename__ = 'workday'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+
         'global_indexes': [
             GlobalIndex.all('ts1-index', 'group_id').throughput(read=1, write=1),
         ],
@@ -43,12 +48,17 @@ class StandinDay(DyBase):
 
     __tablename__ = 'standinday'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+
         'global_indexes': [
             GlobalIndex.all('ts1-index', 'group_id').throughput(read=1, write=1),
         ],
     }
     group_id = Field(data_type=STRING, nullable=False)
-    standin_date = Field(data_type=NUMBER, nullable=False)
+    standin_date = Field(data_type=NUMBER, nullable=False, range_key=True)
     standin_user_id = Field(data_type=STRING, nullable=True)
     booking_date = Field(data_type=NUMBER, nullable=False)
     has_not_worked = Field(data_type=NUMBER, nullable=False, default=False)
@@ -72,6 +82,11 @@ class Summon(DyBase):
 
     __tablename__ = 'summon'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+
         'global_indexes': [
             GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],

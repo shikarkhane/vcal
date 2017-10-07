@@ -8,6 +8,11 @@ class Switchday(DyBase):
 
     __tablename__ = 'switchday'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+
         'global_indexes': [
             GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],

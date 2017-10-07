@@ -11,8 +11,8 @@ def send(email, type, metricList):
     Message(email, type, metricList).send()
 
 
-def getVikarieUserId(dateOfSummon):
-    res = engine.query(StandinDay).filter(StandinDay.standin_date == dateOfSummon) \
+def getVikarieUserId(group_id, dateOfSummon):
+    res = engine.query(StandinDay).filter(StandinDay.group_id == group_id, StandinDay.standin_date == dateOfSummon) \
         .all(attributes=['standin_user_id'])
     return res[0]['standin_user_id']
 
@@ -28,9 +28,9 @@ def notify_unbooked_to_admin(adminUserId, datesAsText):
     send(email, 'UNBOOKED_IN_30_DAYS', [datesAsText])
 
 
-def notify_summon(dateOfSummon):
+def notify_summon(group_id, dateOfSummon):
     humanDate = DateUtil().getHumanDate(dateOfSummon)
-    userId = getVikarieUserId(dateOfSummon)
+    userId = getVikarieUserId(group_id, dateOfSummon)
     email = getEmail(userId)
     send(email, 'SUMMONED', [humanDate])
 

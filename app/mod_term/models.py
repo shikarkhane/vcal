@@ -7,6 +7,10 @@ class Term(DyBase):
 
     __tablename__ = 'term'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
         'global_indexes': [
             GlobalIndex.all('ts-index', 'group_id').throughput(read=1, write=1),
         ],
@@ -33,6 +37,11 @@ class Children(DyBase):
 
     __tablename__ = 'term_children'
     __metadata__ = {
+        'throughput': {
+            'read': 1,
+            'write': 1,
+        },
+
         'global_indexes': [
             GlobalIndex.all('ts-index', 'term_id').throughput(read=1, write=1),
         ],

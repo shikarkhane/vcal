@@ -125,7 +125,7 @@ def summon(group_id):
                        d['from_time'], d['to_time'])
             id = w.id
             engine.save(w)
-            notify.notify_summon(d['work_date'])
+            notify.notify_summon(group_id, d['work_date'])
             return json.dumps({"status": "ok", "message": "saved", "id": id})
         elif request.method == 'GET':
             r = engine.query(Summon).filter(Summon.group_id == group_id).all()
