@@ -1,3 +1,6 @@
 from enum import Enum
 
-E_ROLE = Enum('Regular', 'GroupAdmin', 'SiteAdmin')
+class E_ROLE(Enum):
+    Regular = 1
+    GroupAdmin = 2
+    SiteAdmin = 3

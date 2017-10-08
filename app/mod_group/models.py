@@ -1,7 +1,7 @@
 # Import the database object (db) from the main application module
 # We will define this inside /app/__init__.py in the next sections.
 
-from flywheel import Field, NUMBER, STRING
+from flywheel import Field, NUMBER, STRING, GlobalIndex
 from app.common.models import DyBase
 
 # Define a User model
@@ -13,6 +13,11 @@ class Group(DyBase):
             'read': 1,
             'write': 1,
         },
+
+        'global_indexes': [
+            GlobalIndex.all('ts-index', 'domain').throughput(read=1, write=1),
+        ],
+
     }
     # Identification Data: email & password
     name = Field(data_type=STRING)
@@ -28,3 +33,5 @@ class Group(DyBase):
 
     def __repr__(self):
         return '<Group %r>' % (self.name)
+    def __getitem__(self, key):
+        return self.name

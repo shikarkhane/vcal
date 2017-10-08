@@ -68,7 +68,7 @@ class User(DyBase):
         },
 
         'global_indexes': [
-            GlobalIndex.all('ts-index', 'email').throughput(read=1, write=1),
+            GlobalIndex.all('ts-index', 'role').throughput(read=1, write=1),
         ],
     }
 
@@ -98,3 +98,5 @@ class User(DyBase):
 
     def __repr__(self):
         return '<User %r>' % (self.email)
+    def __getitem__(self, key):
+        return self.email
