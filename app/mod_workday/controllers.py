@@ -11,6 +11,8 @@ from operator import itemgetter
 
 from app.common import notify
 
+from app.mod_workday.bl import getOpenStandin, getOpenWorkday
+
 # Import module models (i.e. User)
 from app.mod_workday.models import Workday, Summon, StandinDay
 import datetime
@@ -357,9 +359,8 @@ def onswitch_worksignup(group_id):
 @mod_workday.route("/openworkday/<group_id>/", methods=['GET'])
 def openworkday(group_id):
     try:
-        w = engine.query(Workday).filter(Workday.group_id == group_id, Workday.standin_user_id == None).all()
-        newS = sorted(w, key=itemgetter('work_date'))
-        return json.dumps(newS, cls=AlchemyEncoder)
+        open_days = getOpenWorkday(group_id)
+        return json.dumps(open_days, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")
@@ -368,9 +369,8 @@ def openworkday(group_id):
 @mod_workday.route("/openstandin/<group_id>/", methods=['GET'])
 def openstandin(group_id):
     try:
-        s = engine.query(StandinDay).filter(StandinDay.group_id == group_id, StandinDay.standin_user_id == None).all()
-        newS = sorted(s, key=itemgetter('standin_date'))
-        return json.dumps(newS, cls=AlchemyEncoder)
+        open_days = getOpenStandin(group_id)
+        return json.dumps(open_days, cls=AlchemyEncoder)
     except Exception, e:
         logging.exception(e)
         return render_template("oops.html")

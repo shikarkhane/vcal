@@ -13,3 +13,4 @@ def getOpenStandin(group_id):
                                         StandinDay.standin_user_id == None).all()
     newS = sorted(s, key=itemgetter('standin_date'))
     return newS
+
