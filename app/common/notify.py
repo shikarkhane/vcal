@@ -73,3 +73,6 @@ def notify_term_edited():
     email = 'parents@gomorronsol.net'
     termDetails = "{0} till {1}".format(termStartDate, termEndDate)
     send(email, 'TERM_EDITED', [termName, termDetails])
+
+def send_email_test():
+    send('shikarkhane@gmail.com', 'SUMMONED', ['test'])

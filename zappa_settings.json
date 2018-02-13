@@ -5,9 +5,32 @@
         "events": [{
            "function": "app.common.jobs.unbooked_dates", // The function to execute
            "expression": "rate(1 minute)" // When to execute it (in cron or rate format)
-       }],
+       }]
+    ,
       "manage_roles": false,
-      "role_name": "ZappaLambdaExecution"
-
+      "role_name": "ZappaLambdaExecution",
+      "binary_support" : false,
+      "cors": {
+        "allowed_headers": [
+          "accept",
+          "accept-encoding",
+          "content-type",
+          "dnt",
+          "origin",
+          "user-agent",
+          "x-csrftoken",
+          "X-Requested-With",
+          "Location",
+          "Status",
+          "X-Frame-Options",
+          "Set-Cookie",
+          "Authorization",
+          "Access-Control-Allow-Origin",
+          "Access-Control-Allow-Headers",
+          "Access-Control-Allow-Methods"
+        ],
+      "allowed_origin": "*",
+      "allowed_methods" :  ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+      }
     }
 }

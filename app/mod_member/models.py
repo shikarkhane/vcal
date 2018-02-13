@@ -68,6 +68,7 @@ class User(DyBase):
         },
 
         'global_indexes': [
+            GlobalIndex.all('ts-index1', 'email').throughput(read=1, write=1),
             GlobalIndex.all('ts-index', 'role').throughput(read=1, write=1),
         ],
     }
