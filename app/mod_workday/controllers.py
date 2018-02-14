@@ -69,12 +69,23 @@ def standin_day():
             else:
                 standin_user_id = d['standin_user_id']
 
-            w = StandinDay(d['group_id'],
-                           d['standin_date'],
-                           standin_user_id,
-                           d['booking_date'])
-            engine.save(w)
-            return json.dumps({"status": "ok", "message": "saved"})
+            gid = d['group_id']
+            standin_date = datetime.datetime.fromtimestamp(d['standin_date'])
+
+            # create if not exists
+            existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
+                                                           StandinDay.standin_date == calendar.timegm(
+                                                               standin_date.timetuple())).all()
+            if not existStandin:
+                #create
+                w = StandinDay(gid,
+                               standin_date,
+                               standin_user_id,
+                               d['booking_date'])
+                engine.save(w)
+                return json.dumps({"status": "ok", "message": "saved"})
+            else:
+                return json.dumps({"status": "error", "message": "duplicate"})
         elif request.method == 'GET':
             vacant_dates = engine.query(StandinDay).filter(StandinDay.standin_user_id == None).all()
             return json.dumps(vacant_dates)

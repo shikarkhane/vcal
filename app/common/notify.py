@@ -23,9 +23,8 @@ def getEmail(userId):
     return res[0]['email']
 
 
-def notify_unbooked_to_admin(adminUserId, datesAsText):
-    email = getEmail(adminUserId)
-    send(email, 'UNBOOKED_IN_30_DAYS', [datesAsText])
+def notify_unbooked_to_admin(adminEmail, datesAsText):
+    send(adminEmail, 'UNBOOKED_IN_30_DAYS', [datesAsText])
 
 
 def notify_summon(group_id, dateOfSummon):
