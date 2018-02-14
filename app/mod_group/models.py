@@ -34,4 +34,4 @@ class Group(DyBase):
     def __repr__(self):
         return '<Group %r>' % (self.name)
     def __getitem__(self, key):
-        return self.name
+        return self.id

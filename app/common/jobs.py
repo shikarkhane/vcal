@@ -10,7 +10,7 @@ import logging
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 
-def unbooked_dates(event, context):
+def unbooked_dates():
     '''If there are unbooked dates in next 30 days,
     after 2 days of term modification,
     send alert to admin'''
@@ -20,8 +20,8 @@ def unbooked_dates(event, context):
     groupAdmins = getGroupAdmins(groupId)
 
     if groupAdmins:
-        os = getOpenStandin(groupId)
-        ow = getOpenWorkday(groupId)
+        os = [i['standin_date'] for i in getOpenStandin(groupId)]
+        ow = [i['work_date'] for i in getOpenWorkday(groupId)]
 
         fn = lambda x: DateUtil().getHumanDate(x)
         datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) + "\n\n" + "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
