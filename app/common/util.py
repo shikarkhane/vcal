@@ -7,6 +7,8 @@ import time
 from threading import Thread
 from functools import wraps
 
+from app.common.bl import getAllUsers
+
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -36,6 +38,13 @@ class DateUtil():
         pass
     def getHumanDate(self, epoch):
         return time.strftime("%A, %d %B %Y", time.localtime(epoch))
+
+class UserUtil():
+    def __init__(self, group_id):
+        self.users = getAllUsers(group_id)
+        self.users_dict = {u['id'] : u for u in self.users}
+    def getName(self, user_id):
+        return self.users_dict[user_id]['name']
 
 def run_async(func):
     @wraps(func)

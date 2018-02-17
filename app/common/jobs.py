@@ -4,7 +4,7 @@ from app.mod_workday.bl import getOpenStandin, getOpenWorkday, \
 from app.mod_communicate.bl import Message
 from app.common.bl import getGroupAdmins
 from app.common.notify import notify_unbooked_to_admin
-from app.common.util import DateUtil
+from app.common.util import DateUtil, UserUtil
 import logging
 
 # Log everything, and send it to stderr.
@@ -24,8 +24,12 @@ def unbooked_dates(event, context):
         os = [i['standin_date'] for i in getOpenStandin(groupId)]
         ow = [i['work_date'] for i in getOpenWorkday(groupId)]
 
-        fn = lambda x: DateUtil().getHumanDate(x)
-        datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) + "\n\n" + "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
+        du = DateUtil()
+        fn = lambda x: du.getHumanDate(x)
+
+        datesAsText = "Open Standins -  " + ",\n".join([fn(i) for i in os]) \
+                      + "\n\n" + \
+                      "Open Workdays -  " + ",\n".join([fn(i) for i in ow])
 
         for admin in groupAdmins:
             notify_unbooked_to_admin(admin['id'], datesAsText)
@@ -42,8 +46,14 @@ def weekly_reminder():
         os = [[i['standin_date'], i['standin_user_id']] for i in getStandinVikarieForNextXDays(groupId,0,7)]
         ow = [[i['work_date'], i['standin_user_id']] for i in getWorkdayVikarieForNextXDays(groupId,0,7)]
 
-        fn = lambda x: DateUtil().getHumanDate(x)
-        datesAsText = "Standins -  " + ",\n".join([fn(i[0]) for i in os]) + "\n\n" + "Workdays -  " + ",\n".join([fn(i[0]) for i in ow])
+        du = DateUtil()
+        uu = UserUtil(groupId)
+        fn_date = lambda x: du.getHumanDate(x)
+        fn_name = lambda x: uu.getName(x)
+
+        datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
+                      + "\n\n" + \
+                      "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
 
         for admin in groupAdmins:
             notify_unbooked_to_admin(admin['id'], datesAsText)
