@@ -42,8 +42,8 @@ class Content:
             return 'Your {} on {} was picked by {}.' \
                    'Please check if you need to pick any more dates by logging in.'
         if self.type == 'UNBOOKED_IN_30_DAYS':
-            return 'Unbooked dates in next 30 days.'\
-                   'Following dates are unbooked - {}'
+            return 'Unbooked dates in next 30 days.\n'\
+                   'Following dates are unbooked - \n\n{}'
         if self.type == 'SUMMONED':
             return 'You are being called to work on {}. ' \
                    'Please send email to vikarie@gomorronsol.net to confirm the receipt of this email.'

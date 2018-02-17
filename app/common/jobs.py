@@ -10,7 +10,7 @@ import logging
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 
-def unbooked_dates():
+def unbooked_dates(event, context):
     '''If there are unbooked dates in next 30 days,
     after 2 days of term modification,
     send alert to admin'''
