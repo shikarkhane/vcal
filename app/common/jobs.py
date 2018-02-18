@@ -36,15 +36,15 @@ def unbooked_dates(event, context):
     else:
         logging.info("No admins exists")
 
-def weekly_reminder():
+def weekly_reminder(event, context):
     '''send reminder every friday evening to vikarie in upcoming week'''
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)
 
-    if not groupAdmins:
-        os = [[i['standin_date'], i['standin_user_id']] for i in getStandinVikarieForNextXDays(groupId,0,7)]
-        ow = [[i['work_date'], i['standin_user_id']] for i in getWorkdayVikarieForNextXDays(groupId,0,7)]
+    if groupAdmins:
+        os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,7)]
+        ow = [[i.work_date, i.standin_user_id] for i in getWorkdayVikarieForNextXDays(groupId,0,7)]
 
         du = DateUtil()
         uu = UserUtil(groupId)
