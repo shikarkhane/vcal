@@ -49,13 +49,16 @@ def weekly_reminder(event, context):
         du = DateUtil()
         uu = UserUtil(groupId)
         fn_date = lambda x: du.getHumanDate(x)
-        fn_name = lambda x: uu.getName(x)
+        fn_name = lambda x: uu.getName(x).encode('utf-8').strip()
 
-        datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
-                      + "\n\n" + \
-                      "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
+        try:
+            datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
+                          + "\n\n" + \
+                          "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
 
-        for admin in groupAdmins:
-            notify_unbooked_to_admin(admin['id'], datesAsText)
+            for admin in groupAdmins:
+                notify_unbooked_to_admin(admin['id'], datesAsText)
+        except Exception, e:
+            logging.error(e)
     else:
         logging.info("No admins exists")

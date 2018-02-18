@@ -27,10 +27,9 @@ def getWorkdayVikarieForNextXDays(group_id, start_after_x_days = 2, next_x_days 
 
     w = engine.query(Workday).filter(Workday.group_id == group_id,
                                      Workday.standin_user_id != None,
-                                     Workday.work_date >= epoch_start,
-                                     Workday.work_date < epoch_end).all()
+                                     Workday.work_date >= epoch_start).all()
     newS = sorted(w, key=itemgetter('work_date'))
-    return newS
+    return [i for i in newS if i.work_date < epoch_end]
 
 def getStandinVikarieForNextXDays(group_id, start_after_x_days = 2, next_x_days = 5):
     '''with default parameters, if job is executed on friday, it should return weekdays'''
@@ -43,8 +42,7 @@ def getStandinVikarieForNextXDays(group_id, start_after_x_days = 2, next_x_days 
 
     s = engine.query(StandinDay).filter(StandinDay.group_id == group_id,
                                         StandinDay.standin_user_id != None,
-                                        StandinDay.standin_date >= epoch_start,
-                                        StandinDay.standin_date < epoch_end).all()
+                                        StandinDay.standin_date >= epoch_start).all()
     newS = sorted(s, key=itemgetter('standin_date'))
-    return newS
+    return [i for i in newS if i.standin_date < epoch_end]
 

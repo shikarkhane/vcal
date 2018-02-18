@@ -2,9 +2,10 @@
     "dev": {
         "app_function": "app.__init__.app", 
         "s3_bucket": "zappa-vcal-dyna-dev",
-        "events": [{
+        "events": [
+          {
            "function": "app.common.jobs.unbooked_dates", // The function to execute
-           "expression": "rate(1 minute)" // When to execute it (in cron or rate format)
+           "expression": "rate(60 minute)" // When to execute it (in cron or rate format)
        },
         {
            "function": "app.common.jobs.weekly_reminder", // The function to execute
