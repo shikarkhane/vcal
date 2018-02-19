@@ -79,7 +79,7 @@ def standin_day():
             if not existStandin:
                 #create
                 w = StandinDay(gid,
-                               standin_date,
+                               calendar.timegm(standin_date.timetuple()),
                                standin_user_id,
                                d['booking_date'])
                 engine.save(w)
