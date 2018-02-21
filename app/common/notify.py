@@ -26,6 +26,9 @@ def getEmail(userId):
 def notify_unbooked_to_admin(adminEmail, datesAsText):
     send(adminEmail, 'UNBOOKED_IN_30_DAYS', [datesAsText])
 
+def notify_upcoming_week_to_admin(adminEmail, datesAsText):
+    send(adminEmail, 'UPCOMING_7_DAYS', [datesAsText])
+
 
 def notify_summon(group_id, dateOfSummon):
     humanDate = DateUtil().getHumanDate(dateOfSummon)

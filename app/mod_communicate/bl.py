@@ -22,6 +22,8 @@ class Content:
             return '[Switch Successful]: Someone pitched in'
         if self.type == 'UNBOOKED_IN_30_DAYS':
             return '[Action needed]: Unbooked dates in next 30 days'
+        if self.type == 'UPCOMING_7_DAYS':
+            return '[Info]: Upcoming vikarie week'
         if self.type == 'SUMMONED':
             return '[Summoned]: On {}'
 
@@ -44,6 +46,8 @@ class Content:
         if self.type == 'UNBOOKED_IN_30_DAYS':
             return 'Unbooked dates in next 30 days.\n'\
                    'Following dates are unbooked - \n\n{}'
+        if self.type == 'UPCOMING_7_DAYS':
+            return 'Vikarie families booked for upcoming week\n\n\n{}'
         if self.type == 'SUMMONED':
             return 'You are being called to work on {}. ' \
                    'Please send email to vikarie@gomorronsol.net to confirm the receipt of this email.'
