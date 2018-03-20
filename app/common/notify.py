@@ -6,6 +6,7 @@ from app.mod_workday.models import StandinDay
 
 from app.common.util import DateUtil, run_async
 from app.common.constants import Email
+from app.email_config import ALL_PARENTS
 
 @run_async
 def send(email, type, metricList):
@@ -52,7 +53,7 @@ def notify_switch_broadcast(userId, dateBooked, isWorkday):
     if (isWorkday):
         dayType = 'arbetsdag'
     familyname = getEmail(userId).split('@')[0]
-    email = 'parents@gomorronsol.net'
+    email = ALL_PARENTS
     send(email, Email.SWITCH_BROADCAST, [familyname, dayType, humanDate])
 
 
@@ -76,13 +77,13 @@ def notify_switched(userId, dateBooked, isWorkday, userIdWhoTookSwitchDate):
 
 
 def notify_term_open(termName, termStartDate, termEndDate):
-    email = 'parents@gomorronsol.net'
+    email = ALL_PARENTS
     termDetails = "{0} till {1}".format(termStartDate, termEndDate)
     send(email, Email.TERM_OPEN, [termName, termDetails])
 
 
 def notify_term_edited():
-    email = 'parents@gomorronsol.net'
+    email = ALL_PARENTS
     termDetails = "{0} till {1}".format(termStartDate, termEndDate)
     send(email, Email.TERM_EDITED', [termName, termDetails])
 
