@@ -1,4 +1,5 @@
 from app.mod_communicate.models import EmailNotify
+from app.common.constants import Email
 import boto3
 
 
@@ -10,45 +11,50 @@ class Content:
         self.type = type
         self.metric = metric
     def getSubject(self):
-        if self.type == 'TERM_OPEN':
-            return '[Term Open]: {} term is open'
-        if self.type == 'TERM_EDITED':
-            return '[Term Edited]: {} term was changed'
-        if self.type == 'BOOKED':
-            return '[Booked]: {} as {}'
-        if self.type == 'SWITCH':
-            return '[Switch Published]: {}'
-        if self.type == 'SWITCHED':
-            return '[Switch Successful]: Someone pitched in'
-        if self.type == 'UNBOOKED_IN_30_DAYS':
+        if self.type == Email.TERM_OPEN:
+            return '[Fyi - Term Open]: {} term is open'
+        if self.type == Email.TERM_EDITED:
+            return '[Fyi - Term Edited]: {} term was changed'
+        if self.type == Email.BOOKED:
+            return '[Fyi - Booked]: {} as {}'
+        if self.type == Email.SWITCH_BROADCAST:
+            return '[Action needed - Byta dag]: {}'
+        if self.type == Email.SWITCH:
+            return '[Fyi - Switch Published]: {}'
+        if self.type == Email.SWITCHED:
+            return '[Fyi - Switch Successful]: Someone pitched in'
+        if self.type == Email.UNBOOKED_IN_30_DAYS:
             return '[Action needed]: Unbooked dates in next 30 days'
-        if self.type == 'UPCOMING_7_DAYS':
+        if self.type == Email.UPCOMING_7_DAYS:
             return '[Info]: Upcoming vikarie week'
-        if self.type == 'SUMMONED':
-            return '[Summoned]: On {}'
+        if self.type == Email.SUMMONED:
+            return '[Action needed - Summoned]: On {}'
 
 
     def getContent(self):
-        if self.type == 'TERM_OPEN':
+        if self.type == Email.TERM_OPEN:
             return '{} ({}) term is open. ' \
                    'Please sign-up for stand-in days.'
-        if self.type == 'TERM_EDITED':
+        if self.type == Email.TERM_EDITED:
             return '{} ({}) term was changed by the administrator' \
                    'Please login to check, if you are obligated to standin for more days.'
-        if self.type == 'BOOKED':
+        if self.type == Email.BOOKED:
             return 'You booked {} as {}'
-        if self.type == 'SWITCH':
+        if self.type == Email.SWITCH_BROADCAST:
+            return 'Family {} needs someone else to take their {} on {}.' \
+                   'This date is made available when you will view calendar.'
+        if self.type == Email.SWITCH:
             return 'Your request to switch {} as {} has been published.' \
                    'Till another user picks your date, you will own it.'
-        if self.type == 'SWITCHED':
+        if self.type == Email.SWITCHED:
             return 'Your {} on {} was picked by {}.' \
                    'Please check if you need to pick any more dates by logging in.'
-        if self.type == 'UNBOOKED_IN_30_DAYS':
+        if self.type == Email.UNBOOKED_IN_30_DAYS:
             return 'Unbooked dates in next 30 days.\n'\
                    'Following dates are unbooked - \n\n{}'
-        if self.type == 'UPCOMING_7_DAYS':
+        if self.type == Email.UPCOMING_7_DAYS:
             return 'Vikarie families booked for upcoming week\n\n\n{}'
-        if self.type == 'SUMMONED':
+        if self.type == Email.SUMMONED:
             return 'You are being called to work on {}. ' \
                    'Please send email to vikarie@gomorronsol.net to confirm the receipt of this email.'
 

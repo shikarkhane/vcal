@@ -5,6 +5,7 @@ from app.mod_member.models import User
 from app.mod_workday.models import StandinDay
 
 from app.common.util import DateUtil, run_async
+from app.common.constants import Email
 
 @run_async
 def send(email, type, metricList):
@@ -24,17 +25,17 @@ def getEmail(userId):
 
 
 def notify_unbooked_to_admin(adminEmail, datesAsText):
-    send(adminEmail, 'UNBOOKED_IN_30_DAYS', [datesAsText])
+    send(adminEmail, Email.UNBOOKED_IN_30_DAYS, [datesAsText])
 
 def notify_upcoming_week_to_admin(adminEmail, datesAsText):
-    send(adminEmail, 'UPCOMING_7_DAYS', [datesAsText])
+    send(adminEmail, Email.UPCOMING_7_DAYS, [datesAsText])
 
 
 def notify_summon(group_id, dateOfSummon):
     humanDate = DateUtil().getHumanDate(dateOfSummon)
     userId = getVikarieUserId(group_id, dateOfSummon)
     email = getEmail(userId)
-    send(email, 'SUMMONED', [humanDate])
+    send(email, Email.SUMMONED, [humanDate])
 
 
 def notify_booked(userId, dateBooked, isWorkday):
@@ -43,7 +44,7 @@ def notify_booked(userId, dateBooked, isWorkday):
     if (isWorkday):
         dayType = 'arbetsdag'
     email = getEmail(userId)
-    send(email, 'BOOKED', [humanDate, dayType])
+    send(email, Email.BOOKED, [humanDate, dayType])
 
 
 def notify_switch(userId, dateBooked, isWorkday):
@@ -52,7 +53,7 @@ def notify_switch(userId, dateBooked, isWorkday):
     if (isWorkday):
         dayType = 'arbetsdag'
     email = getEmail(userId)
-    send(email, 'SWITCH', [humanDate, dayType])
+    send(email, Email.SWITCH, [humanDate, dayType])
 
 
 def notify_switched(userId, dateBooked, isWorkday, userIdWhoTookSwitchDate):
@@ -62,19 +63,19 @@ def notify_switched(userId, dateBooked, isWorkday, userIdWhoTookSwitchDate):
         dayType = 'arbetsdag'
     email = getEmail(userId)
     switchUserEmail = getEmail(userIdWhoTookSwitchDate)
-    send(email, 'SWITCHED', [humanDate, dayType, switchUserEmail])
+    send(email, Email.SWITCHED, [humanDate, dayType, switchUserEmail])
 
 
 def notify_term_open(termName, termStartDate, termEndDate):
     email = 'parents@gomorronsol.net'
     termDetails = "{0} till {1}".format(termStartDate, termEndDate)
-    send(email, 'TERM_OPEN', [termName, termDetails])
+    send(email, Email.TERM_OPEN, [termName, termDetails])
 
 
 def notify_term_edited():
     email = 'parents@gomorronsol.net'
     termDetails = "{0} till {1}".format(termStartDate, termEndDate)
-    send(email, 'TERM_EDITED', [termName, termDetails])
+    send(email, Email.TERM_EDITED', [termName, termDetails])
 
 def send_email_test():
-    send('shikarkhane@gmail.com', 'SUMMONED', ['test'])
+    send('shikarkhane@gmail.com', Email.SUMMONED, ['test'])
