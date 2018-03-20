@@ -10,7 +10,7 @@ from app import engine
 
 from app.mod_switchday.models import Switchday
 from operator import itemgetter
-
+from app.common import notify
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_switchday = Blueprint('switchday', __name__)
 
@@ -43,6 +43,8 @@ def manage(group_id, user_id):
                             d['is_half_day'], is_workday)
                 id = w.id
                 engine.save(w)
+                notify.notify_switch(user_id, d['chosen_date'], is_workday)
+                notify.notify_switch_broadcast(user_id, d['chosen_date'], is_workday)
             else:
                 return abort(409)
             return json.dumps({"status": "ok", "message": "saved", "id": id})

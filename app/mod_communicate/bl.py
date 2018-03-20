@@ -18,7 +18,7 @@ class Content:
         if self.type == Email.BOOKED:
             return '[Fyi - Booked]: {} as {}'
         if self.type == Email.SWITCH_BROADCAST:
-            return '[Action needed - Byta dag]: {}'
+            return '[Action needed - Byta dag]'
         if self.type == Email.SWITCH:
             return '[Fyi - Switch Published]: {}'
         if self.type == Email.SWITCHED:

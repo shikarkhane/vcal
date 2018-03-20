@@ -46,6 +46,15 @@ def notify_booked(userId, dateBooked, isWorkday):
     email = getEmail(userId)
     send(email, Email.BOOKED, [humanDate, dayType])
 
+def notify_switch_broadcast(userId, dateBooked, isWorkday):
+    humanDate = DateUtil().getHumanDate(dateBooked)
+    dayType = 'vikarie'
+    if (isWorkday):
+        dayType = 'arbetsdag'
+    familyname = getEmail(userId).split('@')[0]
+    email = 'parents@gomorronsol.net'
+    send(email, Email.SWITCH_BROADCAST, [familyname, dayType, humanDate])
+
 
 def notify_switch(userId, dateBooked, isWorkday):
     humanDate = DateUtil().getHumanDate(dateBooked)
