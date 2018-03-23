@@ -226,6 +226,7 @@ def noshowup(group_id, chosen_date):
             userId = d['userId']
             isWorkday = d['isWorkday']
 
+            #field name has_not_worked is wrongly named. it should be has worked instead.
             if isWorkday:
                 r = engine.query(Workday).filter(Workday.group_id == gid, Workday.standin_user_id == userId,
                                                  Workday.work_date == dt).all()
