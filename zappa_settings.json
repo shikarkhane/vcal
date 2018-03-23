@@ -9,7 +9,7 @@
        },
         {
            "function": "app.common.jobs.weekly_reminder", // The function to execute
-           "expression": "cron(0 18 ? * FRI *)" // Every friday 6pm UTC
+           "expression": "cron(0 23 ? * FRI *)" // Every friday 11pm UTC
        }]
     ,
       "manage_roles": false,
