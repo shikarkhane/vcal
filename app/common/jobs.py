@@ -44,8 +44,8 @@ def weekly_reminder(event, context):
     groupAdmins = getGroupAdmins(groupId)
 
     if groupAdmins:
-        os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,8)]
-        ow = [[i.work_date, i.standin_user_id] for i in getWorkdayVikarieForNextXDays(groupId,0,8)]
+        os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,7)]
+        ow = [[i.work_date, i.standin_user_id] for i in getWorkdayVikarieForNextXDays(groupId,0,7)]
 
         if os or ow:
             du = DateUtil()
