@@ -29,6 +29,8 @@ class Content:
             return '[Info]: Upcoming vikarie week'
         if self.type == Email.SUMMONED:
             return '[Action needed - Summoned]: On {}'
+        if self.type == Email.UPDATE_SHOWUPS:
+            return '[Action needed - Showups]: Update showups'
 
 
     def getContent(self):
@@ -57,6 +59,9 @@ class Content:
         if self.type == Email.SUMMONED:
             return 'You are being called to work on {}. ' \
                    'Please send email to vikarie@gomorronsol.net to confirm the receipt of this email.'
+        if self.type == Email.UPDATE_SHOWUPS:
+            return 'Please update the people who worked last week.' \
+                    'You can do it under the SHOW-UPS section by highlighting the family who worked.'
 
 
 class Message:

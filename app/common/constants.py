@@ -8,6 +8,7 @@ class Email:
     UNBOOKED_IN_30_DAYS = 'UNBOOKED_IN_30_DAYS'
     UPCOMING_7_DAYS = 'UPCOMING_7_DAYS'
     SUMMONED = 'SUMMONED'
+    UPDATE_SHOWUPS = 'SHOWUPS'
 
 class DayType:
     VIKARIE_DAG = 'vikariedag'

@@ -3,7 +3,8 @@ from app.mod_workday.bl import getOpenStandin, getOpenWorkday, \
     getStandinVikarieForNextXDays, getWorkdayVikarieForNextXDays
 from app.mod_communicate.bl import Message
 from app.common.bl import getGroupAdmins
-from app.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to_admin, send_email_test
+from app.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to_admin, \
+    remind_update_showups
 from app.common.util import DateUtil, UserUtil
 import logging
 
@@ -65,5 +66,17 @@ def weekly_reminder(event, context):
     else:
         logging.info("No admins exists")
 
-def test(event, context):
-    send_email_test()
+def mark_showups_reminder(event, context):
+    '''send reminder to admins to mark the show ups for the past week'''
+    #get group gomorronsol only
+    groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
+    groupAdmins = getGroupAdmins(groupId)
+
+    if groupAdmins:
+        try:
+            for admin in groupAdmins:
+                remind_update_showups(admin['id'])
+        except Exception, e:
+            logging.error(e)
+    else:
+        logging.info("No admins exists")
