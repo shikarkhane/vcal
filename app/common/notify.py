@@ -8,7 +8,7 @@ from app.common.util import DateUtil, run_async
 from app.common.constants import Email, DayType
 from app.email_config import ALL_PARENTS, SUPER_ADMIN
 
-@run_async
+
 def send(email, type, metricList):
     Message(email, type, metricList).send()
 

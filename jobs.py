@@ -65,6 +65,6 @@
 # # Create the dynamo table for our registered model
 # engine.create_schema()
 
-from app.common.jobs import unbooked_dates
+from app.common.jobs import weekly_reminder
 
-unbooked_dates()
+weekly_reminder()
