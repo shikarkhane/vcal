@@ -108,17 +108,27 @@ def standin_range():
             startDate = datetime.datetime.fromtimestamp(d['start_date'])
             endDate = datetime.datetime.fromtimestamp(d['end_date'])
 
+            items_to_save = []
+
+            existingStandins = engine.query(StandinDay).filter(StandinDay.group_id == gid,
+                                                            StandinDay.standin_date >= calendar.timegm(
+                                                                startDate.timetuple()),
+                                                            StandinDay.standin_date <= calendar.timegm(
+                                                                endDate.timetuple())
+                                                            ).all()
+            dictExistingStandinDates = {x.standin_date : 1 for x in existingStandins}
+
             while startDate <= endDate:
-                existStandin = engine.query(StandinDay).filter(StandinDay.group_id == gid,
-                                                               StandinDay.standin_date == calendar.timegm(
-                                                                   startDate.timetuple())).all()
-                if not existStandin:
+                if not dictExistingStandinDates.get(calendar.timegm(startDate.timetuple())):
                     w = StandinDay(gid,
                                    calendar.timegm(startDate.timetuple()),
                                    standin_user_id,
                                    int(time.time()))
-                    engine.save(w)
+                    items_to_save.append(w)
                 startDate = startDate + datetime.timedelta(days=1)
+
+            if items_to_save:
+                engine.save(items_to_save)
 
             return json.dumps({"status": "ok", "message": "saved"})
         else:
