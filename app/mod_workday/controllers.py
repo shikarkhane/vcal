@@ -288,14 +288,25 @@ def worksignup(group_id):
 
                 w = engine.query(Workday).filter(Workday.group_id == gid, Workday.work_date == dt).all()
                 if w:
-                    newW = w[0]
-                    if not newW.standin_user_id:
-                        newW.standin_user_id = user_id
-                        newW.booking_date = int(time.time())
-                        id = newW.id
-                        engine.sync(newW)
-                        notify.notify_booked(user_id, dt, is_workday)
-                    else:
+                    user_already_took_an_instance_flag = False
+                    # since there can be multiple instances of workday on same date like planning day
+                    for x in w:
+                        #check if user already took one instance of this workday
+                        if x.standin_user_id == user_id:
+                            user_already_took_an_instance_flag = True
+
+                    if not user_already_took_an_instance_flag:
+                        for newW in w:
+                            if not newW.standin_user_id:
+                                newW.standin_user_id = user_id
+                                newW.booking_date = int(time.time())
+                                id = newW.id
+                                engine.sync(newW)
+                                notify.notify_booked(user_id, dt, is_workday)
+                                user_already_took_an_instance_flag = True
+                                break
+
+                    if not user_already_took_an_instance_flag:
                         return abort(409)
                 else:
                     return json.dumps({"status": "ok", "message": "workday doesnot exist"})
