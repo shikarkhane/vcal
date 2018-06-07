@@ -3,7 +3,7 @@ from app.mod_workday.bl import getOpenStandin, getOpenWorkday, \
     getStandinVikarieForNextXDays, getWorkdayVikarieForNextXDays
 from app.mod_communicate.bl import Message
 from app.common.bl import getGroupAdmins
-from app.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to_admin, \
+from app.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to_vikarie, \
     remind_update_showups
 from app.common.util import DateUtil, UserUtil
 import logging
@@ -22,8 +22,8 @@ def unbooked_dates(event, context):
     groupAdmins = getGroupAdmins(groupId)
 
     if groupAdmins:
-        os = [i['standin_date'] for i in getOpenStandin(groupId)]
-        ow = [i['work_date'] for i in getOpenWorkday(groupId)]
+        os = [i['standin_date'] for i in getOpenStandin(groupId) if not DateUtil().isAWeekend(i['standin_date'])]
+        ow = [i['work_date'] for i in getOpenWorkday(groupId) if not DateUtil().isAWeekend(i['work_date'])]
 
         if os or ow:
             du = DateUtil()
@@ -54,13 +54,14 @@ def weekly_reminder(event, context):
             fn_date = lambda x: du.getHumanDate(x)
             fn_name = lambda x: uu.getName(x).encode('utf-8').strip()
 
+            emails = [uu.getEmail(i[1])for i in os] + [uu.getEmail(i[1])for i in ow] + [i['id'] for i in groupAdmins]
+
             try:
                 datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
                               + "\n\n" + \
                               "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
 
-                for admin in groupAdmins:
-                    notify_upcoming_week_to_admin(admin['id'], datesAsText)
+                notify_upcoming_week_to_vikarie('shikarkhane@gmail.com', datesAsText, emails)
             except Exception, e:
                 logging.error(e)
     else:

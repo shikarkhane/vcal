@@ -65,12 +65,13 @@ class Content:
 
 
 class Message:
-    def __init__(self, email, type, metric):
+    def __init__(self, email, type, metric, cc=[]):
         self.ses = boto3.client('ses')
         self.email_from = 'do-not-reply@vikariekalender.se'
         self.email_to = email
         self.type = type
         self.metric = metric
+        self.cc = cc
 
     def send(self):
         c = Content(self.type, self.metric)
@@ -88,7 +89,7 @@ class Message:
                 'ToAddresses': [
                     self.email_to,
                 ],
-                'CcAddresses': []
+                'CcAddresses': self.cc
             },
             Message={
                 'Subject': {

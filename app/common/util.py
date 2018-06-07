@@ -38,6 +38,12 @@ class DateUtil():
         pass
     def getHumanDate(self, epoch):
         return time.strftime("%A, %d %B %Y", time.localtime(epoch))
+    def isAWeekend(self, epoch):
+        x = time.localtime(epoch)
+        if x.tm_wday in [5,6]:
+            return True
+        else:
+            return False
 
 class UserUtil():
     def __init__(self, group_id):
@@ -45,6 +51,8 @@ class UserUtil():
         self.users_dict = {u['id'] : u for u in self.users}
     def getName(self, user_id):
         return self.users_dict[user_id]['name']
+    def getEmail(self, user_id):
+        return self.users_dict[user_id]['email']
 
 def run_async(func):
     @wraps(func)
