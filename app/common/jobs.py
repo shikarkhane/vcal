@@ -22,8 +22,10 @@ def unbooked_dates(event, context):
     groupAdmins = getGroupAdmins(groupId)
 
     if groupAdmins:
-        os = [i['standin_date'] for i in getOpenStandin(groupId) if not DateUtil().isAWeekend(i['standin_date'])]
-        ow = [i['work_date'] for i in getOpenWorkday(groupId) if not DateUtil().isAWeekend(i['work_date'])]
+        os = [i['standin_date'] for i in getOpenStandin(groupId) if not DateUtil().isAWeekend(i['standin_date']) \
+              and DateUtil().isFutureDate(i['standin_date'])]
+        ow = [i['work_date'] for i in getOpenWorkday(groupId) if not DateUtil().isAWeekend(i['work_date']) \
+              and DateUtil().isFutureDate(i['work_date'])]
 
         if os or ow:
             du = DateUtil()

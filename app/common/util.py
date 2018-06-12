@@ -44,6 +44,8 @@ class DateUtil():
             return True
         else:
             return False
+    def isFutureDate(self, epoch):
+        return time.localtime(epoch) > time.localtime()
 
 class UserUtil():
     def __init__(self, group_id):
