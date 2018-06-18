@@ -9,8 +9,8 @@ from app.common.constants import Email, DayType
 from app.email_config import ALL_PARENTS, SUPER_ADMIN
 
 
-def send(email, type, metricList):
-    Message(email, type, metricList).send()
+def send(email, type, metricList, cc = []):
+    Message(email, type, metricList, cc).send()
 
 
 def getVikarieUserId(group_id, dateOfSummon):

@@ -63,7 +63,7 @@ def weekly_reminder(event, context):
                               + "\n\n" + \
                               "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
 
-                notify_upcoming_week_to_vikarie('shikarkhane@gmail.com', datesAsText, emails)
+                notify_upcoming_week_to_vikarie('vikarie@gomorronsol.net', datesAsText, emails)
             except Exception, e:
                 logging.error(e)
     else:
