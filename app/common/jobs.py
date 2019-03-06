@@ -45,6 +45,7 @@ def weekly_reminder(event, context):
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)
+    daycare_chief = 'elenor.svalstedt@gomorronsol.net'
 
     if groupAdmins:
         os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,7)]
@@ -56,7 +57,8 @@ def weekly_reminder(event, context):
             fn_date = lambda x: du.getHumanDate(x)
             fn_name = lambda x: uu.getName(x).encode('utf-8').strip()
 
-            emails = [uu.getEmail(i[1])for i in os] + [uu.getEmail(i[1])for i in ow] + [i['id'] for i in groupAdmins]
+            emails = [uu.getEmail(i[1])for i in os] + [uu.getEmail(i[1])for i in ow] + [i['id'] for i in groupAdmins] \
+                     + [daycare_chief]
 
             try:
                 datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
