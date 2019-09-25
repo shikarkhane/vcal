@@ -70,7 +70,7 @@ def weekly_reminder(event, context):
                 Full Arbetsdag (workday) timings: 08:00 to 16:30 \n
                 Half Arbetsdag (workday) timings: 12:45 to 17:00 \n\n
                 Please arrive in time to avoid inconveinence to the staff.
-                ''''
+                '''
 
                 notify_upcoming_week_to_vikarie('vikarie@gomorronsol.net', datesAsText, emails)
             except Exception, e:
