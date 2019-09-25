@@ -48,8 +48,8 @@ def weekly_reminder(event, context):
     daycare_chief = 'karin.nygren@gomorronsol.net'
 
     if groupAdmins:
-        os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,7)]
-        ow = [[i.work_date, i.standin_user_id] for i in getWorkdayVikarieForNextXDays(groupId,0,7)]
+        os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,8)]
+        ow = [[i.work_date, i.standin_user_id] for i in getWorkdayVikarieForNextXDays(groupId,0,8)]
 
         if os or ow:
             du = DateUtil()
@@ -64,6 +64,13 @@ def weekly_reminder(event, context):
                 datesAsText = "Standins -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in os]) \
                               + "\n\n" + \
                               "Workdays -  " + ",\n".join(["{0} - {1}".format(fn_date(i[0]), fn_name(i[1])) for i in ow])
+
+                datesAsText = datesAsText + '''\n\n\nImportant:\n
+                Vikarie (standin) timings: 08:00 to 16:30 \n
+                Full Arbetsdag (workday) timings: 08:00 to 16:30 \n
+                Half Arbetsdag (workday) timings: 12:45 to 16:30 \n\n
+                Please arrive in time to avoid inconveinence to the staff.
+                ''''
 
                 notify_upcoming_week_to_vikarie('vikarie@gomorronsol.net', datesAsText, emails)
             except Exception, e:
