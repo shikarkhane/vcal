@@ -68,7 +68,7 @@ def weekly_reminder(event, context):
                 datesAsText = datesAsText + '''\n\n\nImportant:\n
                 Vikarie (standin) timings: 08:00 to 16:30 \n
                 Full Arbetsdag (workday) timings: 08:00 to 16:30 \n
-                Half Arbetsdag (workday) timings: 12:45 to 16:30 \n\n
+                Half Arbetsdag (workday) timings: 12:45 to 17:00 \n\n
                 Please arrive in time to avoid inconveinence to the staff.
                 ''''
 
