@@ -54,7 +54,7 @@ def manage(group_id, user_id):
             return json.dumps(newS, cls=AlchemyEncoder)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 @mod_switchday.route("/switchday/<group_id>/standinuser/<standin_user_id>/", methods=['DELETE'])
@@ -72,7 +72,7 @@ def delete(group_id, standin_user_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -89,7 +89,7 @@ def open_switchday(group_id, show_workday):
             return json.dumps(newS, cls=AlchemyEncoder)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -101,6 +101,6 @@ def delete_switchday(switch_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

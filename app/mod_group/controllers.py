@@ -34,7 +34,7 @@ def group():
             #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 @mod_group.route("/group/<group_id>/", methods=['PUT', 'GET'])
@@ -52,6 +52,6 @@ def defaultTermPut(group_id):
             #return render_template('group/{0}.html'.format('group'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

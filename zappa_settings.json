@@ -9,7 +9,7 @@
        },
         {
            "function": "app.common.jobs.weekly_reminder", // The function to execute
-           "expression": "cron(0 14 ? * SUN *)"
+           "expression": "cron(16 14 ? * SUN *)"
        },
           {
             "function": "app.common.jobs.mark_showups_reminder", // The function to execute

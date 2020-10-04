@@ -52,7 +52,7 @@ def working_day(group_id):
             # return render_template('workday/{0}.html'.format('work-day'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -91,7 +91,7 @@ def standin_day():
             return json.dumps(vacant_dates)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -133,7 +133,7 @@ def standin_range():
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -157,7 +157,7 @@ def summon(group_id):
             # return render_template('workday/{0}.html'.format('summon'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -175,7 +175,7 @@ def unbook_standin(standinday_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -194,7 +194,7 @@ def unbook_workday(workday_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -207,7 +207,7 @@ def delete_summon(summon_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -220,7 +220,7 @@ def delete_workday(workday_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -263,7 +263,7 @@ def noshowup(group_id, chosen_date):
             # return render_template('workday/{0}.html'.format('show-ups'), workday_owners=[], standin_owners=[])
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -329,7 +329,7 @@ def worksignup(group_id):
             return json.dumps({"status": "ok", "message": "saved", "id": id})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -384,7 +384,7 @@ def onswitch_worksignup(group_id):
             return 'on switch - worksignup was saved'
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -394,7 +394,7 @@ def openworkday(group_id):
     try:
         open_days = getOpenWorkday(group_id)
         return json.dumps(open_days, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -404,7 +404,7 @@ def openstandin(group_id):
     try:
         open_days = getOpenStandin(group_id)
         return json.dumps(open_days, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -415,7 +415,7 @@ def myworkday(group_id, user_id):
         w = engine.query(Workday).filter(Workday.group_id == group_id, Workday.standin_user_id == user_id).all()
         newS = sorted(w, key=itemgetter('work_date'))
         return json.dumps(newS, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -427,7 +427,7 @@ def mystandin(group_id, user_id):
                                             StandinDay.standin_user_id == user_id).all()
         newS = sorted(s, key=itemgetter('standin_date'))
         return json.dumps(newS, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -438,7 +438,7 @@ def nonopenworkday(group_id):
         w = engine.query(Workday).filter(Workday.group_id == group_id, Workday.standin_user_id != None).all()
         newS = sorted(w, key=itemgetter('work_date'))
         return json.dumps(newS, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -449,6 +449,6 @@ def nonopenstandin(group_id):
         s = engine.query(StandinDay).filter(StandinDay.group_id == group_id, StandinDay.standin_user_id != None).all()
         newS = sorted(s, key=itemgetter('standin_date'))
         return json.dumps(newS, cls=AlchemyEncoder)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

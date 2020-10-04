@@ -37,6 +37,6 @@ def rule(group_id, term_id):
             #return render_template('rule/{0}.html'.format('rule'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

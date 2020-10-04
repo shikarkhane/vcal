@@ -24,7 +24,7 @@ logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s 
 def landing():
     try:
         return render_template('draft/landing.html')
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -46,7 +46,7 @@ def holiday_day(group_id):
             # return render_template('workday/{0}.html'.format('work-day'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -58,7 +58,7 @@ def unbook_workday(holiday_id):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 

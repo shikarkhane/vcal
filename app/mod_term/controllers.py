@@ -36,7 +36,7 @@ def term():
             return render_template('term/{0}.html'.format('term'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 @mod_term.route("/term/<term_id>/", methods=['PUT'])
@@ -56,7 +56,7 @@ def updateterm(term_id):
             return json.dumps({"status": "ok", "message": "updated"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 @mod_term.route("/term_details/<group_id>/", methods=['GET'])
@@ -65,7 +65,7 @@ def term_details(group_id):
         r = engine.query(Term).filter(Term.group_id==group_id).all()
         return json.dumps(r, cls=AlchemyEncoder)
         #return json.dumps([{'name': 'vt2016', 'start-date': '2016-09-01', 'end-date': '2016-12-31', 'id': '1'}])
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -86,6 +86,6 @@ def children(term_id):
             #return render_template('term/{0}.html'.format('children'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

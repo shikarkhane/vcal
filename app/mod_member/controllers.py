@@ -46,7 +46,7 @@ def register():
             return json.dumps(res, cls=AlchemyEncoder)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -59,7 +59,7 @@ def getUser(user_id):
             return json.dumps(res[0], cls=AlchemyEncoder)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -73,7 +73,7 @@ def getAllUsers():
             return json.dumps(res, cls=AlchemyEncoder)
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -94,7 +94,7 @@ def invite():
             return render_template('member/{0}.html'.format('invite'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -119,7 +119,7 @@ def member(group_id):
             #return render_template('member/{0}.html'.format('member'))
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
 
@@ -139,6 +139,6 @@ def joingroup(invite_code):
             return json.dumps({"status": "ok", "message": "saved"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")

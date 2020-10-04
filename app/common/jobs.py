@@ -73,7 +73,7 @@ def weekly_reminder(event, context):
                 '''
 
                 notify_upcoming_week_to_vikarie('vikarie@gomorronsol.net', datesAsText, emails)
-            except Exception, e:
+            except Exception as e:
                 logging.error(e)
     else:
         logging.info("No admins exists")
@@ -88,7 +88,7 @@ def mark_showups_reminder(event, context):
         try:
             for admin in groupAdmins:
                 remind_update_showups(admin['id'])
-        except Exception, e:
+        except Exception as e:
             logging.error(e)
     else:
         logging.info("No admins exists")

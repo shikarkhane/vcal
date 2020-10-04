@@ -27,6 +27,6 @@ def communicate():
             return json.dumps({"status": "ok", "message": "email sent"})
         else:
             return abort(404)
-    except Exception, e:
+    except Exception as e:
         logging.exception(e)
         return render_template("oops.html")
