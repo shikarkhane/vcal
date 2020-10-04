@@ -65,6 +65,6 @@
 # # Create the dynamo table for our registered model
 # engine.create_schema()
 
-from app.common.jobs import weekly_reminder
+from base.common.jobs import weekly_reminder
 
 weekly_reminder()

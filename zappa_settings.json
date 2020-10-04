@@ -1,46 +1,79 @@
 {
-    "dev": {
-        "app_function": "app.__init__.app", 
-        "s3_bucket": "zappa-vcal-dyna-dev",
-        "events": [
-          {
-           "function": "app.common.jobs.unbooked_dates", // The function to execute
-           "expression": "cron(0 18 ? * FRI *)" // When to execute it (in cron or rate format)
-       },
-        {
-           "function": "app.common.jobs.weekly_reminder", // The function to execute
-           "expression": "cron(16 14 ? * SUN *)"
-       },
-          {
-            "function": "app.common.jobs.mark_showups_reminder", // The function to execute
-           "expression": "cron(0 11 ? * FRI *)" // Every friday 11pm UTC
-
-          }]
-    ,
-      "manage_roles": false,
-      "role_name": "ZappaLambdaExecution",
-      "binary_support" : false,
-      "cors": {
-        "allowed_headers": [
-          "accept",
-          "accept-encoding",
-          "content-type",
-          "dnt",
-          "origin",
-          "user-agent",
-          "x-csrftoken",
-          "X-Requested-With",
-          "Location",
-          "Status",
-          "X-Frame-Options",
-          "Set-Cookie",
-          "Authorization",
-          "Access-Control-Allow-Origin",
-          "Access-Control-Allow-Headers",
-          "Access-Control-Allow-Methods"
-        ],
-      "allowed_origin": "*",
-      "allowed_methods" :  ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+  "demo": {
+    "app_function": "zrun.app",
+    "project_name": "vcal",
+    "s3_bucket": "zappa-vcal-dyna-dev",
+    "manage_roles": false,
+    "role_name": "ZappaLambdaExecution",
+    "aws_region": "eu-west-1",
+    "timeout_seconds": 30,
+    "environment_variables": {
+      "TZ": "UTC"
+    },
+    "events": [
+      {
+        "function": "app.common.jobs.unbooked_dates",
+        "expression": "cron(0 18 ? * FRI *)"
+      },
+      {
+        "function": "app.common.jobs.weekly_reminder",
+        "expression": "cron(10 19 ? * SUN *)"
+      },
+      {
+        "function": "app.common.jobs.mark_showups_reminder",
+        "expression": "cron(0 11 ? * FRI *)"
       }
+    ]
+  },
+  "dev": {
+    "app_function": "app.__init__.app",
+    "s3_bucket": "zappa-vcal-dyna-dev",
+    "events": [
+      {
+        "function": "app.common.jobs.unbooked_dates",
+        "expression": "cron(0 18 ? * FRI *)"
+      },
+      {
+        "function": "app.common.jobs.weekly_reminder",
+        "expression": "cron(45 17 ? * SUN *)"
+      },
+      {
+        "function": "app.common.jobs.mark_showups_reminder",
+        "expression": "cron(0 11 ? * FRI *)"
+      }
+    ],
+    "manage_roles": false,
+    "role_name": "ZappaLambdaExecution",
+    "binary_support": false,
+    "cors": {
+      "allowed_headers": [
+        "accept",
+        "accept-encoding",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "X-Requested-With",
+        "Location",
+        "Status",
+        "X-Frame-Options",
+        "Set-Cookie",
+        "Authorization",
+        "Access-Control-Allow-Origin",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Methods"
+      ],
+      "allowed_origin": "*",
+      "allowed_methods": [
+        "DELETE",
+        "GET",
+        "HEAD",
+        "OPTIONS",
+        "PATCH",
+        "POST",
+        "PUT"
+      ]
     }
+  }
 }
