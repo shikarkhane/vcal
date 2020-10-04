@@ -9,8 +9,13 @@
        },
         {
            "function": "app.common.jobs.weekly_reminder", // The function to execute
-           "expression": "cron(0 23 ? * FRI *)" // Every friday 11pm UTC
-       }]
+           "expression": "cron(0 14 ? * SUN *)"
+       },
+          {
+            "function": "app.common.jobs.mark_showups_reminder", // The function to execute
+           "expression": "cron(0 11 ? * FRI *)" // Every friday 11pm UTC
+
+          }]
     ,
       "manage_roles": false,
       "role_name": "ZappaLambdaExecution",

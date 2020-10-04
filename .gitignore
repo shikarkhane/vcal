@@ -1,0 +1,13 @@
+.idea/
+*__pycache__/
+*.pyc
+app.db
+vcal-dev-*.zip
+vcal-dev-template-*.json
+zappa_settings.json
+error.log
+venv/
+test.py
+rplatform*.json
+rplatform*.zip
+*.pytest_cashe

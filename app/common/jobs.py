@@ -45,7 +45,7 @@ def weekly_reminder(event, context):
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)
-    daycare_chief = 'karin.nygren@gomorronsol.net'
+    daycare_chief = 'sofia.astrom@gomorronsol.net'
 
     if groupAdmins:
         os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,8)]
