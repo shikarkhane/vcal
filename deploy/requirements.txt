@@ -11,7 +11,7 @@ docutils==0.14
 durationpy==0.5
 dynamo3==0.4.10
 enum==0.4.6
-Flask==0.12
+Flask==1.0
 Flask-Cors==3.0.2
 flywheel==0.5.1
 future==0.16.0
