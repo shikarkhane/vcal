@@ -8,6 +8,8 @@ from base.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to
 from base.common.util import DateUtil, UserUtil
 import logging
 from base import create_app_for_triggered_event
+import os as operative_system
+
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
@@ -55,7 +57,7 @@ def weekly_reminder():
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)
-    daycare_chief = 'sofia.astrom@gomorronsol.net'
+    daycare_chief = operative_system.environ['DAY_CARE_CHIEF_EMAIL']
 
     if groupAdmins:
         os = [[i.standin_date, i.standin_user_id] for i in getStandinVikarieForNextXDays(groupId,0,8)]
