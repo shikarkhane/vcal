@@ -65,7 +65,8 @@ def weekly_reminder():
             du = DateUtil()
             uu = UserUtil(groupId)
             fn_date = lambda x: du.getHumanDate(x)
-            fn_name = lambda x: uu.getName(x).encode('utf-8').strip()
+            # fn_name = lambda x: uu.getName(x).encode('utf-8').strip()
+            fn_name = lambda x: uu.getName(x)
 
             emails = [uu.getEmail(i[1])for i in os] + [uu.getEmail(i[1])for i in ow] + [i['id'] for i in groupAdmins] \
                      + [daycare_chief]

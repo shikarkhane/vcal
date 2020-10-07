@@ -17,63 +17,12 @@
       },
       {
         "function": "base.common.jobs.weekly_reminder",
-        "expression": "cron(6 18 ? * WED *)"
+        "expression": "cron(0 11 ? * FRI *)"
       },
       {
         "function": "base.common.jobs.mark_showups_reminder",
         "expression": "cron(0 11 ? * FRI *)"
       }
     ]
-  },
-  "demo": {
-    "app_function": "app.__init__.app",
-    "s3_bucket": "zappa-vcal-dyna-dev",
-    "events": [
-      {
-        "function": "app.common.jobs.unbooked_dates",
-        "expression": "cron(0 18 ? * FRI *)"
-      },
-      {
-        "function": "app.common.jobs.weekly_reminder",
-        "expression": "cron(45 17 ? * SUN *)"
-      },
-      {
-        "function": "app.common.jobs.mark_showups_reminder",
-        "expression": "cron(0 11 ? * FRI *)"
-      }
-    ],
-    "manage_roles": false,
-    "role_name": "ZappaLambdaExecution",
-    "binary_support": false,
-    "cors": {
-      "allowed_headers": [
-        "accept",
-        "accept-encoding",
-        "content-type",
-        "dnt",
-        "origin",
-        "user-agent",
-        "x-csrftoken",
-        "X-Requested-With",
-        "Location",
-        "Status",
-        "X-Frame-Options",
-        "Set-Cookie",
-        "Authorization",
-        "Access-Control-Allow-Origin",
-        "Access-Control-Allow-Headers",
-        "Access-Control-Allow-Methods"
-      ],
-      "allowed_origin": "*",
-      "allowed_methods": [
-        "DELETE",
-        "GET",
-        "HEAD",
-        "OPTIONS",
-        "PATCH",
-        "POST",
-        "PUT"
-      ]
-    }
   }
 }
