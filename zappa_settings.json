@@ -1,5 +1,5 @@
 {
-  "demo": {
+  "dev": {
     "app_function": "zrun.app",
     "project_name": "vcal",
     "s3_bucket": "zappa-vcal-dyna-dev",
@@ -12,20 +12,20 @@
     },
     "events": [
       {
-        "function": "app.common.jobs.unbooked_dates",
+        "function": "base.common.jobs.unbooked_dates",
         "expression": "cron(0 18 ? * FRI *)"
       },
       {
-        "function": "app.common.jobs.weekly_reminder",
-        "expression": "cron(10 19 ? * SUN *)"
+        "function": "base.common.jobs.weekly_reminder",
+        "expression": "cron(6 18 ? * WED *)"
       },
       {
-        "function": "app.common.jobs.mark_showups_reminder",
+        "function": "base.common.jobs.mark_showups_reminder",
         "expression": "cron(0 11 ? * FRI *)"
       }
     ]
   },
-  "dev": {
+  "demo": {
     "app_function": "app.__init__.app",
     "s3_bucket": "zappa-vcal-dyna-dev",
     "events": [

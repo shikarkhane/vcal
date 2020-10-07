@@ -3,6 +3,9 @@ from flask import Flask
 from flask_cors import CORS
 from flywheel import Engine
 
+SUPER_ADMIN = 'shikarkhane@gmail.com'
+ALL_PARENTS = 'parents@gomorronsol.net'
+
 #dynamodb move
 engine = Engine()
 #engine.connect(region='dummy', host='localhost', port=8000,  access_key='dummy', secret_key='dummy', is_secure=False, session = None)
@@ -41,6 +44,14 @@ def create_app():
     # ..
 
     return app
+
+
+def create_app_for_triggered_event():
+    """Create and configure an instance of the Flask application."""
+    app = Flask(__name__, instance_relative_config=True)
+
+    return app
+
 
 def init_db():
     # Build the database:

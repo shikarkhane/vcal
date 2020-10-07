@@ -1,6 +1,4 @@
-from enum import Enum
-
-class E_ROLE(Enum):
+class E_ROLE():
     Regular = 1
     GroupAdmin = 2
     SiteAdmin = 3

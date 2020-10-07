@@ -7,15 +7,22 @@ from base.common.notify import notify_unbooked_to_admin, notify_upcoming_week_to
     remind_update_showups
 from base.common.util import DateUtil, UserUtil
 import logging
-
+from base import create_app_for_triggered_event
 # Log everything, and send it to stderr.
 logging.basicConfig(filename="error.log",level=logging.INFO,format='%(asctime)s %(message)s')
 
 
-def unbooked_dates(event, context):
+
+def get_app_context():
+    app = create_app_for_triggered_event()
+    app.app_context().push()
+
+def unbooked_dates():
     '''If there are unbooked dates in next 30 days,
     after 2 days of term modification,
     send alert to admin'''
+
+    get_app_context()
 
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
@@ -40,8 +47,11 @@ def unbooked_dates(event, context):
     else:
         logging.info("No admins exists")
 
-def weekly_reminder(event, context):
+def weekly_reminder():
     '''send reminder every friday evening to vikarie in upcoming week'''
+
+    get_app_context()
+
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)
@@ -78,8 +88,11 @@ def weekly_reminder(event, context):
     else:
         logging.info("No admins exists")
 
-def mark_showups_reminder(event, context):
+def mark_showups_reminder():
     '''send reminder to admins to mark the show ups for the past week'''
+
+    get_app_context()
+
     #get group gomorronsol only
     groupId = getGroupByDomain('gomorronsol.net')[0]["domain"]
     groupAdmins = getGroupAdmins(groupId)

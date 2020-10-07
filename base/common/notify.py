@@ -6,7 +6,7 @@ from base.mod_workday.models import StandinDay
 
 from base.common.util import DateUtil, run_async
 from base.common.constants import Email, DayType
-from base.email_config import ALL_PARENTS, SUPER_ADMIN
+from base import ALL_PARENTS, SUPER_ADMIN
 
 
 def send(email, type, metricList, cc = []):

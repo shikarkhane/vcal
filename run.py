@@ -15,5 +15,9 @@ for key, val in env_vars.items():
 app = create_app()
 
 
-if __name__ == "__main__":
-    app.run(debug=True, host='127.0.0.1', port=int(os.environ.get('PORT', 8080)))
+# if __name__ == "__main__":
+#     app.run(debug=True, host='127.0.0.1', port=int(os.environ.get('PORT', 8080)))
+
+from base.common.jobs import weekly_reminder
+
+weekly_reminder()
