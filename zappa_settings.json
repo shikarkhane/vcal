@@ -9,7 +9,7 @@
     "timeout_seconds": 30,
     "environment_variables": {
       "TZ": "UTC",
-      "DAY_CARE_CHIEF_EMAIL": "sofia.astrom@gomorronsol.net"
+      "DAY_CARE_CHIEF_EMAIL": "karin.nygren@gomorronsol.net"
     },
     "events": [
       {
